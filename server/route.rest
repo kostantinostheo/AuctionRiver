@@ -1,0 +1,33 @@
+###
+POST  http://localhost:3000/users/api/register
+Content-Type: application/json
+
+{
+    "user_id": 1,
+    "firstname":"Kostas",
+    "lastname":"Theofilis",
+    "email":"kt@gmail.com",
+    "password":"1234",
+    "mobile": 6948604407
+}
+###
+GET http://localhost:3000/users/api/1
+###
+GET http://localhost:3000/users/api
+###
+POST  http://localhost:3000/users/api/login
+Content-Type: application/json
+
+{
+    "email": "kt@gmail.com",
+    "password": "1234"
+}
+
+###
+PATCH  http://localhost:3000/users/api/1
+Content-Type: application/json
+
+{
+    "firstname": "Μανος"
+}
+###

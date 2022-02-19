@@ -1,0 +1,12 @@
+.navigation {
+    background-color: rgb(235, 235, 235);
+}
+
+#top-nav-dropdown:hover{
+    color: rgb(68, 68, 255);
+}
+
+#top-nav-dropdown{
+    margin-left: 2em;
+    margin-right: 2em;
+}
