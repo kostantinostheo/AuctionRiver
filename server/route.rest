@@ -3,25 +3,46 @@ POST  http://localhost:3000/users/api/register
 Content-Type: application/json
 
 {
-    "firstname":"Dimitri",
-    "lastname":"Xrist",
+    "firstname":"Dimitris",
+    "lastname":"Xristofis",
+    "username":"dimxri",
     "email":"dx@gmail.com",
     "password":"1234",
-    "mobile": 432345
+    "address": "Paraskeva 32, Kifisia, 12031",
+    "phone": 2105612353,
+    "vatNumber": 1115201600287,
+    "latitude": 123,
+    "longitude": 456
 }
+
 ###
-GET http://localhost:3000/users/api/1
-###
-GET http://localhost:3000/users/api
+POST  http://localhost:3000/users/api/register
+Content-Type: application/json
+
+{
+    "firstname":"Konstantinos",
+    "lastname":"Theofilis",
+    "username":"kontheo",
+    "email":"admin@admin.com",
+    "password":"1234",
+    "address": "Paraskeva 32, Kifisia, 12031",
+    "phone": 2105612353,
+    "vatNumber": 1115201600287,
+    "latitude": 123,
+    "longitude": 456
+}
 ###
 POST  http://localhost:3000/users/api/login
 Content-Type: application/json
 
 {
-    "email": "kt@gmail.com",
+    "email": "dx@gmail.com",
     "password": "1234"
 }
-
+###
+GET http://localhost:3000/users/api/2
+###
+GET http://localhost:3000/users/api
 ###
 PATCH  http://localhost:3000/users/api/1
 Content-Type: application/json

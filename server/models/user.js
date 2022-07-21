@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
 
 const userSchemma = new mongoose.Schema({
-    user_id:{
+    userId:{
         type: Number,
         required: false
     },
-    role:{
+    userType:{
         type: String,
         required: false
     },
@@ -17,6 +17,10 @@ const userSchemma = new mongoose.Schema({
         type: String,
         required: true
     },
+    username:{
+        type: String,
+        required: true
+    },
     email:{
         type: String,
         required: true
@@ -25,26 +29,30 @@ const userSchemma = new mongoose.Schema({
         type: String,
         required: true
     },
-    date:{
-        type: Date,
-        required: false
-    },
-    sex:{
-        type: String,
-        required: false
-    },
     address:{
         type: String,
-        required: false
+        required: true
     },
     phone:{
         type: Number,
+        required: true
+    },
+    vatNumber:{
+        type: Number,
+        required: true
+    },
+    latitude:{
+        type: Number,
+        required: true
+    },
+    longitude:{
+        type: Number,
+        required: true
+    },
+    userValidation:{
+        type: String,
         required: false
     },
-    mobile:{
-        type: Number,
-        required: false
-    }
 })
 
 module.exports = mongoose.model('User', userSchemma)
