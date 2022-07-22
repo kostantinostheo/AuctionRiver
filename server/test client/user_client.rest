@@ -1,4 +1,5 @@
 ###
+//Register a new user
 POST  http://localhost:3000/users/api/register
 Content-Type: application/json
 
@@ -14,8 +15,8 @@ Content-Type: application/json
     "latitude": 123,
     "longitude": 456
 }
-
 ###
+//Register a new admin
 POST  http://localhost:3000/users/api/register
 Content-Type: application/json
 
@@ -44,10 +45,13 @@ GET http://localhost:3000/users/api/2
 ###
 GET http://localhost:3000/users/api
 ###
-PATCH  http://localhost:3000/users/api/1
+PATCH  http://localhost:3000/users/api/status/change/1
 Content-Type: application/json
 
 {
-    "firstname": "Μανος"
+    "userStatus": "Decline"
 }
+
+###
+GET http://localhost:3000/users/api/status/pending
 ###

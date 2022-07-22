@@ -43,6 +43,17 @@ router.get('/api/', async(req,res) => {
     }
 })
 
+//Get all users with pending status
+//route url http://localhost:3000/users/api/status/pending/
+router.get('/api/status/pending/', async(req, res) => {
+    try{
+        const users = await User.find( { userStatus: Utils.userStatus.Pending} )
+        res.json(users)
+    }
+    catch(err){
+        res.status(500).json({message : err.message})
+    }
+})
 //Get user data by his/her id
 //route url http://localhost:3000/users/api/100 (example)
 router.get('/api/:userId', getUserById, (req,res) => {
@@ -70,9 +81,9 @@ router.post('/api/register', async (req,res) => {
         vatNumber: req.body.vatNumber,
         latitude: req.body.latitude,
         longitude: req.body.longitude,
-        userValidation: Utils.userValidation.Pending
+        userStatus: Utils.userStatus.Pending
     })
-
+    
     try{
         const newUser = await user.save()
         res.status(201).json(newUser)
@@ -98,6 +109,7 @@ router.post('/api/login', async (req, res) => {
             const token = jwt.sign({
                 userId: user.userId,
                 userType: user.userType,
+                userStatus: user.userStatus
             },
             'secretcode123' //You can change it if you want for better encription
             )
@@ -110,10 +122,9 @@ router.post('/api/login', async (req, res) => {
     }
 })
 
-
 //Updates user data. Example when change profile info.
 //route url http://localhost:3000/users/api/100 (example)
-router.patch('/api/:user_id', getUserById, async (req,res) => {
+router.patch('/api/:userId', getUserById, async (req,res) => {
     if (req.body.firstname != null){
         res.user.firstname = req.body.firstname
     }if(req.body.lastname != null){
@@ -132,13 +143,26 @@ router.patch('/api/:user_id', getUserById, async (req,res) => {
     }
 })
 
+//Updates user status.
+//route url http://localhost:3000/users//api/status/change/1
+router.patch('/api/status/change/:userId', getUserById, async (req,res) => {
+    try{
+        res.user.userStatus = req.body.userStatus
+        const updatedUserStatus = await res.user.save()
+        res.json(updatedUserStatus)
+    }catch (error) {
+        res.status(400).json({message: error.message})
+    }
+})
 
 //Delete user
 router.delete('/:user_id', (req,res) => {
     
 })
 
-
+/**
+ * Returns the information of a user with a spesific userId
+ */
 async function getUserById(req, res, next){
     const user = await User.findOne( { userId: req.params.userId} )
     try {
@@ -151,6 +175,13 @@ async function getUserById(req, res, next){
 
     res.user = user
     next()
+}
+
+/**
+ * Returns the users with status Pending
+ */
+async function getUsersPending(req, res){
+    
 }
 
 module.exports = router

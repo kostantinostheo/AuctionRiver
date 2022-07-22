@@ -19,7 +19,7 @@ const userSchemma = new mongoose.Schema({
     },
     username:{
         type: String,
-        required: true
+        required: false
     },
     email:{
         type: String,
@@ -31,25 +31,25 @@ const userSchemma = new mongoose.Schema({
     },
     address:{
         type: String,
-        required: true
+        required: false
     },
     phone:{
         type: Number,
-        required: true
+        required: false
     },
     vatNumber:{
         type: Number,
-        required: true
+        required: false
     },
     latitude:{
         type: Number,
-        required: true
+        required: false
     },
     longitude:{
         type: Number,
-        required: true
+        required: false
     },
-    userValidation:{
+    userStatus:{
         type: String,
         required: false
     },
