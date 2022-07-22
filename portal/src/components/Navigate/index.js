@@ -1,6 +1,5 @@
 import React from 'react'
-import { Container, Navbar, Nav } from 'react-bootstrap'
-import { HouseFill } from 'react-bootstrap-icons'
+import { Container, Navbar, Nav, Form, Button} from 'react-bootstrap'
 import './index.css'
 
 
@@ -8,13 +7,17 @@ import './index.css'
 export default function Navigate(){
   
   return(
-    <Navbar className='nav-bar-color' variant="dark">
+    <Navbar className='nav-bar' variant="dark">
       <Container>
-        <Nav className="me-auto">
-          <Nav.Link href="/"><HouseFill color='white'/></Nav.Link>
-          <Nav.Link className='rounded'  href="/register">Register</Nav.Link>
-          <Nav.Link className='rounded' href="/login">Login</Nav.Link>
-        </Nav>
+          <Navbar.Brand href="/">Logo</Navbar.Brand>
+          <Form className="search-bar">
+            <Form.Control type="search" placeholder="Search" className="me-2" aria-label="Search"/>
+            <Button variant="outline-success">Search</Button>
+          </Form>
+          <Nav className="me-auto">
+            <Nav.Link href="/register">Register</Nav.Link>
+            <Nav.Link href="/login">Sign-in</Nav.Link>
+          </Nav>
       </Container>
     </Navbar>
   );

@@ -37,17 +37,33 @@ export default function Login(){
     }
 
     return(
-    <Form className="myForm" onSubmit={onLogin}>
-        <h2>Login</h2>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="name@example.com" value={email} onChange={(e)=>setEmail(e.target.value)}/>
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="password" value={password} onChange={(e)=>setPassword(e.target.value)}/>
-        </Form.Group>
-        <Button variant="primary" type="submit">Login</Button>
-    </Form>
+    <div>
+        <a href="/">
+            <img src="https://images-na.ssl-images-amazon.com/images/G/01/social_share/amazon_logo._CB635397845_.png" width="220" height="133" alt="Amazon"></img>
+        </a>
+
+        <Form className="myForm" onSubmit={onLogin}>
+            <h3>Sign-in</h3>
+            <br/>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                <Form.Label column="sm"><strong>Username</strong></Form.Label>
+                <Form.Control size="sm" type="username" placeholder="username" value={email} onChange={(e)=>setEmail(e.target.value)}/>
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                <Form.Label column="sm"><strong>Password</strong></Form.Label>
+                <Form.Control size="sm" type="password" placeholder="password" value={password} onChange={(e)=>setPassword(e.target.value)}/>
+            </Form.Group>
+            <Button variant="primary" type="submit">Login</Button>
+        </Form>
+
+        <div class="no-account">
+            New to Company? <a href="/register">Create a new account</a>
+        </div>
+
+        <div class="footer-login">
+            <hr></hr>
+            <p class="copyright">2021-2022 © Company Name</p>
+        </div>
+    </div>
     );
 }
