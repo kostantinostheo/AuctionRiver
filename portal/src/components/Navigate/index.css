@@ -1,3 +1,31 @@
-.nav-bar{
-    background-color: rgb(19, 25, 33);
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+.nav-bar-text{
+    color: rgb(255, 255, 255) !important
+}
+
+#search-form{
+    padding-left: 30px;
+    width: 600px
+}
+
+#search-button{
+    background-color: rgb(253, 188, 109);
+}
+
+.nav-login{
+    color: rgb(212, 178, 135) !important;
+    font-size: small;
+    font-family: 'Open Sans', sans-serif;
+}
+
+#nav-down{
+    height: 35px;
+    background-color: #232F3E;
+}
+
+#linkings{
+    text-decoration: none;
+    color: rgb(240, 240, 240);
+    font-weight: bold;
 }
