@@ -35,19 +35,29 @@ async function dbGetLastUserId() {
 //route url http://localhost:3000/users/api
 router.get('/api/', async(req,res) => {
     try{
-        const users = await User.find()
+        const users = await User.find( { userType: Utils.userType.User })
         res.json(users)
     }
     catch(err){
         res.status(500).json({message : err.message})
     }
 })
-
+//Get all admins from the db
+//route url http://localhost:3000/users/api/admins
+router.get('/api/admins', async(req,res) => {
+    try{
+        const admins = await User.find( { userType: Utils.userType.Admin })
+        res.json(admins)
+    }
+    catch(err){
+        res.status(500).json({message : err.message})
+    }
+})
 //Get all users with pending status
 //route url http://localhost:3000/users/api/status/pending/
 router.get('/api/status/pending/', async(req, res) => {
     try{
-        const users = await User.find( { userStatus: Utils.userStatus.Pending} )
+        const users = await User.find( { userStatus: Utils.userStatus.Pending, userType: Utils.userType.User } )
         res.json(users)
     }
     catch(err){
@@ -59,7 +69,6 @@ router.get('/api/status/pending/', async(req, res) => {
 router.get('/api/:userId', getUserById, (req,res) => {
     res.send(res.user)
 })
-
 //Registers a new user in the DB
 //route url http://localhost:3000/users/api/register
 router.post('/api/register', async (req,res) => {
@@ -67,22 +76,36 @@ router.post('/api/register', async (req,res) => {
     const salt = await bcrypt.genSalt()
     const hashedPass = await bcrypt.hash(req.body.password, salt)
     let lastId = await dbGetLastUserId()
+    let user = null;
 
-    const user = new User({
-        userId: ++lastId,
-        userType: req.body.email.includes("admin@admin.") ? Utils.userType.Admin : Utils.userType.User,
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        username: req.body.username,
-        email: req.body.email,
-        password: hashedPass,
-        address: req.body.address,
-        phone: req.body.phone,
-        vatNumber: req.body.vatNumber,
-        latitude: req.body.latitude,
-        longitude: req.body.longitude,
-        userStatus: Utils.userStatus.Pending
-    })
+    if(req.body.email.includes("admin@admin.")){
+        user = new User({
+            userId: ++lastId,
+            userType: Utils.userType.Admin,
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            username: "admin",
+            email: req.body.email,
+            password: hashedPass
+        })
+    }
+    else{
+        user = new User({
+            userId: ++lastId,
+            userType: Utils.userType.User,
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            username: req.body.username,
+            email: req.body.email,
+            password: hashedPass,
+            address: req.body.address,
+            phone: req.body.phone,
+            vatNumber: req.body.vatNumber,
+            latitude: req.body.latitude,
+            longitude: req.body.longitude,
+            userStatus: Utils.userStatus.Pending
+        })
+    }
     
     try{
         const newUser = await user.save()
@@ -92,12 +115,11 @@ router.post('/api/register', async (req,res) => {
         res.status(400).json({message : err.message})
     }
 })
-
 //Login a user based on his/her credentials.
 //route url http://localhost:3000/users/api/login
 router.post('/api/login', async (req, res) => {
     
-    const user = await User.findOne( { email: req.body.email } )
+    const user = await User.findOne( { $or: [{email: req.body.email}, {username: req.body.username}]} )
 
     if(user == null){
         return res.status(400).send('Cannot find user')
@@ -121,7 +143,6 @@ router.post('/api/login', async (req, res) => {
         res.status(500).send("Fail")
     }
 })
-
 //Updates user data. Example when change profile info.
 //route url http://localhost:3000/users/api/100 (example)
 router.patch('/api/:userId', getUserById, async (req,res) => {
@@ -142,10 +163,9 @@ router.patch('/api/:userId', getUserById, async (req,res) => {
         res.status(400).json({message: error.message})
     }
 })
-
 //Updates user status.
-//route url http://localhost:3000/users//api/status/change/1
-router.patch('/api/status/change/:userId', getUserById, async (req,res) => {
+//route url http://localhost:3000/users/api/update/status/1
+router.patch('/api/update/status/:userId', getUserById, async (req,res) => {
     try{
         res.user.userStatus = req.body.userStatus
         const updatedUserStatus = await res.user.save()
@@ -175,13 +195,6 @@ async function getUserById(req, res, next){
 
     res.user = user
     next()
-}
-
-/**
- * Returns the users with status Pending
- */
-async function getUsersPending(req, res){
-    
 }
 
 module.exports = router
