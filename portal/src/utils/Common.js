@@ -11,11 +11,6 @@ export const decodeToken = () => {
   return decodedToken
 }
 
-export async function getUserData(id){
-  const res = await fetch(`http://localhost:3000/users/${id}`)
-  return await res.json()
-}
-
 export function ConvertToLocalDate(responseDate) {
   let dateComponents = responseDate.split('T');
   return new Date(dateComponents[0]).toLocaleDateString("el-GR")

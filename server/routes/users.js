@@ -138,7 +138,7 @@ router.post('/api/login', async (req, res) => {
             return res.json({token: token})
         }
         else
-            res.send('Fail')
+            res.status(400).send('Cannot find user')
     } catch {
         res.status(500).send("Fail")
     }
