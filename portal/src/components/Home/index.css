@@ -7,14 +7,6 @@
   background-color: rgb(219, 183, 115);
 }
 
-.row{
-  width: 150px;
-  margin-left: auto !important;
-  margin-right: auto !important;
-
-  padding-top: 10px;
-}
-
 .social-icon{
   margin-left: 3em;
 }
