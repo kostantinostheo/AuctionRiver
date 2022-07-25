@@ -3,19 +3,17 @@ const router = express.Router()
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const Utils = require('../utils/const')
 
 const {MongoClient}  = require('mongodb')
 
 require('dotenv').config()
 
-
 const uri = process.env.CLIENT_DB_URL
 
-/*
-    Creating a mongodb client. We can have access to the mongodb and its collection
-    Here I create a simple async command that brings the number of users in the db. 
-    I use this number to create the next user id. 
-*/
+/**
+ * Returns the number of users in the db.
+ */
 async function dbGetLastUserId() {
     const client = new MongoClient(uri, { useUnifiedTopology: true })
     try {
@@ -30,33 +28,47 @@ async function dbGetLastUserId() {
     finally{
         client.close()
     }
-  }
+}
 
 
-
-  
 //Get all users from the db
 //route url http://localhost:3000/users/api
 router.get('/api/', async(req,res) => {
     try{
-        const users = await User.find()
+        const users = await User.find( { userType: Utils.userType.User })
         res.json(users)
     }
     catch(err){
         res.status(500).json({message : err.message})
     }
 })
-
-
-
+//Get all admins from the db
+//route url http://localhost:3000/users/api/admins
+router.get('/api/admins', async(req,res) => {
+    try{
+        const admins = await User.find( { userType: Utils.userType.Admin })
+        res.json(admins)
+    }
+    catch(err){
+        res.status(500).json({message : err.message})
+    }
+})
+//Get all users with pending status
+//route url http://localhost:3000/users/api/status/pending/
+router.get('/api/status/pending/', async(req, res) => {
+    try{
+        const users = await User.find( { userStatus: Utils.userStatus.Pending, userType: Utils.userType.User } )
+        res.json(users)
+    }
+    catch(err){
+        res.status(500).json({message : err.message})
+    }
+})
 //Get user data by his/her id
 //route url http://localhost:3000/users/api/100 (example)
-router.get('/api/:user_id', getUserById, (req,res) => {
+router.get('/api/:userId', getUserById, (req,res) => {
     res.send(res.user)
 })
-
-
-
 //Registers a new user in the DB
 //route url http://localhost:3000/users/api/register
 router.post('/api/register', async (req,res) => {
@@ -64,21 +76,37 @@ router.post('/api/register', async (req,res) => {
     const salt = await bcrypt.genSalt()
     const hashedPass = await bcrypt.hash(req.body.password, salt)
     let lastId = await dbGetLastUserId()
+    let user = null;
 
-    const user = new User({
-        user_id: ++lastId,
-        role: req.body.email.includes("admin@admin.") ? "admin" : "user",
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        email: req.body.email,
-        password: hashedPass,
-        date: req.body.date,
-        sex: req.body.sex,
-        address: req.body.address, 
-        phone: req.body.phone,
-        mobile: req.body.mobile
-    })
-
+    if(req.body.email.includes("admin@admin.")){
+        user = new User({
+            userId: ++lastId,
+            userType: Utils.userType.Admin,
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            username: "admin",
+            email: req.body.email,
+            password: hashedPass
+        })
+    }
+    else{
+        user = new User({
+            userId: ++lastId,
+            userType: Utils.userType.User,
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            username: req.body.username,
+            email: req.body.email,
+            password: hashedPass,
+            address: req.body.address,
+            phone: req.body.phone,
+            vatNumber: req.body.vatNumber,
+            latitude: req.body.latitude,
+            longitude: req.body.longitude,
+            userStatus: Utils.userStatus.Pending
+        })
+    }
+    
     try{
         const newUser = await user.save()
         res.status(201).json(newUser)
@@ -87,12 +115,11 @@ router.post('/api/register', async (req,res) => {
         res.status(400).json({message : err.message})
     }
 })
-
 //Login a user based on his/her credentials.
 //route url http://localhost:3000/users/api/login
 router.post('/api/login', async (req, res) => {
     
-    const user = await User.findOne( { email: req.body.email } )
+    const user = await User.findOne( { $or: [{email: req.body.email}, {username: req.body.username}]} )
 
     if(user == null){
         return res.status(400).send('Cannot find user')
@@ -102,8 +129,9 @@ router.post('/api/login', async (req, res) => {
         {
             //token contains user id and role. This allow us to modify our page with different ways according to user role.
             const token = jwt.sign({
-                user_id: user.user_id,
-                role: user.role,
+                userId: user.userId,
+                userType: user.userType,
+                userStatus: user.userStatus
             },
             'secretcode123' //You can change it if you want for better encription
             )
@@ -115,42 +143,48 @@ router.post('/api/login', async (req, res) => {
         res.status(500).send("Fail")
     }
 })
-
-
 //Updates user data. Example when change profile info.
 //route url http://localhost:3000/users/api/100 (example)
-router.patch('/api/:user_id', getUserById, async (req,res) => {
+router.patch('/api/:userId', getUserById, async (req,res) => {
     if (req.body.firstname != null){
         res.user.firstname = req.body.firstname
     }if(req.body.lastname != null){
         res.user.lastname = req.body.lastname
-    }if(req.body.email != null){
-        res.user.email = req.body.email
     }if(req.body.address != null){
         res.user.address = req.body.address
     }if(req.body.phone != null){
         res.user.phone = req.body.phone
-    }if(req.body.mobile != null){
-        res.user.mobile = req.body.mobile
     }
 
-    try {
+    try{
         const updatedUser = await res.user.save()
         res.json(updatedUser)
-    } catch (error) {
+    }catch (error) {
         res.status(400).json({message: error.message})
     }
 })
-
+//Updates user status.
+//route url http://localhost:3000/users/api/update/status/1
+router.patch('/api/update/status/:userId', getUserById, async (req,res) => {
+    try{
+        res.user.userStatus = req.body.userStatus
+        const updatedUserStatus = await res.user.save()
+        res.json(updatedUserStatus)
+    }catch (error) {
+        res.status(400).json({message: error.message})
+    }
+})
 
 //Delete user
 router.delete('/:user_id', (req,res) => {
     
 })
 
-
+/**
+ * Returns the information of a user with a spesific userId
+ */
 async function getUserById(req, res, next){
-    const user = await User.findOne( { user_id: req.params.user_id} )
+    const user = await User.findOne( { userId: req.params.userId} )
     try {
         if(user == null){
             return res.status(404).json({ message: "Can't Find User" })
