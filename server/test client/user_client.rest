@@ -9,9 +9,11 @@ Content-Type: application/json
     "username":"dimxri",
     "email":"dx@gmail.com",
     "password":"1234",
+    "mobile": 2105612353,
+    "SSN": 1115201600287,
     "address": "Paraskeva 32, Kifisia, 12031",
-    "phone": 2105612353,
-    "vatNumber": 1115201600287,
+    "country": "Greece",
+    "zip": 12461,
     "latitude": 123,
     "longitude": 456
 }

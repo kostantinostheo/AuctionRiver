@@ -73,6 +73,11 @@ router.get('/api/:userId', getUserById, (req,res) => {
 //route url http://localhost:3000/users/api/register
 router.post('/api/register', async (req,res) => {
 
+    const userCredentialExists = await User.findOne( { $or: [{email: req.body.email}, {username: req.body.username}]} )
+    if(userCredentialExists != null){
+        return res.status(409).send('User Already Exists')
+    }
+
     const salt = await bcrypt.genSalt()
     const hashedPass = await bcrypt.hash(req.body.password, salt)
     let lastId = await dbGetLastUserId()
@@ -98,11 +103,13 @@ router.post('/api/register', async (req,res) => {
             username: req.body.username,
             email: req.body.email,
             password: hashedPass,
+            mobile: req.body.mobile,
+            SSN: req.body.SSN,
             address: req.body.address,
-            phone: req.body.phone,
-            vatNumber: req.body.vatNumber,
-            latitude: req.body.latitude,
-            longitude: req.body.longitude,
+            country: req.body.country,
+            zip: req.body.zip,
+            latitude: 100,
+            longitude: 100,
             userStatus: Utils.userStatus.Pending
         })
     }
