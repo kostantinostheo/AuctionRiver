@@ -20,7 +20,7 @@
 
 .account-messages{
     padding-bottom: 4px;
-    border-bottom: 1px solid;
+    border-bottom: 1px solid rgb(54, 54, 54);
 }
 
 .account-options{
@@ -58,17 +58,22 @@
     font-weight: bold;
 }
 
-.account-options-first-item{
-    font-size: 1rem;
-    padding: 10px 0 10px 16px;
+.account-options-item{
+    padding: 10px 0 10px 10px;
 }
 
-.account-options-second-item{
-    font-size: 1rem;
-    padding: 10px 0 10px 16px;
+.button-text{
+    background-color: Transparent;
+    border: none;
+    color: rgb(50, 76, 146);
+    font-weight: 500;
 }
 
-.account-options-third-item{
-    font-size: 1rem;
-    padding: 10px 0 10px 16px;
+.top-bar-link{
+    text-decoration: none;
+    color: gray;
+}
+
+.top-bar-link:hover{
+    text-decoration: underline;
 }

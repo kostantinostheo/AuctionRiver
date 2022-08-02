@@ -1,8 +1,17 @@
 import './index.css'
-import React from "react";
+import React, { useState } from "react";
 import Navigate from '../Navigate';
-
+import Login from '../Login'
 export default function Home() {
+
+  const pageType = {
+    Info: "Info",
+    Bids: "Bids",
+    Auctions: "Auctions"
+  }
+
+  const [page, setPage] = useState('Info')
+  
   return (
     <div className='dashboard'>
       <Navigate/>
@@ -15,10 +24,10 @@ export default function Home() {
             <div className='fake-tabs'>
               <ul className='fake-tabs-items'>
                 <li className='fake-tabs-first-item'>
-                  <a href='#'>Account</a>
+                  <a  className='top-bar-link' href='#'>Account</a>
                 </li>
                 <li className='fake-tabs-second-item'>
-                  <a href='#'>Messages</a>
+                  <a className='top-bar-link' href='#'>Messages</a>
                 </li>
               </ul>
             </div>
@@ -27,19 +36,28 @@ export default function Home() {
         <div className='bottom-nav-account'>
           <div className='account-options'>
             <ul className='account-options-list'>
-              <li className='account-options-first-item'>
-                <a href='#'>Personal Information</a>
+              <li className='account-options-item'>
+                <button className='button-text' onClick={()=>setPage(pageType.Info)}>Personal Information</button>
               </li>
-              <li className='account-options-second-item'>
-                <a href='#'>Bids</a>
+              <li className='account-options-item'>
+                <button className='button-text' onClick={()=>setPage(pageType.Bids)}>Bids</button>
               </li>
-              <li className='account-options-third-item'>
-                <a href='#'>My Auctions</a>
+              <li className='account-options-item'>
+                <button className='button-text' onClick={()=>setPage(pageType.Auctions)}>My Auctions</button>
               </li>
             </ul>
           </div>
         </div>
       </div>
-    </div>
+      { 
+        page === pageType.Info && (<div>Info</div>)
+      }
+      { 
+        page === pageType.Bids && (<div>Bids</div>) 
+      }
+      {
+        page === pageType.Auctions && (<div>Auctions</div>) 
+      }
+      </div>
   );
 }
