@@ -8,6 +8,10 @@ export const getToken = () => {
     window.location.reload()
   };
 export const decodeToken = () => {
+  
+  if(!getToken())
+    return null
+    
   const parts = getToken().split('.');
   let decodedToken = base64.decode(parts[1]);
   decodedToken = JSON.parse(decodedToken);

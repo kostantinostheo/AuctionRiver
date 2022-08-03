@@ -1,6 +1,7 @@
+import { BASE_URL, GET_USER_URL } from "./Path";
 
 export async function GetUserData(id){
-    const res = await fetch(`http://localhost:3000/users/${id}`)
+    const res = await fetch(BASE_URL + GET_USER_URL.UserDetails + id)
     return await res.json()
   }
 

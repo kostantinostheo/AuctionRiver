@@ -1,7 +1,7 @@
-import React , { useState } from "react";
+import React , { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { PostAsync } from "../../utils/Api";
-import { decodeToken } from "../../utils/Common";
+import { decodeToken, getToken } from "../../utils/Common";
 import { userType } from "../../utils/Const";
 import { BASE_URL, POST_USER_URL } from "../../utils/Path";
 import PopUp from "../PopUp";
@@ -50,9 +50,9 @@ export default function Login(){
             let decoded = decodeToken()
   
             if(decoded.userType === userType.User)
-                window.location.href = '/'
+                window.location.href = '/dashboard'
             else
-                window.location.href = '/register'
+                window.location.href = '/admindashboard'
 
         }
         else{
@@ -60,7 +60,11 @@ export default function Login(){
             handleShow()
         }
     }
-
+    useEffect(()=> {
+        if (getToken() != null) {
+            window.location.href = '/'
+        }
+    }, [])
     return(
     <div>
         <a href="/">

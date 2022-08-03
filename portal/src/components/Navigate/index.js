@@ -1,10 +1,32 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container, Navbar, Form, Button} from 'react-bootstrap'
 import './index.css'
 import logo from '../../images/amazon_white_text.png'
-import { getToken, logout } from '../../utils/Common';
+import { decodeToken, getToken } from '../../utils/Common';
+import SplitButton from '../SplitButton';
+import { GetUserData } from '../../utils/Api';
 
 export default function Navigate(){
+
+  const [username, setUsername] = useState('');
+  const [usertype, setType] = useState('');
+
+
+  async function HandleUser(){
+    if(getToken())
+    {
+      const token = decodeToken()
+      const userData = await GetUserData(token.userId)
+      setUsername(userData.username)
+      setType(userData.userType)
+    }
+
+  }
+
+  useEffect(() => {
+      HandleUser()
+  },[]);
+
   return(
     <div>
       {/* The top navigation starts here. Contains an image for logo. A form for search and a button for toggle search. And there is a button for login (after navbar.collapse in order to go full right) */}
@@ -26,7 +48,7 @@ export default function Navigate(){
             </Form>
           </Navbar.Collapse>
           {
-            getToken() && ( <Button onClick={logout} className='nav-login' variant="dark"> <b>Logout</b> </Button>)
+            getToken() && ( <SplitButton username={username} userType={usertype} />)
           }
           {
             !getToken() && ( <Button href='/login' className='nav-login' variant="dark"> <b>Login</b> </Button>)

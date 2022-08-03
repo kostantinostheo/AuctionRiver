@@ -1,6 +1,7 @@
-import { useState , React }  from "react";
+import { useState , React, useEffect }  from "react";
 import { Button, Form, Row, Col } from "react-bootstrap";
 import { PostAsync } from "../../utils/Api";
+import { getToken } from "../../utils/Common";
 import { BASE_URL, POST_USER_URL } from "../../utils/Path";
 import PopUp from "../PopUp";
 import "./index.css"
@@ -59,6 +60,12 @@ export default function Register(){
             handleShow()
         }
     }
+
+    useEffect(()=> {
+        if (getToken() != null) {
+            window.location.href = '/'
+        }
+    }, [])
 
     return(
         <div>
