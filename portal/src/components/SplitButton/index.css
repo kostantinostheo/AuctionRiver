@@ -1,0 +1,15 @@
+.greetings-label{
+    font-size: 15px !important;
+    font-family: 'Quicksand', sans-serif;
+    background-color: rgb(43, 43, 43) !important;
+    border: none !important;
+}
+.greetings-label:hover{
+    background-color: rgb(43, 43, 43) !important;
+    border: none !important;
+}
+
+#username-color{
+    color: rgb(255, 177, 75);
+}
+

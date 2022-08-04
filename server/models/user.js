@@ -29,16 +29,24 @@ const userSchemma = new mongoose.Schema({
         type: String,
         required: true
     },
+    mobile:{
+        type: Number,
+        required: false
+    },
+    SSN:{
+        type: Number,
+        required: false
+    },
     address:{
         type: String,
         required: false
     },
-    phone:{
+    zip:{
         type: Number,
         required: false
     },
-    vatNumber:{
-        type: Number,
+    country:{
+        type: String,
         required: false
     },
     latitude:{

@@ -1,57 +1,86 @@
-import React , { useState } from "react";
+import React , { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { decodeToken } from "../../utils/Common";
+import { PostAsync } from "../../utils/Api";
+import { decodeToken, getToken } from "../../utils/Common";
+import { userType } from "../../utils/Const";
+import { BASE_URL, POST_USER_URL } from "../../utils/Path";
+import PopUp from "../PopUp";
 import "./index.css"
 
 export default function Login(){
     
-    const [email, setEmail] = useState()
-    const [password, setPassword] = useState()
+    //Pop Up Options
+    const [show, setShow] = useState();
+    const [logs, setLogs] = useState('')
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
+    //Login Settings
+    const [inputField, setInput] = useState()
+    const [inputPassword, setPassword] = useState()
+    let body = null
 
-    async function onLogin(){
-        const res = await fetch('http://localhost:3000/users/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email,
-                password
-            })
-        })
+    
+    async function OnLogin(event){
+        event.preventDefault()
+
+        if (inputField.includes("@")) {
+            body = {
+                email: inputField,
+                password: inputPassword
+            }
+        }
+        else{
+            body = {
+                username: inputField,
+                password: inputPassword
+            }
+        }
+
+        const res = await PostAsync(BASE_URL + POST_USER_URL.Login, body)
+        
         if(res.status === 400){
-            alert('Invalid email or password. Please check again.')
+            setLogs('Your email or password is invalid')
+            handleShow()
         }
         const data = await res.json()
         if(data.token){
-            localStorage.setItem('token', data.token)
-            alert("Login Succesful")
 
-            let _token = decodeToken(data.token)
-            console.log(_token)
-            console.log(data)
+            localStorage.setItem('token', data.token)   //save token as cookies 
+            let decoded = decodeToken()
+  
+            if(decoded.userType === userType.User)
+                window.location.href = '/dashboard'
+            else
+                window.location.href = '/admindashboard'
 
-            window.location.href = '/'
+        }
+        else{
+            setLogs('Login failed')
+            handleShow()
         }
     }
-
+    useEffect(()=> {
+        if (getToken() != null) {
+            window.location.href = '/'
+        }
+    }, [])
     return(
     <div>
         <a href="/">
             <img src="https://images-na.ssl-images-amazon.com/images/G/01/social_share/amazon_logo._CB635397845_.png" width="220" height="133" alt="Amazon"></img>
         </a>
 
-        <Form className="myForm" onSubmit={onLogin}>
+        <Form className="myForm" onSubmit={OnLogin}>
             <h3>Sign-in</h3>
             <br/>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Label column="sm"><strong>Username</strong></Form.Label>
-                <Form.Control size="sm" type="username" placeholder="username" value={email} onChange={(e)=>setEmail(e.target.value)}/>
+                <Form.Label column="sm"><strong>Email or Username</strong></Form.Label>
+                <Form.Control size="sm" type="username" placeholder="email or username" value={inputField} onChange={(e)=>setInput(e.target.value)}/>
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label column="sm"><strong>Password</strong></Form.Label>
-                <Form.Control size="sm" type="password" placeholder="password" value={password} onChange={(e)=>setPassword(e.target.value)}/>
+                <Form.Control size="sm" type="password" placeholder="password" value={inputPassword} onChange={(e)=>setPassword(e.target.value)}/>
             </Form.Group>
             <Button variant="primary" type="submit">Login</Button>
         </Form>
@@ -64,6 +93,7 @@ export default function Login(){
             <hr></hr>
             <p class="copyright">2021-2022 © Company Name</p>
         </div>
+        <PopUp show={show} header={"Login Failed"} logs={logs} onHide={handleClose}/>
     </div>
     );
 }
