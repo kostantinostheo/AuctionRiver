@@ -6,6 +6,7 @@ import {
 import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
+import Dashboard from './components/Dashboard';
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
           <Route exact path='/' element={<Home/>}/>
           <Route exact path='/register' element={<Register/>}/>
           <Route exact path='/login' element={<Login/>}/>
+          <Route exact path='/dashboard' element={<Dashboard/>}/>
         </Routes>
       </div>
   );
