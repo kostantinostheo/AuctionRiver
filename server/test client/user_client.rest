@@ -41,11 +41,11 @@ GET http://localhost:3000/users/api/2
 ###
 GET http://localhost:3000/users/api
 ###
-PATCH  http://localhost:3000/users/api/status/change/1
+PATCH  http://localhost:3000/users/api/update/status/2
 Content-Type: application/json
 
 {
-    "userStatus": "Decline"
+    "userStatus": "Accept"
 }
 
 ###

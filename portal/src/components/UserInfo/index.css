@@ -1,7 +1,15 @@
 .username-header{
     text-align: left;
+    font-weight: bold;
+    color: rgb(231, 128, 44);
 }
-.sub-header{
+.username-sub-header{
     text-align: left;
-    font-size: 15px;
+    width: 600px;
+    border-bottom: 1px solid black;
+    border-right-width: 100px ;
+
+}
+.personal-info{
+    font-family: 'Quicksand', sans-serif;
 }

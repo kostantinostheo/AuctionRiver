@@ -6,4 +6,8 @@ export const POST_USER_URL = {
 }
 export const GET_USER_URL = {
 	UserDetails: "users/api/",
+	UserPending: "users/api/status/pending"
+}
+export const PATCH_USER_URL = {
+	UpdateUserStatus: "users/api/update/status/"
 }
