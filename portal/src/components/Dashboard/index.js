@@ -1,9 +1,11 @@
 import './index.css'
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navigate from '../Navigate';
 import UserInfo from '../UserInfo';
 import CardListing from '../CardListing';
 import { Col, Container, Row } from 'react-bootstrap';
+import { decodeToken } from '../../utils/Common';
+import { userType } from '../../utils/Const';
 
 
 export default function Dashboard() {
@@ -13,6 +15,12 @@ export default function Dashboard() {
     Bids: "Bids",
     Auctions: "Auctions"
   }
+
+  useEffect(()=> {
+    const token = decodeToken()
+    if(token && token.userType === userType.Admin)
+        window.location.href = '/'
+}, [])
 
   const [page, setPage] = useState('Info')
   

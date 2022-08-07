@@ -18,9 +18,16 @@ export const decodeToken = () => {
   return decodedToken
 }
 
-export function ConvertToLocalDate(responseDate) {
-  let dateComponents = responseDate.split('T');
-  return new Date(dateComponents[0]).toLocaleDateString("el-GR")
+export function LocalDate() {
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  let mm = today.getMonth() + 1; // Months start at 0!
+  let dd = today.getDate();
+  
+  if (dd < 10) dd = '0' + dd;
+  if (mm < 10) mm = '0' + mm;
+  const date = dd + '/' + mm + '/' + yyyy
+  return date
 }
 
 export const universitiesList = ["ΕΚΠΑ", "ΠΑΠΠΕΙ", "ΠΑΔΑ"]

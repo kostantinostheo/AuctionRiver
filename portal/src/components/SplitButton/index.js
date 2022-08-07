@@ -5,6 +5,10 @@ import './index.css'
 
 export default function SplitButton(props) {
 
+    function OnLogout(){
+        logout()
+        window.location.href = '/'
+    }
     return (
         <Dropdown {...props} as={ButtonGroup}>
         <Button disabled className='greetings-label'>Welcome <b id='username-color'> {props.username} </b></Button>
@@ -12,12 +16,12 @@ export default function SplitButton(props) {
         <Dropdown.Toggle className='greetings-label' id="dropdown-split-basic" />
             <Dropdown.Menu>
                 { props.userType === userType.User &&
-                    ( <Dropdown.Item href="#/dash-1">User Dashboard</Dropdown.Item> )
+                    ( <Dropdown.Item href="dashboard">User Dashboard</Dropdown.Item> )
                 }            
                 { props.userType === userType.Admin &&
-                    ( <Dropdown.Item href="#/dash-2">Admin Dashboard</Dropdown.Item> )
+                    ( <Dropdown.Item href="/admindashboard">Admin Dashboard</Dropdown.Item> )
                 }
-                <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
+                <Dropdown.Item onClick={OnLogout}>Logout</Dropdown.Item>
             </Dropdown.Menu>
         </Dropdown>
     );

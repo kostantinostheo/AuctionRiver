@@ -1,34 +1,61 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
+import { GetUserData } from "../../utils/Api";
+import { decodeToken, getToken } from "../../utils/Common";
+import { userStatus } from "../../utils/Const";
 import './index.css'
+
+
+
+
 export default function UserInfo() {
+
+    const [data, getData] = useState([])
+
+    async function HandleUserData(id){
+        const res = await GetUserData(id)
+        getData(res)
+    }
+
+    useEffect(()=> {
+        if (getToken() == null) {
+            window.location.href = '/'
+        }
+        else{
+            const token = decodeToken()
+            HandleUserData(token.userId)
+             console.log(data)
+        }
+    }, [])
+
+
   return (
-    <div>
+    <div className='personal-info'>
         <Container>
             <Row xs="auto">
                 <Col>
-                    <h3 className="username-header">Konstantinos</h3>
+                    <h3 className="username-header">{data.firstname}</h3>
                 </Col>
                 <Col>
-                    <h3 className="username-header">Theofilis</h3>
+                    <h3 className="username-header">{data.lastname}</h3>
                 </Col>
             </Row>
-            <h5 className="username-header">kontheo</h5>
+            <h5 className="username-sub-header">{data.username} { data.userStatus === userStatus.Pending && ("(" + data.userStatus + ")") }</h5>
             <br/>
-            <Row xs="auto">
-                <img src="https://cdn-icons-png.flaticon.com/512/25/25694.png" height={20} width={20} alt=''/>
-                <div className="sub-header">Paraskeva 32, Kifisia, 12031</div>
-            </Row>
-            <br/>
-            <Row xs="auto">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Globe_icon.svg/1200px-Globe_icon.svg.png" height={20} width={20} alt=''/>
-                <div className="sub-header">Greece</div>
-            </Row>
-            <br/>
-            <Row xs="auto">
-                <img src="https://cdn-icons-png.flaticon.com/512/65/65680.png" height={20} width={20} alt=''/>
-                <div className="sub-header">6905023142</div>
-            </Row>
+            <div className="secondary-info">
+                <Row xs="auto">
+                    <h6><b>Address:</b> &nbsp; {data.address}, {data.zip}, {data.country} </h6>
+                </Row>
+                <Row xs="auto">
+                    <h6><b>Email:</b> &nbsp; {data.email} </h6>
+                </Row>
+                <Row xs="auto">
+                    <h6><b>Phone/Mobile:</b> &nbsp; {data.mobile} </h6>
+                </Row>
+                <Row xs="auto">
+                    <h6><b>Social Scurity Number:</b> &nbsp; {data.SSN} </h6>
+                </Row>
+            </div>
         </Container>
     </div>
   );
