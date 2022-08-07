@@ -6,14 +6,9 @@ import { decodeToken, getToken, LocalDate } from '../../utils/Common';
 import { userStatus, userType } from "../../utils/Const";
 import { GetAllUsers, GetUserPending } from "../../utils/Api";
 import './index.css'
-import UserPanel from "../UserPanel";
 import { useNavigate } from "react-router-dom";
 
 export default function AdminDashboard() {
-
-    const [show, setShow] = useState();
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
 
     const [userData, setUserData] = useState([])
     const [maxUsers, setMaxUsers] = useState()
@@ -78,7 +73,7 @@ export default function AdminDashboard() {
                 </thead>
                 <tbody>
                     {userData.map((data)=>{
-                        return <TableRow userId={data.userId} firstname={data.firstname} lastname={data.lastname} username={data.username} userStatus={data.userStatus} show={handleShow}/>
+                        return <TableRow userId={data.userId} firstname={data.firstname} lastname={data.lastname} username={data.username} userStatus={data.userStatus}/>
                     })}
                 </tbody>
             </Table>
