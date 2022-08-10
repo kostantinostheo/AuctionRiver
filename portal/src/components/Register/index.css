@@ -18,3 +18,13 @@
 .already-registered{
     margin-top: 30px;
 }
+
+#register-logo{
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+#register-submit-btn{
+    background-color: #00A399;
+    border: none;
+}

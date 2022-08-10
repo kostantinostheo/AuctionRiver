@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Navbar, Form, Button} from 'react-bootstrap'
 import './index.css'
-import logo from '../../images/amazon_white_text.png'
+import logo from '../../images/logo.png'
+import search from '../../images/search.png'
+
 import { decodeToken, getToken } from '../../utils/Common';
 import SplitButton from '../SplitButton';
 import { GetUserData } from '../../utils/Api';
@@ -28,11 +30,11 @@ export default function Navigate(){
   },[]);
 
   return(
-    <div>
+    <div className='custom-nav-bar'>
       {/* The top navigation starts here. Contains an image for logo. A form for search and a button for toggle search. And there is a button for login (after navbar.collapse in order to go full right) */}
       <Navbar bg="dark" expand="lg">
         <Container fluid>
-          <a href='/'><img src={logo} width="100" height="30" alt="Amazon"/></a>
+          <a href='/'><img id='nav-logo' src={logo} width="135" height="45" alt="Amazon"/></a>
           <Navbar.Toggle  aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Form id='search-form' className="d-flex">
@@ -43,7 +45,7 @@ export default function Navigate(){
                 aria-label="Search"
               />
               <Button id='search-button' variant="light">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Search_Icon.svg/500px-Search_Icon.svg.png" alt="search-icon" width="20" height="20"/>
+                <img src={search} alt="search-icon" width="15" height="15"/>
               </Button>
             </Form>
           </Navbar.Collapse>
@@ -58,10 +60,8 @@ export default function Navigate(){
       </Navbar>
       {/* The button nav bar start here. Its component goes one after the other so the bottom bar will be underneath the top one*/}
       <Navbar id='nav-down' expand="lg">
-        <Button id='linkings' variant="link">Today's Deals</Button>
-        <Button id='linkings' variant="link">Customer Service</Button>
-        <Button id='linkings' variant="link">Registry</Button>
-        <Button id='linkings' variant="link">Sell</Button>
+        <a id='linkings' href='/'>Auctions</a>
+        <a id='linkings' href='/' >Buy it now</a>
       </Navbar>
     </div>
   );

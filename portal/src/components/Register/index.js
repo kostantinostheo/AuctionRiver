@@ -4,6 +4,7 @@ import { PostAsync } from "../../utils/Api";
 import { getToken } from "../../utils/Common";
 import { BASE_URL, POST_USER_URL } from "../../utils/Path";
 import PopUp from "../PopUp";
+import logo from '../../images/logo_dark.png'
 import "./index.css"
 
 export default function Register(){
@@ -70,7 +71,7 @@ export default function Register(){
     return(
         <div>
             <a href="/">
-                <img src="https://images-na.ssl-images-amazon.com/images/G/01/social_share/amazon_logo._CB635397845_.png" width="220" height="133" alt="Amazon"></img>
+                <img id="register-logo" src={logo} width="190" height="65" alt="Amazon"></img>
             </a>
 
             <Form className="myForm" onSubmit={OnRegister}>
@@ -141,7 +142,7 @@ export default function Register(){
                     </Form.Group>
                 </Row>
 
-                <Button variant="primary" type="submit">
+                <Button id="register-submit-btn" type="submit">
                     Create account
                 </Button>
             </Form>

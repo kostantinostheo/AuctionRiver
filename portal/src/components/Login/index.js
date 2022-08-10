@@ -6,6 +6,7 @@ import { userType } from "../../utils/Const";
 import { BASE_URL, POST_USER_URL } from "../../utils/Path";
 import PopUp from "../PopUp";
 import "./index.css"
+import logo from '../../images/logo_dark.png'
 
 export default function Login(){
     
@@ -68,7 +69,7 @@ export default function Login(){
     return(
     <div>
         <a href="/">
-            <img src="https://images-na.ssl-images-amazon.com/images/G/01/social_share/amazon_logo._CB635397845_.png" width="220" height="133" alt="Amazon"></img>
+            <img id="login-logo" src={logo} width="190" height="65" alt="Amazon"></img>
         </a>
 
         <Form className="myForm" onSubmit={OnLogin}>
@@ -82,7 +83,7 @@ export default function Login(){
                 <Form.Label column="sm"><strong>Password</strong></Form.Label>
                 <Form.Control size="sm" type="password" placeholder="password" value={inputPassword} onChange={(e)=>setPassword(e.target.value)}/>
             </Form.Group>
-            <Button variant="primary" type="submit">Login</Button>
+            <Button id="login-submit-btn" type="submit">Login</Button>
         </Form>
 
         <div class="no-account">

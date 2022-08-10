@@ -1,30 +1,44 @@
+.custom-nav-bar{
+    font-family: 'Quicksand', sans-serif;
+}
 .nav-bar-text{
-    color: rgb(255, 255, 255) !important
+    color: rgb(255, 255, 255) !important;
+
 }
 
+#nav-logo{
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
 #search-form{
-    padding-left: 30px;
-    width: 600px
+    margin-left: 50px;
+    width: 30em
 }
 
 #search-button{
-    background-color: rgb(255, 177, 75);
+    background-color: #00A399;
 }
 
 .nav-login{
-    color: rgb(177, 138, 88) !important;
+    color: #00A399 !important;
     background-color: rgb(43, 43, 43) !important;
     font-family: 'Quicksand', sans-serif;
     font-size: 15px !important;
 }
 
 #nav-down{
-    height: 35px;
+    height: 30px;
     background-color: #232F3E;
+    font-size: 15px;
 }
 
 #linkings{
+    padding-left: 30px;
     text-decoration: none;
     color: rgb(240, 240, 240);
-    font-weight: bold;
+}
+#linkings:hover{
+    color: #FFBA01;
 }
