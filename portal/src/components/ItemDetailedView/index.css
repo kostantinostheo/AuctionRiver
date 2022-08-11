@@ -1,0 +1,174 @@
+.main-content-item{
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1400px;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+.item-detailed-img{
+    max-width: 500px;
+    max-height: 500px;
+}
+
+.carousel{
+    max-width: 300px;
+    max-height: 480px;
+}
+
+.item-info{
+    margin-left: 40px;
+}
+
+.item-title{
+    text-align: left;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+}
+
+.item-main-row{
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.item-price-col{
+    text-align: left;
+    display: flex;
+}
+
+.price-title{
+    margin-top: 33px;
+    padding-left: 30px;
+    width: 85px;
+    font-size: 15px;
+}
+
+.best-offer-tag,
+.price-tag{
+    flex-grow: 1;
+    margin-top: 17px;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.best-offer-title{
+    margin-top: 33px;
+    padding-left: 30px;
+    width: 120px;
+    font-size: 15px;
+}
+
+.item-specifics{
+    margin-top: 20px;
+    width: 100%;
+    text-align: left;
+    padding: 19px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.item-specifics-row{
+    margin-top: 15px;
+    font-size: 15px;
+}
+
+.item-specifics-list{
+    list-style-type: none;
+    list-style: none;
+    float: left;
+    padding-left: 0 !important;
+}
+
+.specifics-list-object{
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.item-description{
+    margin-top: 20px;
+    width: 100%;
+    text-align: left;
+    padding: 19px;
+}
+
+#item-header{
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.description-text{
+    margin-top: 7px;
+    text-align: justify;
+    font-size: 15px;
+}
+
+.place-bid-button,
+.buy-now-button {
+    margin-top: 20px;
+    align-items: center;
+    background-color: #0A66C2;
+    border: 0;
+    border-radius: 100px;
+    box-sizing: border-box;
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: -apple-system, system-ui, system-ui, "Segoe UI", Roboto, "Helvetica Neue", "Fira Sans", Ubuntu, Oxygen, "Oxygen Sans", Cantarell, "Droid Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Lucida Grande", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    justify-content: center;
+    line-height: 20px;
+    width: 200px;
+    max-width: 480px;
+    min-height: 40px;
+    min-width: 0px;
+    overflow: hidden;
+    padding: 0px;
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: center;
+    touch-action: manipulation;
+    transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+    user-select: none;
+    -webkit-user-select: none;
+    vertical-align: middle;
+  }
+
+.place-bid-button:hover
+.place-bid-button:focus
+.buy-now-button:hover,
+.buy-now-button:focus { 
+    background-color: #16437E;
+    color: #ffffff;
+}
+
+.place-bid-button:active
+.buy-now-button:active {
+    background: #09223b;
+    color: rgb(255, 255, 255, .7);
+}
+
+.seller-info{
+    margin-top: 25px;
+    margin-left: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    height: fit-content;
+}
+
+.seller-title{
+    margin-top: 5px;
+}
+
+.seller-main{
+    margin-top: 5px;
+    text-align: left;
+    border-bottom: 2px dotted #999;
+    padding-bottom: 13px;
+}
+
+.seller-contact{
+    margin-top: 5px;
+    margin-bottom: 10px;
+    text-align: left;
+}

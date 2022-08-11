@@ -9,6 +9,7 @@ import Register from './components/Register';
 import Dashboard from './components/Dashboard';
 import AdminDashboard from './components/AdminDashboard';
 import UserPanel from './components/UserPanel';
+import ItemDetailedView from './components/ItemDetailedView';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route exact path='/dashboard' element={<Dashboard/>}/>
           <Route exact path='/admindashboard' element={<AdminDashboard/>}/>
           <Route path='/admindashboard/info/user/:userId' element={<UserPanel/>}/>
+          <Route exact path='/item/detail' element={<ItemDetailedView/>}/>
 
         </Routes>
       </div>
