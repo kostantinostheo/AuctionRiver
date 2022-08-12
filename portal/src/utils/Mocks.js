@@ -1,8 +1,11 @@
+
+const CHROME_SERVER_URL = 'http://127.0.0.1:8887/'
+
 export const mockItemInfo  = 
 [
     {
         itemId: 1,
-        img: ['https://i.ebayimg.com/images/g/ifMAAOSwJ2Zixjei/s-l1600.png','https://i.ebayimg.com/images/g/ekoAAOSwLeNixjfR/s-l1600.png'],
+        img: ['https://i.ebayimg.com/images/g/ifMAAOSwJ2Zixjei/s-l1600.png',`${CHROME_SERVER_URL}images/product/s-l1600.png`],
         title: 'World of Warcraft Wrath of the Lich King Board Game Hardcover Art Book Blizzard',
         price: 129.88
     },
