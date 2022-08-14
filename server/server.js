@@ -21,7 +21,9 @@ app.use(express.json())
 
 //Get access to users route.
 const usersRouter = require('./routes/users')
+const itemsRouter = require('./routes/items')
 
 app.use('/users', usersRouter)
+app.use('/items', itemsRouter)
 
 app.listen(3000, ()=> console.log('Api started with no errors..'))

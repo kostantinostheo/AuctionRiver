@@ -1,0 +1,47 @@
+###
+POST  http://localhost:3000/items/api/submit
+Content-Type: application/json
+
+{
+    "itemId": 123,
+    "name": "This is a title",
+    "description": "This is a long description",
+    "category": "a category",
+    "buyPrice": 99,
+    "firstBid": 50,
+    "ends": "{{$localDatetime 'YYYY-MM-DD'}}",
+    "sellerId": 124,
+    "location": "Cleaton 123",
+    "country": "US"
+}
+###
+POST  http://localhost:3000/items/api/search
+Content-Type: application/json
+
+{
+    "q": "This is "
+}
+###
+POST  http://localhost:3000/items/api/categorized
+Content-Type: application/json
+
+{
+    "category": "a category"
+}
+###
+POST  http://localhost:3000/items/api/update_bids/123
+Content-Type: application/json
+
+{   
+    "bid" : {
+        "userId": 666, 
+        "rating": 34, 
+        "time": "{{$localDatetime 'YYYY-MM-DD'}}",
+        "amount": 2, 
+        "bidder": {
+            "location": "AHAHA", 
+            "country": "SKATA"
+        }  
+    }
+}
+###

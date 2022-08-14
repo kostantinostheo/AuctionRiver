@@ -104,6 +104,9 @@ router.post('/api/register', async (req,res) => {
             email: req.body.email,
             password: hashedPass,
             mobile: req.body.mobile,
+            rating: 0,
+            numOfRating: 0, 
+            sumOfRating: 0, 
             SSN: req.body.SSN,
             address: req.body.address,
             country: req.body.country,
@@ -177,6 +180,26 @@ router.patch('/api/update/status/:userId', getUserById, async (req,res) => {
         res.user.userStatus = req.body.userStatus
         const updatedUserStatus = await res.user.save()
         res.json(updatedUserStatus)
+    }catch (error) {
+        res.status(400).json({message: error.message})
+    }
+})
+
+//Updates user rating.
+//route url http://localhost:3000/users/api/update/status/1
+router.patch('/api/update/rating/:userId', getUserById, async (req,res) => {
+    try{
+        const sum = res.user.sumOfRating + req.body.curRating
+        const num = res.user.numOfRating + 1
+
+        const rating = sum/num
+
+        res.user.rating = rating
+        res.user.sumOfRating = sum
+        res.user.numOfRating = num
+
+        const updatedUserRating = await res.user.save()
+        res.json(updatedUserRating)
     }catch (error) {
         res.status(400).json({message: error.message})
     }

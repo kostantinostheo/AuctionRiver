@@ -18,6 +18,14 @@ Content-Type: application/json
     "longitude": 456
 }
 ###
+PATCH http://localhost:3000/users/api/update/rating/1
+Content-Type: application/json
+
+{
+    "curRating": 2.4
+}
+
+###
 //Register a new admin
 POST  http://localhost:3000/users/api/register
 Content-Type: application/json
