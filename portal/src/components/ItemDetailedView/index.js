@@ -20,7 +20,7 @@ export default function ItemDetailedView() {
         const item = mockItemInfo.find(x => x.itemId === parseFloat(id))
         getData(item)
         getImages(itemData.img)
-    }, [])
+    }, [itemData.img])
     return (
         <div className='item-detailed'>
           <Navigate/>
@@ -153,7 +153,7 @@ export default function ItemDetailedView() {
 function DynamicCarousel(props){
   return(
     <div>
-        <img src={props.url}/>
+        <img src={props.url} alt='product'/>
     </div>
   );
 }
