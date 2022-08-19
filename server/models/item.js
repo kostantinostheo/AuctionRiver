@@ -11,6 +11,7 @@ const itemSchemma = new mongoose.Schema({
     numberOfBids: {type:Number},
     started: {type:Date},
     ends: {type:Date},
+    images: {type:Array},
     sellerId: {type:Number},
     location: {type:String},
     country: {type:String},

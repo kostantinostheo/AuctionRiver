@@ -1,26 +1,97 @@
 import './index.css'
 import Navigate from '../Navigate';
 import Breadcrumb from '../CustomBreadcrumb';
-import { Col, Container, Form, Row } from 'react-bootstrap';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
-import { mockItemInfo } from '../../utils/Mocks';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
+import { GetItemDetails, GetUserData, PostAsync } from '../../utils/Api';
+import { BASE_URL, IMAGE_URL, POST_ITEM_URL } from '../../utils/Path';
+import { decodeToken, getToken } from '../../utils/Common';
+
 
 export default function ItemDetailedView() {
 
   const id = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
-  const item = mockItemInfo.find(x => x.itemId === parseFloat(id))
+  
+  const [itemData, getData] = useState([])
+  const [images, getImages] = useState([])
+  const [localDateStart, setLocalDateStarts] = useState('')
+  const [localDateEnds, setLocalDateEnds] = useState('')
+  const [bids, getBidsNum] = useState('')
+  const [lastBid, getLastBid] = useState('')
+  const [placeBid, setPlaceBid] = useState()
 
-  const [itemData, getData] = useState(item)
-  const [images, getImages] = useState(itemData.img)
+  const [seller, getSeller] = useState([])
+  const [user, getUser] = useState([])
 
-      useEffect(()=> {
-        const id = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
-        const item = mockItemInfo.find(x => x.itemId === parseFloat(id))
-        getData(item)
-        getImages(itemData.img)
-    }, [itemData.img])
+
+  const handleState = () => {
+    if(getToken() === null){
+      window.location.href='/login'
+    }
+    else{
+      UpdateBid()
+    }
+  }
+  async function UpdateBid(){
+    if(placeBid > lastBid){
+      const body = {
+        bid : {
+          userId: user.userId, 
+          rating: user.rating, 
+          time: new Date(),
+          amount: placeBid, 
+          bidder: {
+              location: user.address, 
+              country: user.country
+          }  
+        }
+      }
+      PostAsync(BASE_URL+POST_ITEM_URL.NewBid+id, body).then(()=>{
+        window.alert("Success")
+        window.location.reload()
+      })
+    }
+  }
+  async function GetAllDetails(){
+    GetItemDetails(id)
+      .then((res) => {
+        getData(res)
+        getImages(res.images)
+        if(res.started != null ) {
+          setLocalDateStarts(new Date(res.started).toLocaleDateString("en-US") + " " + new Date(res.started).toLocaleTimeString("en-US"))
+        }else{
+          setLocalDateStarts('-')
+        }
+        if(res.ends != null ) {
+          setLocalDateEnds(new Date(res.ends).toLocaleDateString("en-US") + " " + new Date(res.ends).toLocaleTimeString("en-US"))
+        }else{
+          setLocalDateEnds('-')
+        }
+        getBidsNum(res.bids.bid.length - 1)
+        getLastBid(res.bids.bid[res.bids.bid.length-1].amount)
+        GetSellerDetails(res.sellerId)
+        GetUserDetails(decodeToken().userId)
+      })
+    }
+    async function GetSellerDetails(id){
+      GetUserData(parseInt(id))
+      .then((res) => {
+        getSeller(res)
+      })
+    }
+    async function GetUserDetails(id){
+      GetUserData(parseInt(id))
+      .then((res) => {
+        getUser(res)
+      })
+    }
+
+
+    useEffect(()=> {
+      GetAllDetails()
+    }, [])
     return (
         <div className='item-detailed'>
           <Navigate/>
@@ -29,8 +100,8 @@ export default function ItemDetailedView() {
             <Row>
               <Col md="auto">
                 <Carousel>
-                {images.map((imageUrl)=>{
-                        return <DynamicCarousel url={imageUrl}/>
+                {images.map((image)=>{
+                    return <DynamicCarousel url={image}/>
                 })}
                 </Carousel>
                 <br/>
@@ -44,8 +115,8 @@ export default function ItemDetailedView() {
                       </b>
                     </Col>
                     <Col xs={true}>
-                      <div><a href='/'>Lalakis123</a></div>
-                      <div>4/5</div>
+                      <div>{seller.username}</div>
+                      <div>{seller.rating}⭐ </div>
                     </Col>
                   </Row>
                   <div id='seller-contact' ><a href='/'>Contact seller</a> </div>
@@ -62,13 +133,27 @@ export default function ItemDetailedView() {
                         Price:
                       </h6>
                     </Col>
+                        { itemData.buyPrice != null &&
+                        <Col xs={3}>
+                          <h4 className='price-tag'>
+                            ${itemData.buyPrice}
+                          </h4>
+                        </Col>
+                        }
+                        {itemData.buyPrice === null &&
+                          <Col xs={3}>
+                            <h4 className='price-tag'>
+                              $-
+                            </h4>
+                        </Col>
+                        }
                     <Col xs={3}>
-                      <h4 className='price-tag'>
-                        ${itemData.price}
-                      </h4>
-                    </Col>
-                    <Col xs={3}>
-                      <button class="buy-now-button">Buy It Now</button>
+                    {itemData.buyPrice === null &&
+                      <Button className="buy-now-button" disabled>Buy It Now</Button>
+                    }
+                    {itemData.buyPrice != null &&
+                      <Button className="buy-now-button">Buy It Now</Button>
+                    }
                     </Col>
                   </Row>
                   <Row xs={true} className='item-main-row'>
@@ -78,15 +163,27 @@ export default function ItemDetailedView() {
                       </h6>
                     </Col>
                     <Col xs={2}>
-                      <div className='best-offer-tag'>
-                        $400
-                      </div>
+                      { bids === 0 && 
+                        (
+                        <div className='best-offer-tag'>
+                          ${itemData.firstBid}
+                        </div>
+                        )
+                      }
+                      { bids > 0 && 
+                        (
+                        <div className='best-offer-tag'>
+                          ${lastBid}
+                        </div>
+                        )
+                      }
+
                     </Col>
                     <Col xs={3}>
-                      <Form.Control placeholder='Place your bid' style={{"width": "auto", "marginTop":"22px"}} />
+                      <Form.Control placeholder='Place your bid' value={placeBid} onChange={(e)=>setPlaceBid(e.target.value)} style={{"width": "auto", "marginTop":"22px"}} />
                     </Col>
                     <Col>
-                      <button class="place-bid-button">Place Bid</button>
+                      <Button onClick={handleState} className="place-bid-button">Place Bid</Button>
                     </Col>
 
                   </Row>
@@ -106,10 +203,10 @@ export default function ItemDetailedView() {
                         </Col>
                         <Col xs={true}className='item-specifics-col'>
                           <ul className='item-specifics-list'>
-                            <li className='specifics-list-object'>12345</li>
-                            <li className='specifics-list-object'>13:00PM </li>
-                            <li className='specifics-list-object'>15:23AM </li>
-                            <li className='specifics-list-object'>8</li>
+                            <li className='specifics-list-object'>{itemData.itemId}</li>
+                            <li className='specifics-list-object'>{localDateStart.toString()} </li>
+                            <li className='specifics-list-object'>{localDateEnds.toString()}</li>
+                            <li className='specifics-list-object'>{bids}</li>
                           </ul>
                         </Col>
                         <Col xs={true}className='item-specifics-col'>
@@ -124,10 +221,10 @@ export default function ItemDetailedView() {
                         </Col>
                         <Col className='item-specifics-col'>
                           <ul className='item-specifics-list'>
-                            <li className='specifics-list-object'>United States</li>
-                            <li className='specifics-list-object'>New York</li>
-                            <li className='specifics-list-object'>40.730610</li>
-                            <li className='specifics-list-object'>-73.935242</li>
+                            <li className='specifics-list-object'>{itemData.country}</li>
+                            <li className='specifics-list-object'>{itemData.location}</li>
+                            <li className='specifics-list-object'>{itemData.latitude}</li>
+                            <li className='specifics-list-object'>{itemData.longitude}</li>
                           </ul>
                         </Col>
                       </Row>
@@ -136,10 +233,7 @@ export default function ItemDetailedView() {
                   <div className='item-description'>
                     <strong><h5 id='item-header'>Item Description</h5></strong>
                     <div className='description-text'>
-                    Dark Souls: The Card Game is a cooperative deck evolution card game for 1-4 players.
-                    Players must explore the Encounters around them, defeating a myriad of enemies to gain Souls and Treasure. They must use these to evolve and adapt their deck to better fight their enemies.
-                    When the players are ready, they must challenge the powerful bosses that lie within.
-                    A misstep can be fatal, but the rewards of success are great. Adapt your deck, evolve your strategy, and prepare to die.
+                    {itemData.description}
                     </div>
                   </div>
                 </Container>
@@ -151,9 +245,10 @@ export default function ItemDetailedView() {
 }
 
 function DynamicCarousel(props){
+  const [image] = useState(IMAGE_URL+props.url)
   return(
     <div>
-        <img src={props.url} alt='product'/>
+        <img src={image} alt='product'/>
     </div>
   );
 }

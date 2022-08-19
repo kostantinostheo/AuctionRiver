@@ -7,3 +7,14 @@ export const userStatus = {
 	Accept: "Accept",
     Decline: "Decline"
 }
+export const categoryType ={
+	Fashion: "Fashion",
+	Hobbies: "Hobbies",
+	Electronics: "Electronics",
+	Audio: "Portable Audio"
+}
+
+export const orderType = {
+	Ascending: "Ascending",
+	Descending : "Descending",
+}

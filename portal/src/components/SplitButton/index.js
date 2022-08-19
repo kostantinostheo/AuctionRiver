@@ -13,7 +13,7 @@ export default function SplitButton(props) {
         <Dropdown {...props} as={ButtonGroup}>
         <Button disabled className='greetings-label'>Welcome <b id='username-color'> {props.username} </b></Button>
 
-        <Dropdown.Toggle className='greetings-label' id="dropdown-split-basic" />
+        <Dropdown.Toggle id="dropdown-split-basic" />
             <Dropdown.Menu>
                 { props.userType === userType.User &&
                     ( <Dropdown.Item href="dashboard">User Dashboard</Dropdown.Item> )

@@ -1,11 +1,13 @@
 .custom-nav-bar{
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Source Sans Pro', sans-serif
 }
 .nav-bar-text{
     color: rgb(255, 255, 255) !important;
 
 }
-
+#custom-nav{
+    background-color: rgb(238, 238, 238);
+}
 #nav-logo{
     margin-left: 20px;
     margin-right: 20px;
@@ -20,11 +22,16 @@
 #search-button{
     background-color: #00A399;
 }
-
+.home-nav-login-2{
+    padding-right: 3em;
+    font-family: 'Source Sans Pro', sans-serif !important;
+    color: rgb(103, 103, 103);
+    text-decoration: none;
+}
 .nav-login{
     color: #00A399 !important;
     background-color: rgb(43, 43, 43) !important;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Source Sans Pro', sans-serif;
     font-size: 15px !important;
 }
 

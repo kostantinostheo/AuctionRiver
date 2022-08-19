@@ -7,4 +7,8 @@ const userStatus = {
 	Accept: "Accept",
     Decline: "Decline"
 }
-module.exports = {userType, userStatus}
+const orderType = {
+	Ascending: "Ascending",
+	Descending : "Descending",
+}
+module.exports = {userType, userStatus, orderType}

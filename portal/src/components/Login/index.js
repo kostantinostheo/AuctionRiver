@@ -1,8 +1,7 @@
 import React , { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { PostAsync } from "../../utils/Api";
-import { decodeToken, getToken } from "../../utils/Common";
-import { userType } from "../../utils/Const";
+import { getToken } from "../../utils/Common";
 import { BASE_URL, POST_USER_URL } from "../../utils/Path";
 import PopUp from "../PopUp";
 import "./index.css"
@@ -48,13 +47,7 @@ export default function Login(){
         if(data.token){
 
             localStorage.setItem('token', data.token)   //save token as cookies 
-            let decoded = decodeToken()
-  
-            if(decoded.userType === userType.User)
-                window.location.href = '/dashboard'
-            else
-                window.location.href = '/admindashboard'
-
+            window.location.href = '/'
         }
         else{
             setLogs('Login failed')

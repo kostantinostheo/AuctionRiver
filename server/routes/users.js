@@ -184,7 +184,6 @@ router.patch('/api/update/status/:userId', getUserById, async (req,res) => {
         res.status(400).json({message: error.message})
     }
 })
-
 //Updates user rating.
 //route url http://localhost:3000/users/api/update/status/1
 router.patch('/api/update/rating/:userId', getUserById, async (req,res) => {

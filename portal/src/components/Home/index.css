@@ -10,3 +10,50 @@
 .social-icon{
   margin-left: 3em;
 }
+
+#home-search-form{
+  padding-top: 200px;
+  margin: auto;
+  width: 35em;  
+  border-radius: 10px !important;
+}
+#home-search-button{
+  background-color: #00A399;
+}
+#login-btn{
+  width: 100%;
+}
+.home-nav-login{
+  float: right;
+  padding-top: 1em;
+  padding-right: 3em;
+  font-family: 'Source Sans Pro', sans-serif !important;
+  color: rgb(103, 103, 103);
+  text-decoration: none;
+}
+.home-nav-login-tag{
+  font-family: 'Source Sans Pro', sans-serif !important;
+  color: #00A399;
+  text-decoration: none;
+}
+#home-logo{
+  margin-top: 10px;
+  margin-left: 50%;
+}
+
+#cat-header{
+  font-family: 'Source Sans Pro', sans-serif !important;
+  color: rgb(65, 65, 65);
+  text-align: left;
+  margin: auto;
+  padding-top: 50px;
+  padding-left: 300px;
+  padding-bottom: 20px;
+  font-weight: bold;
+}
+
+#categories-row{
+  margin: auto;
+  width: 80%;
+  margin-top: 20px;
+}

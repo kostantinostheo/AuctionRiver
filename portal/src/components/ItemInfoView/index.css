@@ -19,6 +19,12 @@
     margin: 0 auto;
     object-fit: contain;
 }
+#product-img:hover{
+    cursor: pointer;
+}
+#product:hover{
+    cursor: pointer;
+}
 
 #product-body{
     background-color: rgb(250, 250, 250);

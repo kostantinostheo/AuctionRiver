@@ -6,6 +6,7 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const cors = require('cors')
+const bodyParser = require('body-parser');
 
 //Create a new mongoose connection.
 mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -16,6 +17,9 @@ db.on('error', (error) => console.error(error))
 //Open the connection and connect with the database.
 db.once('open', () => console.log('Conected to Database'))
 
+app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({ extended: false })) 
+app.use(bodyParser.json())
 app.use(cors())
 app.use(express.json())
 
