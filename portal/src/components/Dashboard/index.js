@@ -22,6 +22,10 @@ export default function Dashboard() {
         window.location.href = '/'
 }, [])
 
+  function goToSellItem(){
+    return window.location.href = '/sellitem'
+  }
+
   const [page, setPage] = useState('Info')
   
   return (
@@ -57,6 +61,9 @@ export default function Dashboard() {
                 </li>
                 <li className='account-options-item'>
                   <button className='button-text' onClick={()=>setPage(pageType.Auctions)}>My Auctions</button>
+                </li>
+                <li className='account-options-item'>
+                  <button className='button-text' onClick={()=>goToSellItem()}>Create New Auction</button>
                 </li>
               </ul>
             </Col>
