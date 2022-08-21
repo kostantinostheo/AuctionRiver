@@ -23,7 +23,8 @@ function App() {
           <Route exact path='/admindashboard' element={<AdminDashboard/>}/>
           <Route path='/admindashboard/info/user/:userId' element={<UserPanel/>}/>
           <Route path='/item/:itemId' element={<ItemDetailedView/>}/>
-          <Route exact path='/item' element={<ItemsListing/>}/>
+          <Route exact path='/item#sort' element={<ItemsListing sort={'sort'}/>}/>
+          <Route exact path='/item' element={<ItemsListing sort={'no-sort'}/>}/>
         </Routes>
       </div>
   );

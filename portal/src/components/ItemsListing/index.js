@@ -1,37 +1,82 @@
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import { ItemInfoView } from '../ItemInfoView';
 import Navigate from '../Navigate';
 import './index.css'
 import React, { useEffect, useState } from 'react';
 import CustomBreadcrumb from '../CustomBreadcrumb';
-import HelpNavBar from '../HelpNavBar';
-import { GetAllItems } from '../../utils/Api';
-import { Card } from 'react-bootstrap';
+import { GetAllItems, PostAsync } from '../../utils/Api';
+import { Button, Card, Dropdown, DropdownButton, Navbar } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { IMAGE_URL } from '../../utils/Path';
+import { BASE_URL, IMAGE_URL, POST_ITEM_URL } from '../../utils/Path';
+import { orderType, setGlobal } from '../../utils/Const';
 
 export default function ItemsListing() {
 
     let [item, setItem] = useState([])
     let [ok, setOk] = useState(false)
+    let [filter, setFilter] = useState('')
 
+    const handleFilter=(e)=>{
+        setFilter(e)
+        console.log(e)
+    }
 
-    async function GetAllListing(){
-        GetAllItems()
+    async function GetAllListing(filter){
+        GetAllItems(filter)
             .then( (res) => setItem(res) )
             .then(setOk(true))
     }
+    function HandleAll(){
+        if(value === '')
+        {
+            GetAllListing(filter)
+        }
+
+        else{
+            console.log("ordered");
+            const body = {
+                sort : orderType.Descending
+            }
+            PostAsync(BASE_URL+POST_ITEM_URL.Ordered, body).then((res) => console.log(res))
+        }
+    }
+    
+    const [value,setValue]=useState('');
+    const handleSelect=(e)=>{
+        setValue(e)
+        console.log(e)
+    }
 
     useEffect(()=> {
-        GetAllListing()
-    }, [])
-
+        HandleAll()
+    }, [value])
+    
     return (
         <div>
             <Navigate/>
             <CustomBreadcrumb value='Products'/>
-            <HelpNavBar/>
+
+            <div className='custom-helpnav-bar'>
+                <Navbar expand="lg">
+                <div style={{"width":"100px"}} />
+                <DropdownButton
+                id="dropdown-order"
+                className="mt-2"
+                title={value === '' ? "Order By" : value}
+                onSelect={handleSelect}
+                >
+                    <Dropdown.Item id='drop-item' eventKey="Best Match">Best Match</Dropdown.Item>
+                    <Dropdown.Item id='drop-item' eventKey="Time - Low to High">Price - Low to High</Dropdown.Item>
+                    <Dropdown.Item id='drop-item' eventKey="Time - High to Low">Price - High to Low</Dropdown.Item>
+                </DropdownButton>
+                <div style={{"width":"50px"}} />
+                    <Button onClick={''} id='filter'>All Listing</Button>
+                    <Button onClick={handleFilter()} id='filter'>Buy Now</Button>
+                    <button id='filter'>Auction</button>
+                </Navbar>
+            </div>
+
+
             <div className='grid-box'>
                 <Box sx={{ flexGrow: 1 }}>
                     <Grid container spacing={1}>
@@ -56,9 +101,7 @@ function ItemComponenet(props){
         let path = `${props.itemId}`;
         navigate(path);
     }
-    useEffect(()=> {
-        console.log(props.images[0])
-    }, [])
+
 
     return(
         <Grid item xs={3}>

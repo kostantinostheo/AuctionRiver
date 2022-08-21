@@ -24,9 +24,7 @@ Content-Type: application/json
 }
 
 ###
-
-GET   http://localhost:3000/items/api/images/1
-
+GET   http://localhost:3000/items/api/available
 ###
 POST  http://localhost:3000/items/api/search
 Content-Type: application/json

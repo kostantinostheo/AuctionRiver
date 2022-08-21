@@ -64,6 +64,15 @@ router.get('/api/available', async(req,res) => {
         res.status(500).json({message : err.message})
     }
 })
+router.get('/api/buy', async(res) => {
+    try{
+        const buy = await Item.find( { isAvailable: true })
+        res.json(buy)
+    }
+    catch(err){
+        res.status(500).json({message : err.message})
+    }
+})
 //Get all available items for auction items
 //route url http://localhost:3000/items/api/categorized
 router.post('/api/categorized', async(req,res) => {
