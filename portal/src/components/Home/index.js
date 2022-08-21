@@ -57,17 +57,16 @@ export default function Home() {
           </Button>
         </Form>
       <Row>
-      <h4 id='cat-header'>Categories</h4>
-      <Row className="justify-content-md-center" id='categories-row'>
-          {categories.map((data)=>{ 
-            return(
-            <Col md="auto">
-              <Category title={data.title} image={data.image}/>
-            </Col>
-            )
-          })}
-      </Row>
-        
+      <h3 id='cat-header'>Categories</h3>
+        <Row className="justify-content-md-center" id='categories-row'>
+            {categories.map((data)=>{ 
+              return(
+              <Col md="auto">
+                <Category title={data.title} image={data.image}/>
+              </Col>
+              )
+            })}
+        </Row>
       </Row>
     </div>
   );

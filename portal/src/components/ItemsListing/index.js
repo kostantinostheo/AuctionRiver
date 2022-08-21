@@ -8,7 +8,8 @@ import { GetAllItems, PostAsync } from '../../utils/Api';
 import { Button, Card, Dropdown, DropdownButton, Navbar } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { BASE_URL, IMAGE_URL, POST_ITEM_URL } from '../../utils/Path';
-import { orderType, setGlobal } from '../../utils/Const';
+import { orderType } from '../../utils/Const';
+
 
 export default function ItemsListing() {
 
@@ -48,7 +49,7 @@ export default function ItemsListing() {
     }
 
     useEffect(()=> {
-        HandleAll()
+        GetAllListing(filter)
     }, [value])
     
     return (
@@ -71,8 +72,8 @@ export default function ItemsListing() {
                 </DropdownButton>
                 <div style={{"width":"50px"}} />
                     <Button onClick={''} id='filter'>All Listing</Button>
-                    <Button onClick={handleFilter()} id='filter'>Buy Now</Button>
-                    <button id='filter'>Auction</button>
+                    <Button onClick={""} id='filter'>Buy Now</Button>
+                    <Button id='filter'>Auction</Button>
                 </Navbar>
             </div>
 
@@ -82,7 +83,7 @@ export default function ItemsListing() {
                     <Grid container spacing={1}>
                         <Grid container item spacing={1}>
                              { ok === true && item.map((data)=>{
-                                return <ItemComponenet itemId={data.itemId} name={data.name} images={data.images} price={data.buyPrice}/>
+                                return <ItemComponenet itemId={data.itemId} name={data.name} images={data.images} price={data.buyPrice} category={data.category}/>
                             })}
                         </Grid>
                     </Grid>
@@ -114,6 +115,7 @@ function ItemComponenet(props){
                     <a onClick={routeChange} style={{"textDecoration": "none", color : "black"}}>
                         <Card.Text id='product-title'>{props.name}</Card.Text>
                     </a>
+                    <Card.Text id='product-sub-text'>{props.category}</Card.Text>
                     <h3 id='product-price'>${props.price}</h3>
                 </Card.Body>
                 </Card>

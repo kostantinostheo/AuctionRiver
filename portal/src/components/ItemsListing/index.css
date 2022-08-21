@@ -14,7 +14,8 @@
 }
 
 #filter{
-    background-color: white;
+    background-color: white !important;
+    color: black !important;
     margin-left: 1em;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     border: 1px solid rgb(226, 226, 226);
@@ -23,8 +24,8 @@
     border-radius: 5px;
 }
 #filter:hover{
-    background-color: #00A399;
-    color: white;
+    background-color: #00A399 !important;
+    color: white !important;
 }
 
 #space{
@@ -91,7 +92,11 @@
 #product-title:hover{
     color: rgb(40, 136, 143);
 }
-
+#product-sub-text{
+    font-size: 13px;
+    text-align: left;
+    color: rgb(105, 105, 105);
+}
 #product-price{
     text-align: left;
     font-weight: 600;

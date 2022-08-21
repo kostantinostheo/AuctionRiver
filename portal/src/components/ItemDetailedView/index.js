@@ -9,7 +9,6 @@ import { GetItemDetails, GetUserData, PostAsync } from '../../utils/Api';
 import { BASE_URL, IMAGE_URL, POST_ITEM_URL } from '../../utils/Path';
 import { decodeToken, getToken } from '../../utils/Common';
 
-
 export default function ItemDetailedView() {
 
   const id = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
@@ -21,7 +20,7 @@ export default function ItemDetailedView() {
   const [bids, getBidsNum] = useState('')
   const [lastBid, getLastBid] = useState('')
   const [placeBid, setPlaceBid] = useState()
-
+  const position = [ 23.727539, 37.983810] // longtitude latitude
   const [seller, getSeller] = useState([])
   const [user, getUser] = useState([])
 
@@ -32,6 +31,14 @@ export default function ItemDetailedView() {
     }
     else{
       UpdateBid()
+    }
+  }
+  const handleBuyState = () => {
+    if(getToken() === null){
+      window.location.href='/login'
+    }
+    else{
+      //remove it from sale
     }
   }
   async function UpdateBid(){
@@ -91,6 +98,9 @@ export default function ItemDetailedView() {
 
     useEffect(()=> {
       GetAllDetails()
+
+
+
     }, [])
     return (
         <div className='item-detailed'>
@@ -124,7 +134,7 @@ export default function ItemDetailedView() {
               </Col>
               <Col className='item-info' sm={7}>
                 <h4 className='item-title'>
-                  {itemData.title}
+                  {itemData.name}
                 </h4>
                 <Container className='item-main'>
                   <Row xs={true} className='item-main-row'>
@@ -152,7 +162,7 @@ export default function ItemDetailedView() {
                       <Button className="buy-now-button" disabled>Buy It Now</Button>
                     }
                     {itemData.buyPrice != null &&
-                      <Button className="buy-now-button">Buy It Now</Button>
+                      <Button onClick={handleBuyState} className="buy-now-button">Buy It Now</Button>
                     }
                     </Col>
                   </Row>
@@ -230,15 +240,21 @@ export default function ItemDetailedView() {
                       </Row>
                     </Container>
                   </div>
-                  <div className='item-description'>
+                  <Col className='item-description'>
                     <strong><h5 id='item-header'>Item Description</h5></strong>
                     <div className='description-text'>
                     {itemData.description}
                     </div>
-                  </div>
+                  </Col>
                 </Container>
               </Col>
             </Row>
+            
+            <iframe width="50%" height="350"
+              src={`https://www.openstreetmap.org/export/embed.html?bbox=`+ position[0] +`%2C`+ position[1] +`%2C`+ position[0] +`%2C`+ position[1] +`&amp;layer=mapnik`}
+              style={{"border": "1px solid black", "marginLeft": "10em"}}/>
+            <br/>
+            <br/>
           </Container>
         </div>
     );

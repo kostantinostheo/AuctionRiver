@@ -43,12 +43,12 @@
 
 #cat-header{
   font-family: 'Source Sans Pro', sans-serif !important;
-  color: rgb(65, 65, 65);
+  color: rgb(240, 205, 93);
+  width: fit-content;
+  height: fit-content;
+  margin-top: 80px;
   text-align: left;
-  margin: auto;
-  padding-top: 50px;
-  padding-left: 300px;
-  padding-bottom: 20px;
+  margin-left: 24.5%;
   font-weight: bold;
 }
 
