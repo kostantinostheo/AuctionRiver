@@ -12,7 +12,7 @@ export const getToken = () => {
  */
 export const tryGetToken = () => {
   let res = false
-  localStorage.getItem('token') === true ? res = true : res = false
+  localStorage.getItem('token') != null ? res = true : res = false
   return res
 };
 

@@ -37,13 +37,12 @@ export default function Login(){
             }
         }
 
-        const res = await PostAsync(BASE_URL + POST_USER_URL.Login, body)
+        const data = await PostAsync(BASE_URL + POST_USER_URL.Login, body)
         
-        if(res.status === 400){
+        if(data.status === 400){
             setLogs('Your email or password is invalid')
             handleShow()
         }
-        const data = await res.json()
         if(data.token){
 
             localStorage.setItem('token', data.token)   //save token as cookies 

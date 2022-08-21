@@ -5,9 +5,6 @@ import { decodeToken, getToken } from "../../utils/Common";
 import { userStatus } from "../../utils/Const";
 import './index.css'
 
-
-
-
 export default function UserInfo() {
 
     const [data, getData] = useState([])

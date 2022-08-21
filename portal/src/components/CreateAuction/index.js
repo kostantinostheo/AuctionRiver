@@ -1,14 +1,18 @@
 import './index.css'
 import Navigate from '../Navigate';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DateTimePicker from 'react-datetime-picker';
+import { decodeToken, tryGetToken } from '../../utils/Common';
+import { userType } from '../../utils/Const';
+import { Button } from 'react-bootstrap';
 
 export default function CreateAuction() {
 
     const { Uploader } = require("uploader");
     const [value1, onChange1] = useState(new Date());
     const [value2, onChange2] = useState(new Date());
-
+    const [images, getImages] = useState([])
+    
     const uploader = new Uploader({
     apiKey: "free"
     });
@@ -17,7 +21,19 @@ export default function CreateAuction() {
     const maxDate = new Date(minDate)
     maxDate.setDate(maxDate.getDate() + 15)
 
+    function handleUpload(){
+      console.log()
+    }
     console.log(new Date(value1).toLocaleDateString())
+
+    useEffect(()=> {
+      if(!tryGetToken()){
+        window.location.href = '/'
+      }
+      const token = decodeToken()
+      if(token.userType === userType.Admin)
+          window.location.href = '/'
+  }, [])
 
     return (
       <div className='create-auction'>
@@ -46,8 +62,10 @@ export default function CreateAuction() {
             <div className='auction-row'>
               <h6 id='auction-row-title'><strong>*</strong>Photos</h6>
               <div className='name-input-div'>
-                <button className='photo-button'
-                        data-upload-complete='alert(JSON.stringify(event.files))'
+                <Button className='photo-button'
+                        data-upload-complete='alert(
+                          `Files uploaded:\n${event.files.map(x => x.fileId).join("\n")}`
+                        )'
                         data-upload-config='{
                           "multi": true,
                           "mimeTypes": ["image/jpeg", "image/png", "image/webp"],
@@ -58,7 +76,7 @@ export default function CreateAuction() {
                           }
                         }'>
                   Add Photos
-                </button>
+                </Button>
               </div>
             </div>
             <div className='auction-row'>

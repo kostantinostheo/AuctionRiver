@@ -23,8 +23,9 @@ function App() {
           <Route exact path='/dashboard' element={<Dashboard/>}/>
           <Route exact path='/admindashboard' element={<AdminDashboard/>}/>
           <Route path='/admindashboard/info/user/:userId' element={<UserPanel/>}/>
-          <Route exact path='/item/detail' element={<ItemDetailedView/>}/>
-
+          <Route exact path='/item/:itemId' element={<ItemDetailedView/>}/>
+          <Route exact path='/item' element={<ItemsListing/>}/>
+          <Route exact path='/sellitem' element={<CreateAuction/>}/>
         </Routes>
       </div>
   );

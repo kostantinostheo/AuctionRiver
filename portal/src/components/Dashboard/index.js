@@ -63,7 +63,7 @@ export default function Dashboard() {
                   <button className='button-text' onClick={()=>setPage(pageType.Auctions)}>My Auctions</button>
                 </li>
                 <li className='account-options-item'>
-                  <button className='button-text' onClick={()=>goToSellItem()}>Create New Auction</button>
+                  <button className='button-text-create' onClick={()=>goToSellItem()}>Create New Auction</button>
                 </li>
               </ul>
             </Col>

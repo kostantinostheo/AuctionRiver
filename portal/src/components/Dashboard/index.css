@@ -68,6 +68,15 @@
     color: rgb(50, 76, 146);
     font-weight: 500;
 }
+.button-text-create{
+    background-color: Transparent;
+    border: none;
+    color: rgb(255, 255, 255);
+    font-weight: 500;
+    background-color:cadetblue;
+    border-radius: 5px;
+    height: 40px;
+}
 
 .top-bar-link{
     text-decoration: none;
