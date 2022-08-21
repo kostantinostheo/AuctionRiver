@@ -1,12 +1,33 @@
 import base64 from 'base-64';
 
+/**
+ * Return the token if exists, else null
+ */
 export const getToken = () => {
     return localStorage.getItem('token') || null;
-  };
-  export const logout = () => {
-    localStorage.removeItem('token')
-    window.location.reload()
-  };
+};
+
+/**
+ * Returns true if token exists, else false
+ */
+export const tryGetToken = () => {
+  let res = false
+  localStorage.getItem('token') === true ? res = true : res = false
+  return res
+};
+
+/**
+ * Logouts user.
+ */
+export const logout = () => {
+  localStorage.removeItem('token')
+  window.location.reload()
+};
+
+/**
+ * Finds the users token and decodes it. 
+ * @returns the decoded token or null
+ */
 export const decodeToken = () => {
   
   if(!getToken())
@@ -29,5 +50,3 @@ export function LocalDate() {
   const date = dd + '/' + mm + '/' + yyyy
   return date
 }
-
-export const universitiesList = ["ΕΚΠΑ", "ΠΑΠΠΕΙ", "ΠΑΔΑ"]

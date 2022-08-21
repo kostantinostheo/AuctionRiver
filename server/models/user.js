@@ -33,6 +33,18 @@ const userSchemma = new mongoose.Schema({
         type: Number,
         required: false
     },
+    rating:{
+        type: Number
+    },
+    numOfRating:{
+        type: Number
+    },
+    sumOfRating:{
+        type: Number
+    },
+    curRating:{
+        type: Number
+    },
     SSN:{
         type: Number,
         required: false

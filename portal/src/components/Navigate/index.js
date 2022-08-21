@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Navbar, Form, Button} from 'react-bootstrap'
 import './index.css'
-import logo from '../../images/logo.png'
+import logo from '../../images/logo_dark.png'
 import search from '../../images/search.png'
 
 import { decodeToken, getToken } from '../../utils/Common';
@@ -32,7 +32,7 @@ export default function Navigate(){
   return(
     <div className='custom-nav-bar'>
       {/* The top navigation starts here. Contains an image for logo. A form for search and a button for toggle search. And there is a button for login (after navbar.collapse in order to go full right) */}
-      <Navbar bg="dark" expand="lg">
+      <Navbar id='custom-nav' expand="lg">
         <Container fluid>
           <a href='/'><img id='nav-logo' src={logo} width="135" height="45" alt="Amazon"/></a>
           <Navbar.Toggle  aria-controls="navbarScroll" />
@@ -53,15 +53,10 @@ export default function Navigate(){
             getToken() && ( <SplitButton username={username} userType={usertype} />)
           }
           {
-            !getToken() && ( <Button href='/login' className='nav-login' variant="dark"> <b>Login</b> </Button>)
+            !getToken() && ( <div><a href='/login' className='home-nav-login-2'> Login/Register </a></div>)
           }
          
         </Container>
-      </Navbar>
-      {/* The button nav bar start here. Its component goes one after the other so the bottom bar will be underneath the top one*/}
-      <Navbar id='nav-down' expand="lg">
-        <a id='linkings' href='/'>Auctions</a>
-        <a id='linkings' href='/' >Buy it now</a>
       </Navbar>
     </div>
   );

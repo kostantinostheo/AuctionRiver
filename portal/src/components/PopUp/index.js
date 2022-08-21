@@ -11,6 +11,11 @@ export default function PopUp(props) {
                 <Modal.Title>{props.header}</Modal.Title>
             </Modal.Header>
             <Modal.Body>{props.logs}</Modal.Body>
+            { props.link === true && 
+                (<Modal.Body>
+                    <a href='/login'>Register or Login to set a new bid</a>
+                </Modal.Body>)
+            }
         </Modal>
   );
 }

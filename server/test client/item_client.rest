@@ -1,0 +1,58 @@
+###
+POST  http://localhost:3000/items/api/submit
+Content-Type: application/json
+
+{
+    "itemId": 1,
+    "name": "AMD Ryzen 7 5800X 8-core 16-thread ",
+    "description": "This is a long description",
+    "category": "a category",
+    "buyPrice": 349.99,
+    "firstBid": 300,
+    "ends": "{{$localDatetime 'YYYY-MM-DD'}}",
+    "sellerId": 2,
+    "location": "Cleaton 123",
+    "country": "US",
+    "images": ["Ryzen.jpg" ]
+}
+###
+POST   http://localhost:3000/items/api/sorted
+Content-Type: application/json
+
+{
+    "sort": "dis"
+}
+
+###
+GET   http://localhost:3000/items/api/available
+###
+POST  http://localhost:3000/items/api/search
+Content-Type: application/json
+
+{
+    "text": "This is "
+}
+###
+POST  http://localhost:3000/items/api/categorized
+Content-Type: application/json
+
+{
+    "category": "a category"
+}
+###
+POST  http://localhost:3000/items/api/update_bids/2
+Content-Type: application/json
+
+{   
+    "bid" : {
+        "userId": 13, 
+        "rating": 4.5, 
+        "time": "{{$localDatetime 'YYYY-MM-DD'}}",
+        "amount": 304, 
+        "bidder": {
+            "location": "AHAHA", 
+            "country": "SKATA"
+        }  
+    }
+}
+###
