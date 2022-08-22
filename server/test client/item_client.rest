@@ -6,14 +6,14 @@ Content-Type: application/json
     "itemId": 1,
     "name": "AMD Ryzen 7 5800X 8-core 16-thread ",
     "description": "This is a long description",
-    "category": "a category",
+    "category": "null",
     "buyPrice": 349.99,
     "firstBid": 300,
     "ends": "{{$localDatetime 'YYYY-MM-DD'}}",
     "sellerId": 2,
     "location": "Cleaton 123",
     "country": "US",
-    "images": ["Ryzen.jpg" ]
+    "images": ["Ryzen.jpg"]
 }
 ###
 POST   http://localhost:3000/items/api/sorted
@@ -24,7 +24,7 @@ Content-Type: application/json
 }
 
 ###
-GET   http://localhost:3000/items/api/available
+GET   http://localhost:3000/items/api/
 ###
 POST  http://localhost:3000/items/api/search
 Content-Type: application/json

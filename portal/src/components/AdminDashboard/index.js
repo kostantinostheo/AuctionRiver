@@ -17,12 +17,13 @@ export default function AdminDashboard() {
     const [formattedToday, getDate] = useState('')
 
     async function HandleUsers(){
-        const data = await GetAllUsers()
-        const pending = await GetUserPending()
-
-        setUserData(data)
-        setMaxUsers(data.length)
-        getUserPending(pending.length)
+        GetAllUsers()
+        .then((res)=>{
+            setUserData(res)
+            setMaxUsers(res.length)
+        })
+        GetUserPending()
+        .then((res)=>getUserPending(res.length))
 
         getDate ( LocalDate() )
     }

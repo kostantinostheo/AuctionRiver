@@ -10,8 +10,8 @@ export default function UserInfo() {
     const [data, getData] = useState([])
 
     async function HandleUserData(id){
-        const res = await GetUserData(id)
-        getData(res)
+        GetUserData(id)
+        .then((res)=>getData(res))
     }
 
     useEffect(()=> {

@@ -33,7 +33,6 @@ export async function GetAllItemsSorted(url, body){
 
 
 export async function PostAsync(url, body){
-    console.log(url)
     const options = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

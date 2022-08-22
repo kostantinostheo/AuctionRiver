@@ -42,12 +42,12 @@ Content-Type: application/json
 
 {
     "username": "dimxri",
-    "password": "1234"
+    "password": "12345"
 }
 ###
 GET http://localhost:3000/users/api/2
 ###
-GET http://localhost:3000/users/api
+GET http://localhost:3000/users/api/
 ###
 PATCH  http://localhost:3000/users/api/update/status/2
 Content-Type: application/json
