@@ -22,7 +22,6 @@ export const GET_ITEM_URL = {
 	AllItems: "items/api/"
 }
 export const POST_ITEM_URL = {
-	Submit: "items/api/submit",
 	NewBid: "items/api/update_bids/",
-	Ordered: "items/api/sorted",
+	Ordered: "items/api/sorted"
 }

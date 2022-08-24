@@ -1,6 +1,4 @@
 import './index.css'
-import { confirmAlert } from 'react-confirm-alert'; // Import
-import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import Navigate from '../Navigate';
 import Breadcrumb from '../CustomBreadcrumb';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
@@ -10,7 +8,6 @@ import { Carousel } from 'react-responsive-carousel';
 import { GetItemDetails, GetUserData, PostAsync } from '../../utils/Api';
 import { BASE_URL, IMAGE_URL, POST_ITEM_URL } from '../../utils/Path';
 import { decodeToken, getToken } from '../../utils/Common';
-import { userStatus, userType } from '../../utils/Const';
 
 export default function ItemDetailedView() {
 
@@ -23,69 +20,10 @@ export default function ItemDetailedView() {
   const [bids, getBidsNum] = useState('')
   const [lastBid, getLastBid] = useState('')
   const [placeBid, setPlaceBid] = useState()
-  const [lon, setLon] = useState()
-  const [lat, setLat] = useState()
+  const position = [ 23.727539, 37.983810] // longtitude latitude
   const [seller, getSeller] = useState([])
   const [user, getUser] = useState([])
-  
-  var submitBid= () => {
-    confirmAlert({
-      customUI: ({ onClose }) => {
-        return (
-          <div className='custom-ui'>
-            <h1>Are you sure?</h1>
-            <p>Do you want to place a bid of {placeBid}$?</p>
-            <Button id='cancel-btn'onClick={onClose}>No</Button>
-            &emsp;
-            <Button id='confirm-btn'
-              onClick={() => {
-                handleState()
-                this.handleClickDelete();
-                onClose();
-              }}
-            >
-              Yes
-            </Button>
-          </div>
-        );
-      }
-    });
-  };
-  var submitBuy = () => {
-    confirmAlert({
-      customUI: ({ onClose }) => {
-        return (
-          <div className='custom-ui'>
-            <h1>Are you sure?</h1>
-            <p>Do you want to buy this item?</p>
-            <Button id='cancel-btn'onClick={onClose}>No</Button>
-            &emsp;
-            <Button id='confirm-btn'
-              onClick={() => {
-                this.handleClickDelete();
-                onClose();
-              }}
-            >
-              Yes, Buy it!
-            </Button>
-          </div>
-        );
-      }
-    });
-  };
-  var popUp = (title, message) => {
-    confirmAlert({
-      customUI: ({ onClose }) => {
-        return (
-          <div className='custom-ui'>
-            <h5>{title}</h5>
-            <p>{message}</p>
-            <Button id='cancel-btn' onClick={() => {onClose(); window.location.reload()}}>Ok</Button>
-          </div>
-        );
-      }
-    });
-  };
+
 
   const handleState = () => {
     if(getToken() === null){
@@ -117,16 +55,10 @@ export default function ItemDetailedView() {
           }  
         }
       }
-      PostAsync(BASE_URL+POST_ITEM_URL.NewBid+id, body)
-      .then(()=>{ 
-        popUp("Success", "Your bid of " + placeBid + "$ was succefully added.").onClose(window.location.reload())
+      PostAsync(BASE_URL+POST_ITEM_URL.NewBid+id, body).then(()=>{
+        window.alert("Success")
+        window.location.reload()
       })
-    }
-    else if (placeBid === null){
-      popUp("Error", "No bid was given.")
-    }
-    else{
-      popUp("Error", "The bid you gave is lower than current bid.")
     }
   }
   async function GetAllDetails(){
@@ -134,10 +66,16 @@ export default function ItemDetailedView() {
       .then((res) => {
         getData(res)
         getImages(res.images)
-        setLon(res.longitude)
-        setLat(res.latitude)
-        setLocalDateStarts(new Date(res.started).toLocaleDateString("el-GR") + " " + new Date(res.started).toLocaleTimeString("el-GR"))
-        setLocalDateEnds(new Date(res.ends).toLocaleDateString("el-GR") + " " + new Date(res.ends).toLocaleTimeString("el-GR"))
+        if(res.started != null ) {
+          setLocalDateStarts(new Date(res.started).toLocaleDateString("en-US") + " " + new Date(res.started).toLocaleTimeString("en-US"))
+        }else{
+          setLocalDateStarts('-')
+        }
+        if(res.ends != null ) {
+          setLocalDateEnds(new Date(res.ends).toLocaleDateString("en-US") + " " + new Date(res.ends).toLocaleTimeString("en-US"))
+        }else{
+          setLocalDateEnds('-')
+        }
         getBidsNum(res.bids.bid.length - 1)
         getLastBid(res.bids.bid[res.bids.bid.length-1].amount)
         GetSellerDetails(res.sellerId)
@@ -160,6 +98,8 @@ export default function ItemDetailedView() {
 
     useEffect(()=> {
       GetAllDetails()
+
+
 
     }, [])
     return (
@@ -218,8 +158,11 @@ export default function ItemDetailedView() {
                         </Col>
                         }
                     <Col xs={3}>
-                    { itemData.buyPrice === null || new Date() < new Date(itemData.started) || user.userStatus !== userStatus.Accept
-                      ? <Button className="buy-now-button" disabled>Buy It Now</Button> : <Button onClick={submitBuy} className="buy-now-button">Buy It Now</Button>
+                    {itemData.buyPrice === null &&
+                      <Button className="buy-now-button" disabled>Buy It Now</Button>
+                    }
+                    {itemData.buyPrice != null &&
+                      <Button onClick={handleBuyState} className="buy-now-button">Buy It Now</Button>
                     }
                     </Col>
                   </Row>
@@ -244,28 +187,14 @@ export default function ItemDetailedView() {
                         </div>
                         )
                       }
-                    </Col>
-                    { itemData.buyPrice === null || new Date() < new Date(itemData.started) || user.userStatus !== userStatus.Accept
-                      ? 
-                      <Row>
-                        <Col xs={5}>
-                          <Form.Control disabled placeholder='Place your bid' style={{"width": "auto", "marginTop":"22px", "marginLeft": "1em"}} />
-                        </Col>
-                        <Col  xs={5}>
-                          <Button disabled className="place-bid-button">Place Bid</Button>
-                        </Col>
-                      </Row>
-                    :
-                    <Row>
-                      <Col xs={5}>
-                        <Form.Control placeholder='Place your bid' value={placeBid} onChange={(e)=>setPlaceBid(e.target.value)} style={{"width": "auto", "marginTop":"22px", "marginLeft": "1em"}} />
-                      </Col>
-                      <Col xs={5}>
-                        <Button onClick={submitBid} className="place-bid-button">Place Bid</Button>
-                      </Col>
-                    </Row> 
 
-                    }
+                    </Col>
+                    <Col xs={3}>
+                      <Form.Control placeholder='Place your bid' value={placeBid} onChange={(e)=>setPlaceBid(e.target.value)} style={{"width": "auto", "marginTop":"22px"}} />
+                    </Col>
+                    <Col>
+                      <Button onClick={handleState} className="place-bid-button">Place Bid</Button>
+                    </Col>
 
                   </Row>
                   <div className='item-specifics'>
@@ -295,6 +224,8 @@ export default function ItemDetailedView() {
                           <b>
                             <li className='specifics-list-object'>Country:</li>
                             <li className='specifics-list-object'>City:</li>
+                            <li className='specifics-list-object'>Latitude:</li>
+                            <li className='specifics-list-object'>Longitude:</li>
                           </b>
                           </ul>
                         </Col>
@@ -302,6 +233,8 @@ export default function ItemDetailedView() {
                           <ul className='item-specifics-list'>
                             <li className='specifics-list-object'>{itemData.country}</li>
                             <li className='specifics-list-object'>{itemData.location}</li>
+                            <li className='specifics-list-object'>{itemData.latitude}</li>
+                            <li className='specifics-list-object'>{itemData.longitude}</li>
                           </ul>
                         </Col>
                       </Row>
@@ -316,9 +249,10 @@ export default function ItemDetailedView() {
                 </Container>
               </Col>
             </Row>
-            <iframe width="50%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" style={{"border": "1px solid black", "marginLeft": "10em"}}
-             src={"https://www.openstreetmap.org/export/embed.html?bbox="+lon+"%2C"+lat+"%2C"+"&layer=mapnik&marker="+(lon+0.153)+"%2C"+(lat+0.213)}>
-            </iframe>
+            
+            <iframe width="50%" height="350"
+              src={`https://www.openstreetmap.org/export/embed.html?bbox=`+ position[0] +`%2C`+ position[1] +`%2C`+ position[0] +`%2C`+ position[1] +`&amp;layer=mapnik`}
+              style={{"border": "1px solid black", "marginLeft": "10em"}}/>
             <br/>
             <br/>
           </Container>

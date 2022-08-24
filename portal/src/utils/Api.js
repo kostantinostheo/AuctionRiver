@@ -40,7 +40,7 @@ export async function PostAsync(url, body){
     };
 
     const res = await fetch(url, options)
-    return res
+    return res.json()
 }
 
 export async function PatchAsync(url, body){
