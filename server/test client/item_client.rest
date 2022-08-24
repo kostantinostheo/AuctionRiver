@@ -3,17 +3,17 @@ POST  http://localhost:3000/items/api/submit
 Content-Type: application/json
 
 {
-    "itemId": 1,
-    "name": "AMD Ryzen 7 5800X 8-core 16-thread ",
-    "description": "This is a long description",
-    "category": "null",
-    "buyPrice": 349.99,
-    "firstBid": 300,
+    "name": "Crocs Unisex-Adult Classic Clogs",
+    "description": "It’s the iconic clog that started a comfort revolution around the world! The irreverent go-to comfort shoe that you're sure to fall deeper in love with day after day. Crocs Classic Clogs offer lightweight Iconic Crocs Comfort , a color for every personality, and an ongoing invitation to be comfortable in your own shoes.",
+    "category": "Fashion",
+    "buyPrice": 45,
+    "firstBid": 41,
+    "started": "{{$localDatetime 'YYYY-MM-DD'}}",
     "ends": "{{$localDatetime 'YYYY-MM-DD'}}",
+    "images": ["Crocs.jpg", "Crocs2.jpg", "Crocs3.jpg"],
     "sellerId": 2,
-    "location": "Cleaton 123",
-    "country": "US",
-    "images": ["Ryzen.jpg"]
+    "location": "Athens",
+    "country": "Greece"
 }
 ###
 POST   http://localhost:3000/items/api/sorted
