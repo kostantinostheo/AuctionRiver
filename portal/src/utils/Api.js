@@ -18,8 +18,8 @@ export async function GetUserPending(){
 
 //#region Items
 
-export async function GetAllItems(filter){
-    const res = await fetch(BASE_URL + GET_ITEM_URL.AllItems+filter)
+export async function GetAllItems(){
+    const res = await fetch(BASE_URL + GET_ITEM_URL.AllItems)
     return await res.json()
 }
 export async function GetItemDetails(id){
@@ -40,7 +40,7 @@ export async function PostAsync(url, body){
     };
 
     const res = await fetch(url, options)
-    return res.json()
+    return res
 }
 
 export async function PatchAsync(url, body){

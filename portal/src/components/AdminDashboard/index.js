@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Navigate from '../Navigate';
 import  search  from '../../images/search.png'
-import { Col, Container, Row, Table  } from 'react-bootstrap';
-import { decodeToken, getToken, LocalDate } from '../../utils/Common';
+import { Button, Col, Container, Row, Table  } from 'react-bootstrap';
+import { decodeToken, getToken, jsonToXml, LocalDate } from '../../utils/Common';
 import { userStatus, userType } from "../../utils/Const";
-import { GetAllUsers, GetUserPending } from "../../utils/Api";
+import { GetAllItems, GetAllUsers, GetUserPending } from "../../utils/Api";
 import './index.css'
 import { useNavigate } from "react-router-dom";
 
@@ -13,6 +13,7 @@ export default function AdminDashboard() {
     const [userData, setUserData] = useState([])
     const [maxUsers, setMaxUsers] = useState()
     const [userPending, getUserPending] = useState()
+    const [itemData, setItemData] = useState([])
 
     const [formattedToday, getDate] = useState('')
 
@@ -26,6 +27,15 @@ export default function AdminDashboard() {
         .then((res)=>getUserPending(res.length))
 
         getDate ( LocalDate() )
+    }
+
+    async function HandleDownload(exportType){
+        GetAllItems()
+        .then((res)=>{
+            setItemData(res)
+        })
+        console.log(typeof itemData)
+        jsonToXml(itemData, exportType)
     }
 
     useEffect(()=> {
@@ -78,6 +88,17 @@ export default function AdminDashboard() {
                     })}
                 </tbody>
             </Table>
+            <br/>
+            <h5>Download all item information:</h5>
+            <br/>
+            <Row className="download-info"> 
+                <Col Col xs="auto">
+                    <Button onClick={()=>{HandleDownload('xml')}} className='download-button' variant="primary">XML</Button>
+                </Col>
+                <Col Col xs="auto">
+                    <Button onClick={()=>{HandleDownload('json')}} className='download-button' variant="primary">JSON</Button>
+                </Col>
+            </Row>
         </div>
     );
 }
