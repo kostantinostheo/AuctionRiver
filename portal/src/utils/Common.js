@@ -1,5 +1,4 @@
 import base64 from 'base-64';
-import exportFromJSON from 'export-from-json'
 
 /**
  * Return the token if exists, else null
@@ -50,11 +49,4 @@ export function LocalDate() {
   if (mm < 10) mm = '0' + mm;
   const date = dd + '/' + mm + '/' + yyyy
   return date
-}
-
-export function jsonToXml(data, exportType){
-
-  const fileName = 'auctions'
-
-  exportFromJSON({ data, fileName, exportType })
 }
