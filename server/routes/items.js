@@ -5,32 +5,6 @@ const Item = require('../models/item')
 const Image = require('../models/image')
 const multer = require('multer')
 const Utils = require('../utils/const')
-const { NominatimJS } = require('nominatim-js');
-
-const {MongoClient}  = require('mongodb')
-
-require('dotenv').config()
-
-const uri = process.env.CLIENT_DB_URL
-/**
- * Returns the number of items in the db.
- */
- async function dbGetLastItemId() {
-    const client = new MongoClient(uri, { useUnifiedTopology: true })
-    try {
-        await client.connect()
-        const db = client.db("tedi")
-        const items = db.collection("items")
-        const number = await items.estimatedDocumentCount()
-        return number
-    }catch (error){
-        console.error(error)
-    }
-    finally{
-        client.close()
-    }
-}
-
 
 const Storage = multer.diskStorage({
     destination:'uploads',
@@ -168,19 +142,10 @@ router.post('/api/image/upload', async (req,res)=> {
 //route url http://localhost:3000/items/api/submit
 router.post('/api/submit', async (req,res) => {
     
-
-    let lastItem = await dbGetLastItemId()
-    //creating the location string we want
-    const location = req.body.location + " " + req.body.country
-    //wating for the result
-    const val = await NominatimJS.search({q: location})
-    const lat = val[0].lat // save latitude from the response
-    const lon = val[0].lon // save longtitude from the response
-
     const now = new Date()
 
     const item = new Item({
-        itemId: ++lastItem,
+        itemId: req.body.itemId,
         isAvailable: true,
         name: req.body.name,
         description: req.body.description,
@@ -189,13 +154,13 @@ router.post('/api/submit', async (req,res) => {
         firstBid: req.body.firstBid,
         numberOfBids: 0,
         sellerId: req.body.sellerId,
-        started: req.body.started,
+        started: req.body.time,
         ends: req.body.ends,
         images: req.body.images,
         location: req.body.location,
         country: req.body.country,
-        latitude: lat,
-        longitude: lon,
+        latitude: req.body.latitude,
+        longitude: req.body.longitude,
         bids: {
             bid: [{
                 userId: req.body.sellerId,

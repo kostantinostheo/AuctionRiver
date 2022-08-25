@@ -61,21 +61,15 @@ export default function CreateAuction() {
 
     }
     const maxNumber = 69;
+
     const minDate = new Date()
     const maxDate = new Date(minDate)
     maxDate.setDate(maxDate.getDate() + 15)
 
-    //console.log(typeof new Date(value1))
-    //console.log(typeof value1)
-
-    const onChange = (imageList, addUpdateIndex) => {
-      const imageArray = []     
-      imageList.map((data)=>{
-        imageArray.push(data.file.name)
-      })
-      setImages(imageList);
-      setImagesNames(imageArray)
+    function handleUpload(){
+      console.log()
     }
+    console.log(new Date(value1).toLocaleDateString())
 
     useEffect(()=> {
       setCategories(Object.keys(categoryType))
@@ -91,27 +85,23 @@ export default function CreateAuction() {
     return (
       <div className='create-auction'>
         <Navigate/>
-        <form className='main-content-auction' onSubmit={onSubmit}>
-          <h3 id='auction-header'><b>Create your auction</b></h3>
+        <div className='main-content-auction'>
+          <h3 id='auction-header'>Create your auction</h3>
           <div className='auction-details'>
-            <h5><b>Auction details</b></h5>
+            <h4>Auction details</h4>
             <div className='auction-row-first'>
-              <h6 id='auction-row-title'><strong>*</strong>Item Title</h6>
+              <h6 id='auction-row-title'><strong>*</strong>Item Name</h6>
               <div className='name-input-div'>
-                <input placeholder='Title here' id='name-input' type="text" maxLength="90" value={name} onChange={(e)=>setName(e.target.value)} required></input>
+                <input id='name-input' type="text" maxLength="90"></input>
               </div>
             </div>
             <div className='auction-row'>
-              <h6 id='auction-row-title'><strong>*</strong>Category</h6>
+              <h6 id='auction-row-title'><strong>*</strong>Categories</h6>
               <div className='name-input-div'>
                 <div className='categories-div'>
-                  <select value={selected} onChange={handleChange} className='categories-dropdown'>
-                    <option value={false}>Select a category</option>
-                    {
-                      categories.map((category) => {
-                        return(<option id='cat-type' value={category}>{category}</option>) 
-                      })
-                    }
+                  <select className='categories-dropdown'>
+                    <option value>-</option>
+                    <option value="sports">Sports</option>
                   </select>
                 </div>
               </div>
@@ -119,86 +109,64 @@ export default function CreateAuction() {
             <div className='auction-row'>
               <h6 id='auction-row-title'><strong>*</strong>Photos</h6>
               <div className='name-input-div'>
-              <ImageUploading
-                multiple
-                value={images}
-                onChange={onChange}
-                maxNumber={maxNumber}
-                dataURLKey="data_url"
-                acceptType={["jpg"]}
-              >
-                {({
-                  imageList,
-                  onImageUpload,
-                  onImageRemoveAll,
-                  onImageUpdate,
-                  onImageRemove,
-                  isDragging,
-                  dragProps
-                }) => (
-                  // write your building UI
-                  <div className="upload__image-wrapper">
-                    <button
-                      style={isDragging ? { color: "red" } : null}
-                      onClick={onImageUpload}
-                      {...dragProps}
-                      className='drop-images'
-                    >
-                      Click or Drop here
-                    </button>
-                    &nbsp;
-                    <button onClick={onImageRemoveAll} className='drop-images'>Remove all images</button>
-                    <Row>
-                    {imageList.map((image, index) => (
-                      <Col key={index} className="image-item">
-                        <img src={image.data_url} alt="" width={70} height={70} style={{"objectFit": "contain"}}/>
-                        <div className="image-item__btn-wrapper">
-                          <button className='update-image' onClick={() => onImageUpdate(index)} ><img src={Edit} id='icon-show'/></button>
-                          <button className='del-image' onClick={() => onImageRemove(index)}><img src={Delete} id='icon-show'/></button>
-                        </div>
-                      </Col>
-                    ))}
-                    </Row>
-                  </div>
-                )}
-              </ImageUploading>
+                <Button className='photo-button'
+                        data-upload-complete='alert(
+                          `Files uploaded:\n${event.files.map(x => x.fileId).join("\n")}`
+                        )'
+                        data-upload-config='{
+                          "multi": true,
+                          "mimeTypes": ["image/jpeg", "image/png", "image/webp"],
+                          "editor": {
+                            "images": {
+                              "crop": false
+                            }
+                          }
+                        }'>
+                  Add Photos
+                </Button>
               </div>
             </div>
             <div className='auction-row'>
               <h6 id='auction-row-title'><strong>*</strong>Item Description</h6>
               <div className='name-input-div'>
-                <textarea id='description-text' maxLength="200" value={description} onChange={(e)=>setDescription(e.target.value)} required/>
+                <textarea id='description-text' maxLength="200"></textarea>
               </div>
             </div>
             <div className='auction-row'>
               <h6 id='auction-row-title'>Buy Now Price</h6>
               <div className='name-input-div'>
-                <input placeholder='Buy now price' id='buynow-input' type="number" maxLength="90" value={buyPrice} onChange={(e)=>setBuyPrice(e.target.value)}/>
-                &emsp;<b>$</b>
+                <input id='buynow-input' type="text" maxLength="90"></input>
               </div>
             </div>
             <div className='auction-row'>
               <h6 id='auction-row-title'><strong>*</strong>Minimum Bid</h6>
               <div className='name-input-div'>
-                <input placeholder='Bid to start' id='buynow-input' type="number" maxLength="90" value={minBid} onChange={(e)=>setMinBid(e.target.value)} required/>
-                &emsp;<b>$</b>
+                <input id='buynow-input' type="text" maxLength="90"></input>
               </div>
             </div>
             <div className='auction-row'>
               <h6 id='auction-row-title'><strong>*</strong>Country</h6>
               <div className='name-input-div'>
-                <input placeholder='Set Country' id='buynow-input' type="text" maxLength="90" value={country} onChange={(e)=>setCountry(e.target.value)} required/>
+                <input id='buynow-input' type="text" maxLength="90"></input>
               </div>
             </div>
             <div className='auction-row-location'>
-              <h6 id='auction-row-title'><strong>*</strong>City</h6>
+              <h6 id='auction-row-title'>Location</h6>
               <div className='name-input-div'>
                 <div className='location-div-first'>
-                  <input placeholder='Set City' id='location-input' type="text" maxLength="90" value={city} onChange={(e)=>setCity(e.target.value)} required/>
+                  <h6><strong>*</strong>City</h6>
+                  <input id='location-input' type="text" maxLength="90"></input>
+                </div>
+                <div className='location-div'>
+                  <h6>Latitude</h6>
+                  <input id='location-input' type="text" maxLength="90"></input>
+                </div>
+                <div className='location-div'>
+                  <h6>Longitude</h6>
+                  <input id='location-input' type="text" maxLength="90"></input>
                 </div>
               </div>
             </div>
-            <br/>
             <div className='auction-row-auction-starts'>
               <h6 id='auction-row-title'><strong>*</strong>Auction Starts</h6>
               <div className='name-input-div'>
@@ -214,10 +182,10 @@ export default function CreateAuction() {
               </div>
             </div>
             <div className='auction-row-final'>
-              <button type='submit' className="create-button">Create Auction</button>
+              <button className="create-button">Create Auction</button>
             </div>
           </div>
-        </form>
+        </div>
       </div>
     )
 }

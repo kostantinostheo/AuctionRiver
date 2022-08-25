@@ -36,20 +36,22 @@ export default function Login(){
                 password: inputPassword
             }
         }
-        console.log(body)
-        const res = await PostAsync(BASE_URL + POST_USER_URL.Login, body)
-        console.log(res)
+
+        const data = await PostAsync(BASE_URL + POST_USER_URL.Login, body)
         
-        if(res.status === 200){
-            const data = await res.json()
-            localStorage.setItem('token', data.token)   //save token as cookies 
-            window.location.href = '/'
-        }
-        else if(res.status === 400){
+        if(data.status === 400){
             setLogs('Your email or password is invalid')
             handleShow()
         }
+        if(data.token){
 
+            localStorage.setItem('token', data.token)   //save token as cookies 
+            window.location.href = '/'
+        }
+        else{
+            setLogs('Login failed')
+            handleShow()
+        }
     }
     useEffect(()=> {
         if (getToken() != null) {
