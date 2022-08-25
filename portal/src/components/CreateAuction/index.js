@@ -1,11 +1,11 @@
 import './index.css'
 import Navigate from '../Navigate';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DateTimePicker from 'react-datetime-picker';
 import ImageUploading from 'react-images-uploading';
-import { decodeToken, tryGetToken } from '../../utils/Common';
+import { decodeToken, getToken, tryGetToken } from '../../utils/Common';
 import { categoryType, userType } from '../../utils/Const';
-import { Button, Col, Row } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import Edit from '../../images/edit.png'
 import Delete from '../../images/delete.png'
 import { PostAsync } from '../../utils/Api';
@@ -13,19 +13,6 @@ import { BASE_URL, POST_ITEM_URL } from '../../utils/Path';
 
 export default function CreateAuction() {
 
-  const geosuggestEl = useRef(null);
-
-  const fixtures = [
-    {label: 'New York', location: {lat: 40.7033127, lng: -73.979681}},
-    {label: 'Rio', location: {lat: -22.066452, lng: -42.9232368}},
-    {label: 'Tokyo', location: {lat: 35.673343, lng: 139.710388}}
-  ];
-
-  /**
-   * When a suggest got selected
-   */
-
-    const { Uploader } = require("uploader");
     const [images, setImages] = useState([])
     const [categories, setCategories] = useState(Object.keys(categoryType))
 
@@ -74,11 +61,6 @@ export default function CreateAuction() {
 
     }
     const maxNumber = 69;
-    
-    const uploader = new Uploader({
-    apiKey: "free"
-    });
-
     const minDate = new Date()
     const maxDate = new Date(minDate)
     maxDate.setDate(maxDate.getDate() + 15)
@@ -97,7 +79,8 @@ export default function CreateAuction() {
 
     useEffect(()=> {
       setCategories(Object.keys(categoryType))
-      if(!tryGetToken()){
+      
+      if(getToken()===null){
         window.location.href = '/'
       }
       const token = decodeToken()
