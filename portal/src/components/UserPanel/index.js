@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button, Col, Row } from 'react-bootstrap';
 import { GetUserData, PatchAsync } from '../../utils/Api';
-import { decodeToken, jsonToXml } from '../../utils/Common';
+import { decodeToken } from '../../utils/Common';
 import { userStatus, userType } from '../../utils/Const';
 import { BASE_URL, PATCH_USER_URL } from '../../utils/Path';
 import Navigate from '../Navigate';
@@ -86,20 +86,20 @@ export default function UserPanel() {
                             <td>{data.address}, {data.zip}, {data.country} </td>
                         </tr>
                     </table>
-                </div>
-                <br/>
-                { data.userStatus === userStatus.Pending && 
-                    (
-                        <Row> 
-                            <Col Col xs="auto">
-                                <Button onClick={AcceptUser} variant="success"> Accept </Button>
-                            </Col>
-                            <Col Col xs="auto">
-                                <Button onClick={DeclineUser} variant="danger"> Decline </Button>
-                            </Col>
-                        </Row>
-                    )
-                }
+                    </div>
+                    <br/>
+                    { data.userStatus === userStatus.Pending && 
+                        (
+                            <Row> 
+                                <Col Col xs="auto">
+                                    <Button onClick={AcceptUser} variant="success"> Accept </Button>
+                                </Col>
+                                <Col Col xs="auto">
+                                    <Button onClick={DeclineUser} variant="danger"> Decline </Button>
+                                </Col>
+                            </Row>
+                        )
+                    }
             </div>
         </div>
     );
