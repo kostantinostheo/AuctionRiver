@@ -105,7 +105,7 @@ export default function ItemDetailedView() {
     return (
         <div className='item-detailed'>
           <Navigate/>
-          <Breadcrumb value="2020-21 Panini Prizm Shaquille O'Neal SGC 10" />
+          <Breadcrumb value={itemData.name} pathValues={["Item"]} />
           <Container className='main-content-item'>
             <Row>
               <Col md="auto">

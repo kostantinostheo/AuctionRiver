@@ -12,6 +12,8 @@ export default function Home() {
   const [username, setUsername] = useState('');
   const [setType] = useState('');
   const [categories, setCategories] = useState([])
+  const [searchValue, setSearchValue] = useState('')
+
 
   async function HandleUser(){
     if(getToken())
@@ -23,6 +25,18 @@ export default function Home() {
     }
 
   }
+
+  async function HandleSearch(e){
+    e.preventDefault()
+    
+    console.log("enter pressed")
+    if(searchValue === '')
+      window.location.href = '/item'
+    else
+      window.location.href = '/item/found/search-for=' + searchValue
+
+  }
+
 
   useEffect(() => {
     console.log(categories)
@@ -45,14 +59,16 @@ export default function Home() {
           }
         </Col>
       </Row>
-        <Form id='home-search-form' className="d-flex">
+        <Form onSubmit={HandleSearch} id='home-search-form' className="d-flex">
           <Form.Control
             type="search"
             placeholder="Search"
             className="me-2"
             aria-label="Search"
+            value={searchValue}
+            onChange={(e)=>setSearchValue(e.target.value)}
           />
-          <Button id='home-search-button' variant="light">
+          <Button onClick={HandleSearch} id='home-search-button' variant="light" >
             <img src={search} alt="search-icon" width="15" height="15"/>
           </Button>
         </Form>

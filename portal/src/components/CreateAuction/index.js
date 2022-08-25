@@ -2,20 +2,65 @@ import './index.css'
 import Navigate from '../Navigate';
 import React, { useEffect, useState } from 'react';
 import DateTimePicker from 'react-datetime-picker';
-import { decodeToken, tryGetToken } from '../../utils/Common';
-import { userType } from '../../utils/Const';
-import { Button } from 'react-bootstrap';
+import ImageUploading from 'react-images-uploading';
+import { decodeToken, getToken, tryGetToken } from '../../utils/Common';
+import { categoryType, userType } from '../../utils/Const';
+import { Col, Row } from 'react-bootstrap';
+import Edit from '../../images/edit.png'
+import Delete from '../../images/delete.png'
+import { PostAsync } from '../../utils/Api';
+import { BASE_URL, POST_ITEM_URL } from '../../utils/Path';
 
 export default function CreateAuction() {
 
-    const { Uploader } = require("uploader");
-    const [value1, onChange1] = useState(new Date());
-    const [value2, onChange2] = useState(new Date());
-    const [images, getImages] = useState([])
+    const [images, setImages] = useState([])
+    const [categories, setCategories] = useState(Object.keys(categoryType))
+
+    const [value1, onChange1] = useState(new Date()); // Auction start date
+    const [value2, onChange2] = useState(new Date()); // Auction end date
+    const [imagesNames, setImagesNames] = useState([]) // Images Array of values
+    const [selected, setSelected] = useState(); // Category value
+    const [name, setName] = useState(); 
+    const [description, setDescription] = useState(); 
+    const [buyPrice, setBuyPrice] = useState();
+    const [minBid, setMinBid] = useState();
+    const [city, setCity] = useState();
+    const [country, setCountry] = useState();
+
+
+
     
-    const uploader = new Uploader({
-    apiKey: "free"
-    });
+
+    const handleChange = event => {
+      console.log(event.target.value);
+      setSelected(event.target.value);
+    };
+
+
+    async function onSubmit (e){
+      e.preventDefault()
+      const body = {
+        name: name,
+        description: description,
+        category: selected,
+        buyPrice: buyPrice,
+        firstBid: minBid,
+        started: value1,
+        ends: value2,
+        images: imagesNames,
+        sellerId: decodeToken().userId,
+        location: city,
+        country: country,
+      }
+
+      const res = await PostAsync(BASE_URL + POST_ITEM_URL.Submit, body)
+
+      if(res.status === 201){
+        window.location.href = '/item'
+      }
+
+    }
+    const maxNumber = 69;
 
     const minDate = new Date()
     const maxDate = new Date(minDate)
@@ -27,7 +72,9 @@ export default function CreateAuction() {
     console.log(new Date(value1).toLocaleDateString())
 
     useEffect(()=> {
-      if(!tryGetToken()){
+      setCategories(Object.keys(categoryType))
+      
+      if(getToken()===null){
         window.location.href = '/'
       }
       const token = decodeToken()

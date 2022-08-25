@@ -4,15 +4,14 @@ import Navigate from '../Navigate';
 import './index.css'
 import React, { useEffect, useState } from 'react';
 import CustomBreadcrumb from '../CustomBreadcrumb';
-import { GetAllItems } from '../../utils/Api';
+import { GetAllItems, PostAsync } from '../../utils/Api';
 import { Card, Navbar, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { IMAGE_URL } from '../../utils/Path';
+import { BASE_URL, IMAGE_URL, POST_ITEM_URL } from '../../utils/Path';
+import './index.css'
 
-
-
-export default function ItemsListing() {
-
+export default function ItemListingCategory() {
+    const [category] = useState(window.location.href.substring(window.location.href.lastIndexOf('/') + 1))
     let [item, setItem] = useState([])
     let [ok, setOk] = useState(false)
     const [orders] = useState(["Best Match", "Time - Low to High", "Time - High to Low"])
@@ -24,21 +23,25 @@ export default function ItemsListing() {
         console.log(e.target.value)
     }
 
-    async function GetAllListing(){
-        GetAllItems()
-            .then( (res) => setItem(res) )
-            .then(setOk(true))
+    async function GetAllListingByCategory(){
+        const body = {
+            category: category
+        }
+        const res = await PostAsync(BASE_URL + POST_ITEM_URL.Categorized, body)
+        const data = await res.json()
+        setItem(data)
+        setOk(true)
     }
     
 
     useEffect(()=> {
-        GetAllListing()
+        GetAllListingByCategory()
     }, [])
     
     return (
         <div>
             <Navigate/>
-            <CustomBreadcrumb value='Items' pathValues={[]}/>
+            <CustomBreadcrumb value={category} pathValues={["Item","Category"]}/>
 
             <div className='custom-helpnav-bar'>
                 <Navbar expand="lg">
@@ -79,7 +82,7 @@ function ItemComponenet(props){
     let navigate = useNavigate();
     
     const routeChange = () =>{ 
-        let path = `${props.itemId}`;
+        let path = `/item/${props.itemId}`;
         navigate(path);
     }
 

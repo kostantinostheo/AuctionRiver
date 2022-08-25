@@ -12,6 +12,8 @@ import UserPanel from './components/UserPanel';
 import ItemDetailedView from './components/ItemDetailedView';
 import ItemsListing from './components/ItemsListing';
 import CreateAuction from './components/CreateAuction';
+import ItemListingCategory from './components/ItemListingCategory';
+import ItemListingSearch from './components/ItemListingSearch';
 
 function App() {
   return (
@@ -23,9 +25,12 @@ function App() {
           <Route exact path='/dashboard' element={<Dashboard/>}/>
           <Route exact path='/admindashboard' element={<AdminDashboard/>}/>
           <Route path='/admindashboard/info/user/:userId' element={<UserPanel/>}/>
-          <Route exact path='/item/:itemId' element={<ItemDetailedView/>}/>
+          <Route path='/item/:itemId' element={<ItemDetailedView/>}/>
           <Route exact path='/item' element={<ItemsListing/>}/>
+          <Route path='/item/category/:category' element={<ItemListingCategory/>}/>
           <Route exact path='/sellitem' element={<CreateAuction/>}/>
+          <Route path='//item/found/search-for=:searchValue' element={<ItemListingSearch/>}/>
+
         </Routes>
       </div>
   );

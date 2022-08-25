@@ -16,7 +16,7 @@ export default function SplitButton(props) {
         <Dropdown.Toggle id="dropdown-split-basic" />
             <Dropdown.Menu>
                 { props.userType === userType.User &&
-                    ( <Dropdown.Item href="dashboard">User Dashboard</Dropdown.Item> )
+                    ( <Dropdown.Item href="/dashboard">User Dashboard</Dropdown.Item> )
                 }            
                 { props.userType === userType.Admin &&
                     ( <Dropdown.Item href="/admindashboard">Admin Dashboard</Dropdown.Item> )
