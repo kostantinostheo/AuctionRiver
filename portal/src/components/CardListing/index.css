@@ -1,0 +1,17 @@
+#edit-button{
+    border: none;
+    background-color: white;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 5px;
+    width: 30px;
+    height: 30px;
+}
+.title-header{
+    margin-bottom: 20px;
+    border-bottom: 1px solid black;
+    width: 600px;
+    text-align: left;
+    font-weight: 400;
+    color: rgb(14, 14, 14);
+    font-family: 'Source Sans Pro', sans-serif;
+}

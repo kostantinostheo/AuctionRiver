@@ -7,6 +7,7 @@ import { GetUserData } from '../../utils/Api';
 import { decodeToken, getToken } from '../../utils/Common';
 import Category from '../Category';
 import { mockCategory } from '../../utils/Mocks';
+import { userType } from '../../utils/Const';
 
 export default function Home() {
   const [username, setUsername] = useState('');
@@ -51,12 +52,16 @@ export default function Home() {
           <a href='/' ><img id='home-logo' href='/' src={logo} alt='logo' height={60} width={180}/></a>
         </Col>
         <Col>
-          { 
-            !getToken() && (<div><a href='/login' className='home-nav-login'> Login/Register </a></div>)
+          { !getToken() 
+            ? <div><a href='/login' className='home-nav-login'> Login/Register </a></div> 
+            : <>
+            { decodeToken().userType === userType.User ? 
+              <div className='home-nav-login' >Welcome <a href='/dashboard' className='home-nav-login-tag'> {username} </a></div>
+              :
+              <div className='home-nav-login' >Welcome <a href='/admindashboard' className='home-nav-login-tag'> {username} </a></div>
+            }</>
           }
-          {
-            getToken() && (<div className='home-nav-login' >Welcome <a href='/dashboard' className='home-nav-login-tag'> {username} </a></div>)
-          }
+
         </Col>
       </Row>
         <Form onSubmit={HandleSearch} id='home-search-form' className="d-flex">
