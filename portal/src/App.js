@@ -14,6 +14,7 @@ import ItemsListing from './components/ItemsListing';
 import CreateAuction from './components/CreateAuction';
 import ItemListingCategory from './components/ItemListingCategory';
 import ItemListingSearch from './components/ItemListingSearch';
+import CardCategory from './components/CardCategory';
 
 function App() {
   return (
@@ -29,7 +30,8 @@ function App() {
           <Route exact path='/item' element={<ItemsListing/>}/>
           <Route path='/item/category/:category' element={<ItemListingCategory/>}/>
           <Route exact path='/sellitem' element={<CreateAuction/>}/>
-          <Route path='//item/found/search-for=:searchValue' element={<ItemListingSearch/>}/>
+          <Route path='/item/found/search-for=:searchValue' element={<ItemListingSearch/>}/>
+          <Route path='/category' element={<CardCategory/>}/>
 
         </Routes>
       </div>
