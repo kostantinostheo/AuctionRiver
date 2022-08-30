@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import { Table } from 'react-bootstrap';
 import { GetSellerItems } from '../../utils/Api';
 import { decodeToken } from '../../utils/Common';
@@ -9,11 +10,23 @@ import './index.css'
 export default function CardListing() {
 
   const [sellerItems, setSellerItems] = useState([])
+  const [date, getDate] = useState()
+
 
   async function FetchSellerItems(){
     const sellerId = decodeToken().userId
     GetSellerItems(sellerId)
-    .then((res)=>{setSellerItems(res)})
+    .then((res)=>{
+      setSellerItems(res)  
+      getDate(new Date(res.started))
+    })
+  }
+
+  let navigate = useNavigate();
+    
+  const routeChange = (id) =>{ 
+      let path = `auction/` + id; 
+      navigate(path);
   }
 
   useEffect(()=>{
@@ -28,6 +41,8 @@ export default function CardListing() {
           <th>#</th>
           <th>Title</th>
           <th>Category</th>
+          <th>Starts</th>
+          <th>Ends</th>
           <th>Preview/Edit</th>
         </tr>
       </thead>
@@ -39,7 +54,9 @@ export default function CardListing() {
               <td>{data.itemId}</td>
               <td>{data.name}</td>
               <td>{data.category}</td>
-              <td><button id='edit-button'><img src={edit} /></button></td>
+              <td>{data.started}</td>
+              <td>{data.ends}</td>              
+              <td><button onClick={()=>{routeChange(data.itemId)}} id='edit-button'><img src={edit} /></button></td>
               </tr>
             </>
           })
