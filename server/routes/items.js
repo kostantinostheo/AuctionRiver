@@ -7,18 +7,22 @@ const Image = require('../models/image')
 const multer = require('multer')
 const Utils = require('../utils/const')
 const { NominatimJS } = require('nominatim-js');
-const {MongoClient}  = require('mongodb')
 
 require('dotenv').config()
 
-const uri = process.env.CLIENT_DB_URL
-
+/**
+ * Returns the highest item id from the database
+ * @returns int itemId
+ */
 async function GetHighestId(){
-    const res = await fetch('http://localhost:3000/items/api')
+    const res = await fetch(process.env.GET_ITEMS)
     const items = await res.json()
-    let maxItem = items.reduce((max, item) => max.itemId > item.itemId ? max : item);
-    const maxId = maxItem.itemId
-    return maxId
+    if(items.length !== 0){
+        let maxItem = items.reduce((max, item) => max.itemId > item.itemId ? max : item);
+        const maxId = maxItem.itemId
+        return maxId
+    }
+    return 0
 }
 
 const Storage = multer.diskStorage({
@@ -165,7 +169,7 @@ router.post('/api/submit', async (req,res) => {
     }
 })
 //Create a new bid to an item
-//route url http://localhost:3000/items/api/update_bids/:itemId'
+//route url http://localhost:3000/items/api/update_bids/1'
 router.post('/api/update_bids/:itemId', getItemById, async (req,res) => {
     try{
         res.item.bids.bid.push(req.body.bid)
@@ -177,7 +181,7 @@ router.post('/api/update_bids/:itemId', getItemById, async (req,res) => {
     }
 })
 //Deletes an item
-//route url http://localhost:3000/items/api/delete/:itemId'
+//route url http://localhost:3000/items/api/delete/1'
 router.delete('/api/delete/:itemId', getItemById, async(req, res)=>{
     try {
         await res.item.remove()
@@ -186,16 +190,41 @@ router.delete('/api/delete/:itemId', getItemById, async(req, res)=>{
         res.status(500).json({message: error.message})
     }
 })
-
-
-//#region images api
-router.get('/api/images/:itemId',  getImageById, async (req,res) => {
-    try{
-        res.send(res.image)
-    }catch (error) {
+//Update the data of an item
+//route url http://localhost:3000/items/api/update_item/1'
+router.patch('/api/update_item/:itemId', getItemById, async (req,res)=>{
+    if (req.body.title != null)
+        res.user.title = req.body.title
+    if(req.body.categories != null)
+        res.user.categories = req.body.categories
+    if(req.body.description != null)
+        res.user.description = req.body.description
+    if(req.body.buyPrice != null)
+        res.user.buyPrice = req.body.buyPrice
+    if(req.body.firstBid != null)
+        res.user.firstBid = req.body.firstBid
+    if(req.body.city != null)
+        res.user.city = req.body.city
+    if(req.body.country != null)
+        res.user.country = req.body.country
+    if(req.body.started != null)
+        res.user.started = req.body.started
+    if(req.body.ends != null)
+        res.user.ends = req.body.ends
+    
+    try {
+        const updatedItem = await res.item.save()
+        res.json(updatedItem)
+    } catch (error) {
         res.status(400).json({message: error.message})
     }
 })
+
+
+//#region images api
+
+//Get all images from the db
+//route url http://localhost:3000/items/api/images
 router.get('/api/images', async(req,res) => {
     Image.find({}, (err, items) => { 
         if (err) { 
@@ -207,7 +236,15 @@ router.get('/api/images', async(req,res) => {
         } 
     }); 
 });
-
+//Get image by itemId from the db
+//route url http://localhost:3000/items/api/images
+router.get('/api/images/:itemId',  getImageById, async (req,res) => {
+    try{
+        res.send(res.image)
+    }catch (error) {
+        res.status(400).json({message: error.message})
+    }
+})
 //Uploads a new image
 //route url http://localhost:3000/items/api/image/upload'
 router.post('/api/image/upload', (req, res, next) => {
@@ -235,6 +272,7 @@ router.post('/api/image/upload', (req, res, next) => {
         }
     })
 })
+
 //#endregion
 
 async function getItemById(req, res, next){
