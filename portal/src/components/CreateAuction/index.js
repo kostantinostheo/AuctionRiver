@@ -5,11 +5,13 @@ import DateTimePicker from 'react-datetime-picker';
 import ImageUploading from 'react-images-uploading';
 import { decodeToken, getToken, tryGetToken } from '../../utils/Common';
 import { categoryType, userType } from '../../utils/Const';
+import { categoriesMock } from '../../utils/Mocks';
 import { Col, Row } from 'react-bootstrap';
 import Edit from '../../images/edit.png'
 import Delete from '../../images/delete.png'
 import { PostAsync } from '../../utils/Api';
 import { BASE_URL, POST_ITEM_URL } from '../../utils/Path';
+import Multiselect from 'multiselect-react-dropdown';
 
 export default function CreateAuction() {
 
@@ -19,16 +21,34 @@ export default function CreateAuction() {
     const [value1, onChange1] = useState(new Date()); // Auction start date
     const [value2, onChange2] = useState(new Date()); // Auction end date
     const [imagesNames, setImagesNames] = useState([]) // Images Array of values
-    const [selected, setSelected] = useState(); // Category value
+    const [selected, setSelected] = useState([]); // Category value
     const [name, setName] = useState(); 
     const [description, setDescription] = useState(); 
     const [buyPrice, setBuyPrice] = useState();
     const [minBid, setMinBid] = useState();
     const [city, setCity] = useState();
     const [country, setCountry] = useState();
+    const options = categoriesMock
 
 
+    function onSelect(selectedList, selectedItem) {
+      let list = []
+      selectedList.forEach(function (item){
+        const array = Object.values(item)
+        if (!list.includes(array)){
+          list.push(array[0])
+        }
+      })
+      setSelected(list)
+    }
 
+
+    function onRemove(selectedList, selectedItem) {
+      const index = selected.indexOf(selectedItem.name)
+      if (index > -1){
+        selected.splice(index, 1)
+      }
+    }
     
 
     const handleChange = event => {
@@ -52,6 +72,8 @@ export default function CreateAuction() {
         location: city,
         country: country,
       }
+
+      console.log(body)
 
       const res = await PostAsync(BASE_URL + POST_ITEM_URL.Submit, body)
 
@@ -105,14 +127,13 @@ export default function CreateAuction() {
               <h6 id='auction-row-title'><strong>*</strong>Category</h6>
               <div className='name-input-div'>
                 <div className='categories-div'>
-                  <select value={selected} onChange={handleChange} className='categories-dropdown'>
-                    <option value={false}>Select a category</option>
-                    {
-                      categories.map((category) => {
-                        return(<option id='cat-type' value={category}>{category}</option>) 
-                      })
-                    }
-                  </select>
+                <Multiselect
+                  options={options} // Options to display in the dropdown
+                  onSelect={onSelect}
+                  onRemove={onRemove}
+                  placeholder="Select a Category"
+                  displayValue="name" // Property name to display in the dropdown options
+                />
                 </div>
               </div>
             </div>

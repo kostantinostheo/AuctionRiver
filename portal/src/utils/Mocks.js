@@ -74,3 +74,15 @@ export const mockItemInfo  =
         price: 59.99
     },
 ]
+
+export const categoriesMock = 
+[
+    {name: 'Fashion'},
+    {name: 'Hobbies'},
+    {name: 'Electronics'},
+    {name: 'Audio'},
+    {name: 'Toys'},
+    {name: 'Health & Beauty'},
+    {name: 'Motors'},
+    {name: 'Tools'}
+]
