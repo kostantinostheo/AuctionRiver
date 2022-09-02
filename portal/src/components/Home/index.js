@@ -6,13 +6,15 @@ import search from '../../images/search.png'
 import { GetUserData } from '../../utils/Api';
 import { decodeToken, getToken } from '../../utils/Common';
 import Category from '../Category';
+import { categoryType } from '../../utils/Const';
 import { mockCategory } from '../../utils/Mocks';
 import { userType } from '../../utils/Const';
+
 
 export default function Home() {
   const [username, setUsername] = useState('');
   const [setType] = useState('');
-  const [categories, setCategories] = useState([])
+  const [categories] = useState(Object.values(categoryType))
   const [searchValue, setSearchValue] = useState('')
 
 
@@ -41,7 +43,6 @@ export default function Home() {
 
   useEffect(() => {
     console.log(categories)
-    setCategories(mockCategory)
     HandleUser()
   },[categories]);
 
@@ -78,12 +79,15 @@ export default function Home() {
           </Button>
         </Form>
       <Row>
-      <h3 id='cat-header'>Categories</h3>
+        <Row>
+          <h3 id='cat-header'>Categories</h3>
+        </Row>
         <Row className="justify-content-md-center" id='categories-row'>
             {categories.map((data)=>{ 
               return(
-              <Col md="auto">
-                <Category title={data.title} image={data.image}/>
+              <Col md="3">
+                <Category title={data[0]} image={data[1]}/>
+                <br/>
               </Col>
               )
             })}

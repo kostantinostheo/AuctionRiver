@@ -42,13 +42,15 @@
 }
 
 #cat-header{
+  margin: auto;
+  padding-bottom: 1em;
+  padding-right: 49em;
   font-family: 'Source Sans Pro', sans-serif !important;
-  color: rgb(240, 205, 93);
+  color: rgb(44, 175, 175);
   width: fit-content;
   height: fit-content;
   margin-top: 80px;
   text-align: left;
-  margin-left: 24.5%;
   font-weight: bold;
 }
 
