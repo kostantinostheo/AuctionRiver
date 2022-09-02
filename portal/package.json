@@ -14,6 +14,7 @@
     "components": "^0.1.0",
     "export-from-json": "^1.6.0",
     "leaflet": "^1.8.0",
+    "multiselect-react-dropdown": "^2.0.25",
     "react": "^17.0.2",
     "react-bootstrap": "^2.0.4",
     "react-bootstrap-icons": "^1.7.2",
