@@ -104,19 +104,18 @@ router.post('/api/register', async (req,res) => {
             email: req.body.email,
             password: hashedPass,
             mobile: req.body.mobile,
-            rating: 0,
-            numOfRating: 0, 
-            sumOfRating: 0, 
             SSN: req.body.SSN,
             address: req.body.address,
-            country: req.body.country,
             zip: req.body.zip,
-            latitude: 100,
-            longitude: 100,
-            userStatus: Utils.userStatus.Pending
+            city: req.body.city,
+            country: req.body.country,
+            userStatus: Utils.userStatus.Pending,
+            rating: 0,
+            saved: [],
+            recent: []
         })
     }
-    
+    console.log(user)
     try{
         const newUser = await user.save()
         res.status(201).json(newUser)
@@ -188,26 +187,56 @@ router.patch('/api/update/status/:userId', getUserById, async (req,res) => {
 //route url http://localhost:3000/users/api/update/status/1
 router.patch('/api/update/rating/:userId', getUserById, async (req,res) => {
     try{
-        const sum = res.user.sumOfRating + req.body.curRating
-        const num = res.user.numOfRating + 1
+        const ratings = res.user.ratings // Number of user ratings
+        ratings.push(req.body.score)
 
-        const rating = sum/num
+        let sum = 0
+        for (let i = 0; i < ratings.length; i++) {
+            sum += (res.user.ratings[i])
+        }
+
+        const rating = sum/(ratings.length)
 
         res.user.rating = rating
-        res.user.sumOfRating = sum
-        res.user.numOfRating = num
-
-        const updatedUserRating = await res.user.save()
-        res.json(updatedUserRating)
+        const updateRating = await res.user.save()
+        res.json(updateRating)
     }catch (error) {
         res.status(400).json({message: error.message})
     }
 })
-
-//Delete user
-router.delete('/:user_id', (req,res) => {
+//Save user's favorite items. Saving item ids
+//route url http://localhost:3000/users/api/monitor/7
+router.patch('/api/save/:userId', getUserById, async (req, res) => {
+    try {
+        const saved = res.user.saved
+        if (saved.includes(req.body.itemId)) {
+            return
+        }
+        saved.unshift(req.body.itemId)
+        const savedItemsUpdate = await res.user.save()
+        res.json(savedItemsUpdate)
+    } catch (error) {
+        res.status(400).json({message: error.message})
+    }
     
 })
+//Monitors users visits in the site.
+//route url http://localhost:3000/users/api/monitor/7
+router.patch('/api/monitor/:userId', getUserById, async (req, res) => {
+    try {
+        const recent = res.user.recent
+        if (recent.includes(req.body.itemId)) {
+            return
+        }
+        recent.unshift(req.body.itemId)
+        const recentListUpdate = await res.user.save()
+        res.json(recentListUpdate)
+    } catch (error) {
+        res.status(400).json({message: error.message})
+    }
+    
+})
+
 
 /**
  * Returns the information of a user with a spesific userId

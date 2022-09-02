@@ -5,7 +5,7 @@ const itemSchemma = new mongoose.Schema({
     isAvailable: {type:Boolean, required: true},
     name: {type:String},
     description: {type:String},
-    category: {type:String},
+    category: {type:Array},
     buyPrice: {type:Number},
     firstBid: {type:Number},
     numberOfBids: {type:Number},

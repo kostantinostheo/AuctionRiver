@@ -4,27 +4,39 @@ POST  http://localhost:3000/users/api/register
 Content-Type: application/json
 
 {
-    "firstname":"Dimitris",
-    "lastname":"Xristofis",
-    "username":"dimxri",
-    "email":"dx@gmail.com",
+    "firstname":"Lakis",
+    "lastname":"Lalakis",
+    "username":"lalakis",
+    "email":"ll@gmail.com",
     "password":"1234",
     "mobile": 2105612353,
     "SSN": 1115201600287,
-    "address": "Paraskeva 32, Kifisia, 12031",
+    "address": "Paraskeva 32",
+    "city": "Athens",
     "country": "Greece",
-    "zip": 12461,
-    "latitude": 123,
-    "longitude": 456
+    "zip": 12461
 }
 ###
-PATCH http://localhost:3000/users/api/update/rating/1
+PATCH http://localhost:3000/users/api/update/rating/7
 Content-Type: application/json
 
 {
-    "curRating": 2.4
+    "score": 4.2
 }
+###
+PATCH http://localhost:3000/users/api/monitor/7
+Content-Type: application/json
 
+{
+    "itemId": 12
+}
+###
+PATCH http://localhost:3000/users/api/save/7
+Content-Type: application/json
+
+{
+    "itemId": 1
+}
 ###
 //Register a new admin
 POST  http://localhost:3000/users/api/register
