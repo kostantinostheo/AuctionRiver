@@ -78,6 +78,15 @@ router.get('/api/:itemId',  getItemById, async (req,res) => {
         res.status(400).json({message: error.message})
     }
 })
+//Get item from the db based on seller id
+//route url http://localhost:3000/items/api/seller/1
+router.get('/api/seller/:sellerId',  getItemBySellerId, async (req,res) => {
+    try{
+        res.send(res.item)
+    }catch (error) {
+        res.status(400).json({message: error.message})
+    }
+})
 //Get all items ascending ordered from the db
 //route url http://localhost:3000/items/api/sorted
 router.post('/api/sorted', async(req,res) => {
@@ -277,6 +286,19 @@ router.post('/api/image/upload', (req, res, next) => {
 
 async function getItemById(req, res, next){
     const item = await Item.findOne( { itemId: req.params.itemId} )
+    try {
+        if(item == null){
+            return res.status(404).json({ message: "Can't Find Item" })
+        }
+    } catch (error) {
+        return res.status(500).json({ message: err.message })
+    }
+
+    res.item = item
+    next()
+}
+async function getItemBySellerId(req, res, next){
+    const item = await Item.find( { sellerId: req.params.sellerId} )
     try {
         if(item == null){
             return res.status(404).json({ message: "Can't Find Item" })

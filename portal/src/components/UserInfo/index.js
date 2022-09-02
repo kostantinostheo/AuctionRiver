@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Row, Table } from "react-bootstrap";
 import { GetUserData } from "../../utils/Api";
 import { decodeToken, getToken } from "../../utils/Common";
 import { userStatus } from "../../utils/Const";
@@ -28,32 +28,41 @@ export default function UserInfo() {
 
   return (
     <div className='personal-info'>
-        <Container>
-            <Row xs="auto">
-                <Col>
-                    <h3 className="username-header">{data.firstname}</h3>
-                </Col>
-                <Col>
-                    <h3 className="username-header">{data.lastname}</h3>
-                </Col>
-            </Row>
-            <h5 className="username-sub-header">{data.username} { data.userStatus === userStatus.Pending && ("(" + data.userStatus + ")") }</h5>
-            <br/>
-            <div className="secondary-info">
-                <Row xs="auto">
-                    <h6><b>Address:</b> &nbsp; {data.address}, {data.zip}, {data.country} </h6>
-                </Row>
-                <Row xs="auto">
-                    <h6><b>Email:</b> &nbsp; {data.email} </h6>
-                </Row>
-                <Row xs="auto">
-                    <h6><b>Phone/Mobile:</b> &nbsp; {data.mobile} </h6>
-                </Row>
-                <Row xs="auto">
-                    <h6><b>Social Scurity Number:</b> &nbsp; {data.SSN} </h6>
-                </Row>
-            </div>
-        </Container>
+            <h3 className="title-header">Personal Information</h3>
+            <h5 className="username-header">{data.firstname} &nbsp; {data.lastname}</h5>
+            <h6 className="username-sub-header">@{data.username}</h6>            
+                <Table  bordered hover>
+                    <tbody>
+                        <tr>
+                            <th id="table-info">Status: </th>
+                            { data.userStatus === userStatus.Accept &&
+                                <td id="table-info">Active ✅</td>
+                            }
+                            { data.userStatus === userStatus.Decline &&
+                                <td id="table-info">Rejected 🚫</td>
+                            }
+                            { data.userStatus === userStatus.Pending &&
+                                <td id="table-info">Pending ⌛</td>
+                            }
+                        </tr>
+                        <tr>
+                            <th id="table-info">Address: </th>
+                            <td id="table-info">{data.address}, {data.zip}, {data.country}</td>
+                        </tr>
+                        <tr>
+                            <th id="table-info">Email: </th>
+                            <td id="table-info">{data.email}</td>
+                        </tr>
+                        <tr>
+                            <th id="table-info">Mobile: </th>
+                            <td id="table-info">{data.mobile}</td>
+                        </tr>
+                        <tr>
+                            <th id="table-info">Rating: </th>
+                            <td id="table-info">{data.rating}⭐</td>
+                        </tr>
+                    </tbody>
+                </Table>
     </div>
   );
 }
