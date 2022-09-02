@@ -27,7 +27,7 @@ export default function Dashboard() {
   }
 
   const [page, setPage] = useState('Info')
-  
+
   return (
     <div className='dashboard'>
       <Navigate/>
@@ -54,14 +54,13 @@ export default function Dashboard() {
             <Col  sm={2} >
               <ul className='account-options-list'>
                 <li className='account-options-item'>
-                  <button className='button-text' onClick={()=>setPage(pageType.Info)}>Personal Information</button>
+                  <button className='button-text' onClick={()=>{setPage(pageType.Info)}}>Personal Information</button>
                 </li>
                 <li className='account-options-item'>
-                  <button className='button-text' onClick={()=>setPage(pageType.Bids)}>Bids</button>
+                  <button className='button-text' onClick={()=>{setPage(pageType.Auctions)}}>My Auctions</button>
                 </li>
-                <li className='account-options-item'>
-                  <button className='button-text' onClick={()=>setPage(pageType.Auctions)}>My Auctions</button>
-                </li>
+                <li id='underline'/>
+                <br/>
                 <li className='account-options-item'>
                   <button className='button-text-create' onClick={()=>goToSellItem()}>Create New Auction</button>
                 </li>
@@ -70,9 +69,6 @@ export default function Dashboard() {
             <Col sm={true}>
                 { 
                   page === pageType.Info && (<UserInfo/>)
-                }
-                { 
-                  page === pageType.Bids && (<div>Bids</div>) 
                 }
                 {
                   page === pageType.Auctions && (<CardListing/>) 

@@ -12,6 +12,7 @@ import UserPanel from './components/UserPanel';
 import ItemDetailedView from './components/ItemDetailedView';
 import ItemsListing from './components/ItemsListing';
 import CreateAuction from './components/CreateAuction';
+import EditAuction from './components/EditAuction';
 import ItemListingCategory from './components/ItemListingCategory';
 import ItemListingSearch from './components/ItemListingSearch';
 import CardCategory from './components/CardCategory';
@@ -32,6 +33,7 @@ function App() {
           <Route exact path='/sellitem' element={<CreateAuction/>}/>
           <Route path='/item/found/search-for=:searchValue' element={<ItemListingSearch/>}/>
           <Route path='/category' element={<CardCategory/>}/>
+          <Route exact path='/edititem' element={<EditAuction/>}/>
 
         </Routes>
       </div>

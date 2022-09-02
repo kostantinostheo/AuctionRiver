@@ -22,6 +22,10 @@ export async function GetAllItems(){
     const res = await fetch(BASE_URL + GET_ITEM_URL.AllItems)
     return await res.json()
 }
+export async function GetSellerItems(id){
+    const res = await fetch(BASE_URL + GET_ITEM_URL.GetSellerItems + id)
+    return await res.json()
+}
 export async function GetItemDetails(id){
     const res = await fetch(BASE_URL + GET_ITEM_URL.AllItems + id)
     return await res.json()

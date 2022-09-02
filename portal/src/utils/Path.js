@@ -19,7 +19,8 @@ export const PATCH_USER_URL = {
 
 //Items
 export const GET_ITEM_URL = {
-	AllItems: "items/api/"
+	AllItems: "items/api/",
+	GetSellerItems: "items/api/seller/"
 }
 export const POST_ITEM_URL = {
 	Submit: "items/api/submit",
@@ -28,3 +29,4 @@ export const POST_ITEM_URL = {
 	Categorized: "items/api/categorized",
 	Ordered: "items/api/sorted",
 }
+//http://localhost:3000/items/api/seller/1
