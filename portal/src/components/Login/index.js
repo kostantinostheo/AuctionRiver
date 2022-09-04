@@ -1,53 +1,90 @@
-import React , { useState } from "react";
+import React , { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { decodeToken } from "../../utils/Common";
+import { PostAsync } from "../../utils/Api";
+import { getToken } from "../../utils/Common";
+import { BASE_URL, POST_USER_URL } from "../../utils/Path";
+import PopUp from "../PopUp";
 import "./index.css"
+import logo from '../../images/logo_dark.png'
 
 export default function Login(){
     
-    const [email, setEmail] = useState()
-    const [password, setPassword] = useState()
+    //Pop Up Options
+    const [show, setShow] = useState();
+    const [logs, setLogs] = useState('')
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
+    //Login Settings
+    const [inputField, setInput] = useState()
+    const [inputPassword, setPassword] = useState()
+    let body = null
 
-    async function onLogin(){
-        const res = await fetch('http://localhost:3000/users/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email,
-                password
-            })
-        })
-        if(res.status === 400){
-            alert('Invalid email or password. Please check again.')
+    
+    async function OnLogin(event){
+        event.preventDefault()
+
+        if (inputField.includes("@")) {
+            body = {
+                email: inputField,
+                password: inputPassword
+            }
         }
-        const data = await res.json()
-        if(data.token){
-            localStorage.setItem('token', data.token)
-            alert("Login Succesful")
-
-            let _token = decodeToken(data.token)
-            console.log(_token)
-            console.log(data)
-
+        else{
+            body = {
+                username: inputField,
+                password: inputPassword
+            }
+        }
+        console.log(body)
+        const res = await PostAsync(BASE_URL + POST_USER_URL.Login, body)
+        console.log(res)
+        
+        if(res.status === 200){
+            const data = await res.json()
+            localStorage.setItem('token', data.token)   //save token as cookies 
             window.location.href = '/'
         }
-    }
+        else if(res.status === 400){
+            setLogs('Your email or password is invalid')
+            handleShow()
+        }
 
+    }
+    useEffect(()=> {
+        if (getToken() != null) {
+            window.location.href = '/'
+        }
+    }, [])
     return(
-    <Form className="myForm" onSubmit={onLogin}>
-        <h2>Login</h2>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="name@example.com" value={email} onChange={(e)=>setEmail(e.target.value)}/>
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="password" value={password} onChange={(e)=>setPassword(e.target.value)}/>
-        </Form.Group>
-        <Button variant="primary" type="submit">Login</Button>
-    </Form>
+    <div>
+        <a href="/">
+            <img id="login-logo" src={logo} width="190" height="65" alt="Amazon"></img>
+        </a>
+
+        <Form className="myForm-login" onSubmit={OnLogin}>
+            <h3>Sign-in</h3>
+            <br/>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                <Form.Label column="sm"><strong>Email or Username</strong></Form.Label>
+                <Form.Control size="sm" type="username" placeholder="Email or Username" value={inputField} onChange={(e)=>setInput(e.target.value)}/>
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                <Form.Label column="sm"><strong>Password</strong></Form.Label>
+                <Form.Control size="sm" type="password" placeholder="Password" value={inputPassword} onChange={(e)=>setPassword(e.target.value)}/>
+            </Form.Group>
+            <Button id="login-submit-btn" type="submit">Login</Button>
+        </Form>
+
+        <div class="no-account">
+            New to <b>Auction River</b>? <a href="/register">Create a new account</a>
+        </div>
+
+        <div class="footer-login">
+            <hr></hr>
+            <p class="copyright">2021-2022 © Auction River</p>
+        </div>
+        <PopUp show={show} header={"Login Failed"} logs={logs} onHide={handleClose}/>
+    </div>
     );
 }

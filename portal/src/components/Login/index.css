@@ -1,8 +1,31 @@
-.myForm{
+.myForm-login{
     margin-left: auto;
     margin-right: auto;
     width: 400px;
-    top: 10em;
+    top: 2em;
     position: relative;
     text-align: left;
+}
+
+.footer-login{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    position: relative;
+    text-align: center;
+}
+
+.no-account{
+    margin-top: 30px;
+}
+
+#login-submit-btn{
+    background-color: #00A399;
+    border: none;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+#login-logo{
+    margin-top: 40px;
+    margin-bottom: 40px;
 }

@@ -1,0 +1,69 @@
+###
+POST  http://localhost:3000/items/api/submit
+Content-Type: application/json
+
+{
+    "name": "Crocs Unisex-Adult Classic Clogs",
+    "description": "It’s the iconic clog that started a comfort revolution around the world! The irreverent go-to comfort shoe that you're sure to fall deeper in love with day after day. Crocs Classic Clogs offer lightweight Iconic Crocs Comfort , a color for every personality, and an ongoing invitation to be comfortable in your own shoes.",
+    "category": "Fashion",
+    "buyPrice": 45,
+    "firstBid": 41,
+    "started": "{{$localDatetime 'YYYY-MM-DD'}}",
+    "ends": "{{$localDatetime 'YYYY-MM-DD'}}",
+    "images": ["Crocs.jpg", "Crocs2.jpg", "Crocs3.jpg"],
+    "sellerId": 2,
+    "location": "Athens",
+    "country": "Greece"
+}
+###
+POST   http://localhost:3000/items/api/sorted
+
+Content-Type: application/json
+
+{
+    "sort": "dis"
+}
+
+###
+GET   http://localhost:3000/items/api/buy
+###
+POST  http://localhost:3000/items/api/search
+Content-Type: application/json
+
+{
+    "text": "This is "
+}
+###
+POST  http://localhost:3000/items/api/categorized
+Content-Type: application/json
+
+{
+    "category": "a category"
+}
+###
+POST  http://localhost:3000/items/api/update_bids/2
+Content-Type: application/json
+
+{   
+    "bid" : {
+        "userId": 13, 
+        "rating": 4.5, 
+        "time": "{{$localDatetime 'YYYY-MM-DD'}}",
+        "amount": 304, 
+        "bidder": {
+            "location": "AHAHA", 
+            "country": "SKATA"
+        }  
+    }
+}
+###
+
+DELETE http://localhost:3000/items/api/delete/2
+###
+
+PATCH http://localhost:3000/items/api/update_item/2
+Content-Type: application/json
+
+{   
+    "category": ["Electronics"]
+}

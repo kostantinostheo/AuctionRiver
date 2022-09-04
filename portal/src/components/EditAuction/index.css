@@ -1,0 +1,328 @@
+.create-auction{
+    background: #f5f5f5;
+}
+
+.main-content-auction{
+    font-family: 'Source Sans Pro', sans-serif;
+    background: #f5f5f5;
+    padding-top: 20px;
+    margin: 0 300px;
+}
+
+#auction-header{
+    text-align: left;
+    padding-bottom: 10px;
+}
+.geosuggest__suggests{
+    list-style: none;
+    text-decoration: none;
+    padding-left: 0 !important;
+}
+.geosuggest__item{
+    text-align: left;
+    display:block;
+}
+.geosuggest__item:hover{
+    cursor: pointer;
+}
+
+.auction-details{
+    text-align: left;
+    padding: 20px 25px 0 25px;
+    background: white;
+}
+
+.auction-row-first{
+    max-width: 900px;
+    padding-top: 23px;
+    padding-bottom: 23px;
+}
+
+.auction-row{
+    max-width: 900px;
+    padding-top: 10px;
+    padding-bottom: 23px;
+}
+
+.auction-row-location{
+    max-width: 900px;
+    padding-top: 10px;
+    padding-bottom: 40px;
+}
+
+.auction-row-auction-starts{
+    max-width: 900px;
+    padding-top: 10px;
+    padding-bottom: 23px;
+}
+
+.auction-row-final{
+    max-width: 900px;
+    padding-top: 20px;
+    padding-bottom: 60px;
+}
+
+#auction-row-title{
+    padding-top: 7px;
+    font-size: 18px;
+    float: left;
+    width: 240px;
+}
+
+.name-input-div{
+    margin-left: 255px;
+}
+
+#name-input{
+    width: 98%;
+    font-size: 16px;
+    padding: 7px 5px 7px 8px;
+    border-radius: 3px;
+    border: 1px solid #ddd;
+}
+
+#buynow-input{
+    width: 40%;
+    font-size: 16px;
+    padding: 7px 5px 7px 8px;
+    border-radius: 3px;
+    border: 1px solid #ddd;
+}
+
+#col-input{
+    width: 70%;
+    font-size: 16px;
+    padding: 7px 5px 7px 8px;
+    border-radius: 3px;
+    border: 1px solid #ddd;
+}
+
+.categories-div{
+    background: url(https://securepics.ebaystatic.com/aw/pics/sell/C2C/imgSelectArrow.png) no-repeat;
+    background-size: 9px auto;
+    background-position: right 8px top 19px;
+    border: none!important;
+    margin-right: 5px;
+    min-width: 20px;
+    position: relative;
+    vertical-align: middle;
+    width: 70%;
+}
+
+#multiselectContainerReact{
+    height: 35px;
+}
+
+.categories-dropdown{
+    background: transparent;
+    border: 0!important;
+    border-radius: 0;
+    padding: 0 0 0 8px!important;
+    width: 100%!important;
+    margin-right: 20px!important;
+    appearance: none;
+    min-width: 100%;
+    height: 100%;
+}
+
+.location-div-first{
+    float: left;
+}
+
+.location-div{
+    float: left;
+    margin-left: 25px;
+}
+
+#location-input{
+    width: 70%;
+    font-size: 16px;
+    padding: 7px 5px 7px 8px;
+    border-radius: 3px;
+    border: 1px solid #ddd;
+}
+
+#description-text{
+    resize: none;
+    width: 98%;
+    height: 150px !important;
+    font-size: 16px;
+    padding: 7px 5px 7px 8px;
+    border-radius: 3px;
+    border: 1px solid #ddd;
+}
+
+#current-start-date{
+    text-align: left;
+    margin-left: 254px;
+}
+
+.edit-button {
+    align-items: center;
+    background-color: #00A399;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border: 0;
+    border-radius: 5px;
+    box-sizing: border-box;
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: -apple-system, system-ui, system-ui, "Segoe UI", Roboto, "Helvetica Neue", "Fira Sans", Ubuntu, Oxygen, "Oxygen Sans", Cantarell, "Droid Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Lucida Grande", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    justify-content: center;
+    line-height: 20px;
+    width: 120px;
+    max-width: 480px;
+    min-height: 40px;
+    min-width: 0px;
+    overflow: hidden;
+    padding: 0px;
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: center;
+    touch-action: manipulation;
+    transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+    user-select: none;
+    -webkit-user-select: none;
+    vertical-align: middle;
+  }
+
+
+.edit-button:hover,
+.edit-button:focus { 
+    background-color: #3e5e4f;
+    color: #ffffff;
+}
+
+.edit-button:active {
+    background: #023b37;
+    color: rgb(255, 255, 255, .7);
+}
+
+.delete-button {
+    align-items: center;
+    background-color: #a8776b;
+    border: 0;
+    border-radius: 5px;
+    box-sizing: border-box;
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: -apple-system, system-ui, system-ui, "Segoe UI", Roboto, "Helvetica Neue", "Fira Sans", Ubuntu, Oxygen, "Oxygen Sans", Cantarell, "Droid Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Lucida Grande", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    justify-content: center;
+    line-height: 20px;
+    width: 120px;
+    max-width: 480px;
+    min-height: 40px;
+    min-width: 0px;
+    overflow: hidden;
+    padding: 0px;
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: center;
+    touch-action: manipulation;
+    transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+    user-select: none;
+    -webkit-user-select: none;
+    vertical-align: middle;
+  }
+
+
+.delete-button:hover,
+.delete-button:focus { 
+    background-color: #b02a37;
+    color: #ffffff;
+}
+
+.delete-button:active {
+    background: #842029;
+    color: rgb(255, 255, 255, .7);
+}
+
+.cancel-button {
+    margin-top: 20px;
+    align-items: center;
+    background-color: white;
+    color: #842029;
+    border-color: #842029;
+    border: 2px solid;
+    border-radius: 8px;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: -apple-system, system-ui, system-ui, "Segoe UI", Roboto, "Helvetica Neue", "Fira Sans", Ubuntu, Oxygen, "Oxygen Sans", Cantarell, "Droid Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Lucida Grande", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    justify-content: center;
+    line-height: 20px;
+    width: 120px;
+    max-width: 480px;
+    min-height: 40px;
+    min-width: 0px;
+    overflow: hidden;
+    padding: 0px;
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: center;
+    touch-action: manipulation;
+    transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+    user-select: none;
+    -webkit-user-select: none;
+    vertical-align: middle;
+  }
+
+
+.cancel-button:hover,
+.cancel-button:focus { 
+    background-color: #842029;
+    color: #ffffff;
+}
+
+.react-datetime-picker__wrapper{
+    height: 40px;
+    border: 1px solid #d6d6d6 !important;
+    border-radius: 5px;
+}
+
+.image-item{
+    margin-top: 5px;
+}
+.drop-images{
+    box-shadow: rgba(105, 105, 105, 0.15) 1.95px 1.95px 2.6px;
+    background-color: rgb(250, 250, 250);
+    height: 40px;
+    border: 1px solid rgb(243, 243, 243);
+    border-radius: 5px;
+    margin-left: 5px;
+    margin-top: 5px;
+    margin-right: 5px;
+}
+.update-image{
+    border: none;
+    border-radius: 5px;
+    margin-left: 5px;
+    margin-top: 5px;
+    margin-right: 5px;
+}
+.del-image{
+    border: none;
+    border-radius: 5px;
+    margin-left: 5px;
+    margin-top: 5px;
+    margin-right: 5px;
+}
+#icon-show{
+    margin: auto;
+    margin-bottom: 5px;
+}
+
+#cat-type{
+    font-weight: bold;
+}
+
+#trash-icon{
+    margin-left: 10px;
+}

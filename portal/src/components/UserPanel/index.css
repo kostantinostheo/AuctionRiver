@@ -1,0 +1,20 @@
+.user-panel-form{
+    text-align: left;
+    padding-left: 100px;
+    padding-top: 40px;
+    font-family: 'Quicksand', sans-serif;
+}
+
+#sub-title{
+    width: 400px;
+    border-right-width: 100px !important ;
+    border-bottom: 1px solid black;
+}
+
+.user-table{
+    width: 600px;
+    box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+    border-radius: 5px;
+    border-bottom: 1px solid rgb(233, 233, 233);
+    border-right: 1px solid rgb(233, 233, 233);
+}

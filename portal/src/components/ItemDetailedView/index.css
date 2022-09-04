@@ -1,0 +1,207 @@
+.main-content-item{
+    padding-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1400px;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+.item-detailed-img{
+    max-width: 500px;
+    max-height: 500px;
+}
+
+.carousel{
+    max-width: 300px;
+    max-height: 480px;
+}
+
+.item-info{
+    margin-left: 40px;
+}
+
+.item-title{
+    text-align: left;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+}
+
+.item-main-row{
+    padding-top: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.item-price-col{
+    text-align: left;
+    display: flex;
+}
+
+.price-title{
+    margin-top: 33px;
+    padding-left: 30px;
+    padding-right: 30px;
+    width: auto;
+    font-size: 15px;
+}
+.best-offer-tag{
+    padding-left: 20px;
+    margin-top: 17px;
+    font-size: 30px;
+    font-weight: bold;
+}
+.price-tag{
+    margin-top: 17px;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.best-offer-title{
+    margin-top: 33px;
+    padding-left: 20px;
+    width: auto;
+    font-size: 15px;
+}
+
+.item-specifics{
+    margin-top: 20px;
+    width: 100%;
+    text-align: left;
+    padding: 19px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.item-specifics-row{
+    margin-top: 15px;
+    font-size: 15px;
+}
+
+.item-specifics-list{
+    list-style-type: none;
+    list-style: none;
+    float: left;
+    padding-left: 0 !important;
+}
+
+.specifics-list-object{
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.item-description{
+    margin-top: 20px;
+    width: 100%;
+    text-align: left;
+    padding: 19px;
+}
+
+#item-header{
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.description-text{
+    margin-top: 7px;
+    text-align: justify;
+    font-size: 15px;
+}
+
+.place-bid-button,
+.buy-now-button {
+    margin-top: 20px !important;
+    align-items: center;
+    background-color: #00A399 !important;
+    border: none !important;
+    border-radius: 8px !important;
+    box-sizing: border-box;
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: -apple-system, system-ui, system-ui, "Segoe UI", Roboto, "Helvetica Neue", "Fira Sans", Ubuntu, Oxygen, "Oxygen Sans", Cantarell, "Droid Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Lucida Grande", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    justify-content: center;
+    line-height: 20px;
+    width: 200px;
+    max-width: 480px;
+    min-height: 40px;
+    min-width: 0px;
+    overflow: hidden;
+    text-align: center;
+    touch-action: manipulation;
+    transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+    user-select: none;
+    -webkit-user-select: none;
+    vertical-align: middle;
+
+  }
+  .buy-now-button{
+    margin-left: 1.5em;
+  }
+  #confirm-btn{
+    background-color: #00A399 !important;
+    border: none !important
+  }
+  #cancel-btn{
+    background-color: #eeb414 !important;
+    border: none !important;
+  }
+.place-bid-button:hover
+.place-bid-button:focus
+.buy-now-button:hover,
+.buy-now-button:focus { 
+    background-color: #16437E;
+    color: #ffffff;
+}
+
+.place-bid-button:active
+.buy-now-button:active {
+    background: #09223b;
+    color: rgb(255, 255, 255, .7);
+}
+
+.seller-info{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    height: fit-content;
+}
+
+#seller-title{
+    padding-top: 10px;
+    padding-left: 10px;
+    text-align: left;
+}
+
+.seller-main{
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+
+    padding-top: 5px;
+    text-align: left;
+    border-bottom: 2px dotted #999;
+    padding-bottom: 13px;
+}
+
+#seller-contact{
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: left;
+}
+
+#seler-info-content{
+    list-style: none;
+    list-style-type: none !important;
+    padding-left: 0px !important;
+}
+
+#img-item-details{
+    object-fit: contain;
+    background-color: #e7e7e7;
+}
+
+.like-btn{
+    background-color: white !important;
+    border: none !important;
+}

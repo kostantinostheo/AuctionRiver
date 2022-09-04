@@ -1,0 +1,24 @@
+.username-header{
+    text-align: left;
+    font-weight: bold;
+    color: rgb(44, 44, 44);
+}
+.title-header{
+    margin-bottom: 20px;
+    border-bottom: 1px solid black;
+    width: 600px;
+    text-align: left;
+    font-weight: 400;
+    color: rgb(14, 14, 14);
+}
+.username-sub-header{
+    color: rgb(163, 163, 163);
+    text-align: left;
+}
+.personal-info{
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+#table-info{
+    text-align: left;
+}

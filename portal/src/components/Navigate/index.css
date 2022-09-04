@@ -1,12 +1,51 @@
-.navigation {
-    background-color: rgb(235, 235, 235);
+.custom-nav-bar{
+    font-family: 'Source Sans Pro', sans-serif
+}
+.nav-bar-text{
+    color: rgb(255, 255, 255) !important;
+
+}
+#custom-nav{
+    background-color: rgb(238, 238, 238);
+}
+#nav-logo{
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+#search-form{
+    margin-left: 50px;
+    width: 30em
 }
 
-#top-nav-dropdown:hover{
-    color: rgb(68, 68, 255);
+#search-button{
+    background-color: #00A399;
+}
+.home-nav-login-2{
+    padding-right: 3em;
+    font-family: 'Source Sans Pro', sans-serif !important;
+    color: rgb(103, 103, 103);
+    text-decoration: none;
+}
+.nav-login{
+    color: #00A399 !important;
+    background-color: rgb(43, 43, 43) !important;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 15px !important;
 }
 
-#top-nav-dropdown{
-    margin-left: 2em;
-    margin-right: 2em;
+#nav-down{
+    height: 30px;
+    background-color: #232F3E;
+    font-size: 15px;
+}
+
+#linkings{
+    padding-left: 30px;
+    text-decoration: none;
+    color: rgb(240, 240, 240);
+}
+#linkings:hover{
+    color: #FFBA01;
 }

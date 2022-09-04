@@ -11,10 +11,18 @@
   "dependencies": {
     "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.0",
     "cors": "^2.8.5",
+    "cross-fetch": "^3.1.5",
+    "ejs": "^3.1.8",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.12.13"
+    "mongoose": "^5.12.13",
+    "multer": "^1.4.5-lts.1",
+    "node-fetch": "^2.6.7",
+    "node-geocoder": "^4.2.0",
+    "node-open-geocoder": "^4.0.1",
+    "nominatim-js": "^1.0.10"
   },
   "devDependencies": {
     "dotenv": "^10.0.0",

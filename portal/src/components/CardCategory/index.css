@@ -1,0 +1,22 @@
+#category-list{
+    margin: auto;
+    width: 80%;
+    margin-top: 20px;
+}
+#category-img{
+    margin: auto;
+    opacity: 80%;
+    object-fit: contain;
+    margin-bottom: 1em;
+}
+.cat-title{
+    text-decoration:  none;
+    font-size: 24px !important;
+    font-family: 'Source Sans Pro', sans-serif;
+    color: black;
+}
+.cat-comp{
+    text-decoration:  none;
+    font-family: 'Source Sans Pro', sans-serif;
+    color: black;
+}
