@@ -7,7 +7,6 @@ import { GetUserData } from '../../utils/Api';
 import { decodeToken, getToken } from '../../utils/Common';
 import Category from '../Category';
 import { categoryType } from '../../utils/Const';
-import { mockCategory } from '../../utils/Mocks';
 import { userType } from '../../utils/Const';
 
 
@@ -15,6 +14,8 @@ export default function Home() {
   const [username, setUsername] = useState('');
   const [setType] = useState('');
   const [categories] = useState(Object.values(categoryType))
+  const [lessCategories, setLessCateg] = useState([])
+
   const [searchValue, setSearchValue] = useState('')
 
 
@@ -32,7 +33,6 @@ export default function Home() {
   async function HandleSearch(e){
     e.preventDefault()
     
-    console.log("enter pressed")
     if(searchValue === '')
       window.location.href = '/item'
     else
@@ -42,7 +42,11 @@ export default function Home() {
 
 
   useEffect(() => {
-    console.log(categories)
+    const temp = []
+    for (let i = 0; i < 4; i++) {
+      temp.push(categories[i])
+    }
+    setLessCateg(temp)
     HandleUser()
   },[categories]);
 
@@ -80,10 +84,10 @@ export default function Home() {
         </Form>
       <Row>
         <Row>
-          <h3 id='cat-header'>Categories</h3>
+          <h3 id='cat-header'><a style={{"textDecoration": "none", "color" : "#32a89b"}} href='/category'>Categories</a></h3>
         </Row>
         <Row className="justify-content-md-center" id='categories-row'>
-            {categories.map((data)=>{ 
+            {lessCategories.map((data)=>{ 
               return(
               <Col md="3">
                 <Category title={data[0]} image={data[1]}/>

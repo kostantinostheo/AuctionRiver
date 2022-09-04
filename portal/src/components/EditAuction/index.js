@@ -1,17 +1,23 @@
 import './index.css'
+import { confirmAlert } from 'react-confirm-alert'; // Import
 import Navigate from '../Navigate';
 import React, { useEffect, useState } from 'react';
 import DateTimePicker from 'react-datetime-picker';
 import { categoryType } from '../../utils/Const';
 import { categoriesMock } from '../../utils/Mocks';
-import { Col, Row } from 'react-bootstrap';
-import { GetItemDetails } from '../../utils/Api';
+import { Button, Col, Row } from 'react-bootstrap';
+import { DeleteAsync, GetItemDetails, PatchAsync } from '../../utils/Api';
 import Multiselect from 'multiselect-react-dropdown';
+import { BASE_URL, DELETE_ITEM_URL, PATCH_ITEM_URL } from '../../utils/Path';
+import trash from '../../images/trash.png'
+import edit from '../../images/editwhite.png'
+import save from '../../images/save.png'
+
 
 export default function CreateAuction() {
 
     const [categories, setCategories] = useState(Object.keys(categoryType))
-
+    const [itemID] = useState(window.location.href.substring(window.location.href.lastIndexOf('/') + 1))
     const [value1, onChange1] = useState(new Date()); // Auction start date
     const [value2, onChange2] = useState(new Date()); // Auction end date
     const [value3, onChange3] = useState(new Date());
@@ -28,31 +34,41 @@ export default function CreateAuction() {
     const [itemData, setItemData] = useState([])
     const options = categoriesMock
 
-    // <select disabled={isDisabled} defaultValue={itemData.category} onChange={handleChange} className='categories-dropdown'>
-    //                 <option value={false}>Select a category</option>
-    //                 {
-    //                   categories.map((category) => {
-    //                     return(<option id='cat-type' value={category}>{category}</option>) 
-    //                   })
-    //                 }
-    //               </select>
+    async function handleSaveClick (){
+
+      const body = {
+        name: name,
+        description: description,
+        category: selected,
+        buyPrice: buyPrice,
+        firstBid: minBid,
+        started: value1,
+        ends: value2,
+        location: city,
+        country: country
+      }
+
+      await PatchAsync( BASE_URL + PATCH_ITEM_URL.UpdateItem + itemID, body)
+      .then(()=>window.location.href='/dashboard')
+      
+    }
+
+    async function handleDeleteClick (){
+      await DeleteAsync( BASE_URL + DELETE_ITEM_URL.DeleteItem + itemID)
+      .then(()=>window.location.href='/dashboard')
+    }
 
     const handleEditClick = () => {
-      setIsDisabled(!isDisabled)
+      setIsDisabled(false)
       setButtonName('Save')
     };
 
 
     const handleCancelClick = () => {
-      window.location.reload()
-    };
-    
-    
-    const handleSaveClick = () => {
-      setIsDisabled(!isDisabled)
+      setIsDisabled(true)
       setButtonName('Edit')
     };
-
+  
 
     function onSelect(selectedList, selectedItem) {
       let list = []
@@ -78,22 +94,11 @@ export default function CreateAuction() {
       const res = await GetItemDetails(id)
       setItemData(res)
 
-      // let date1 = res.started
-      // let result1 = date1.replace('T',' ').replace('Z','')
-      // let datetime1 = new Date(result1)
-      // onChange1(datetime1)
-
       let date2 = res.ends
       let result2 = date2.replace('T',' ').replace('Z','')
       let datetime2 = new Date(result2)
       onChange2(datetime2)
     }
-
-
-    const handleChange = event => {
-      console.log(event.target.value);
-      setSelected(event.target.value);
-    };
 
     const minDate = new Date()
     const maxDate = new Date(minDate)
@@ -103,8 +108,6 @@ export default function CreateAuction() {
     //console.log(typeof value1)
 
     useEffect(()=> {
-      const itemID = '1'
-
       HandleItemData(itemID)
     }, [])
 
@@ -131,6 +134,7 @@ export default function CreateAuction() {
                   onRemove={onRemove}
                   placeholder="Select a Category"
                   displayValue="name" // Property name to display in the dropdown options
+                  disabled
                 />
                 </div>
               </div>
@@ -219,24 +223,24 @@ export default function CreateAuction() {
                 <Col Col xs="auto">
                   { ButtonName === 'Edit' &&
                       (
-                        <button id='edit-button-id' className="edit-button" onClick={handleEditClick}>Edit</button>
+                        <button className="edit-button" onClick={handleEditClick}>Edit <img id='trash-icon' src={edit} width={15} height={15} /> </button>
                       )
                   }
                   { ButtonName === 'Save' &&
                       (
-                        <button id='edit-button-id' className="edit-button" onClick={handleSaveClick}>Save</button>
+                        <button className='edit-button' onClick={() => { if (window.confirm('Are you sure you want to change this item details?')) handleSaveClick()} } > Save <img id='trash-icon' src={save} width={15} height={15} /> </button>
                       )
                   }
                 </Col>
                 <Col Col xs="auto">
                   { ButtonName === 'Save' &&
                       (
-                        <button id='cancel-button-id' className="cancel-button" onClick={handleCancelClick}>Cancel</button>
+                        <button className='delete-button' onClick={handleCancelClick}>Cancel</button>
                       )
                   }
                 </Col>
                 <Col Col xs="auto">
-                  <button id='delete-button-id' className="delete-button">Delete</button>
+                  <button className='delete-button' onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) handleDeleteClick() } } > Delete <img id='trash-icon' src={trash} width={15} height={15} /></button>
                 </Col>
               </Row>
             </div>

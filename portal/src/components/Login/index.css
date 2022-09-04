@@ -1,4 +1,4 @@
-.myForm{
+.myForm-login{
     margin-left: auto;
     margin-right: auto;
     width: 400px;
@@ -22,6 +22,8 @@
 #login-submit-btn{
     background-color: #00A399;
     border: none;
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 #login-logo{
     margin-top: 40px;

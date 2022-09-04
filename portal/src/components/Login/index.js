@@ -62,27 +62,27 @@ export default function Login(){
             <img id="login-logo" src={logo} width="190" height="65" alt="Amazon"></img>
         </a>
 
-        <Form className="myForm" onSubmit={OnLogin}>
+        <Form className="myForm-login" onSubmit={OnLogin}>
             <h3>Sign-in</h3>
             <br/>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label column="sm"><strong>Email or Username</strong></Form.Label>
-                <Form.Control size="sm" type="username" placeholder="email or username" value={inputField} onChange={(e)=>setInput(e.target.value)}/>
+                <Form.Control size="sm" type="username" placeholder="Email or Username" value={inputField} onChange={(e)=>setInput(e.target.value)}/>
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label column="sm"><strong>Password</strong></Form.Label>
-                <Form.Control size="sm" type="password" placeholder="password" value={inputPassword} onChange={(e)=>setPassword(e.target.value)}/>
+                <Form.Control size="sm" type="password" placeholder="Password" value={inputPassword} onChange={(e)=>setPassword(e.target.value)}/>
             </Form.Group>
             <Button id="login-submit-btn" type="submit">Login</Button>
         </Form>
 
         <div class="no-account">
-            New to Company? <a href="/register">Create a new account</a>
+            New to <b>Auction River</b>? <a href="/register">Create a new account</a>
         </div>
 
         <div class="footer-login">
             <hr></hr>
-            <p class="copyright">2021-2022 © Company Name</p>
+            <p class="copyright">2021-2022 © Auction River</p>
         </div>
         <PopUp show={show} header={"Login Failed"} logs={logs} onHide={handleClose}/>
     </div>

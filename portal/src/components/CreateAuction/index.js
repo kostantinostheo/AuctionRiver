@@ -4,14 +4,16 @@ import React, { useEffect, useState } from 'react';
 import DateTimePicker from 'react-datetime-picker';
 import ImageUploading from 'react-images-uploading';
 import { decodeToken, getToken, tryGetToken } from '../../utils/Common';
-import { categoryType, userType } from '../../utils/Const';
+import { categoryType, userStatus, userType } from '../../utils/Const';
 import { categoriesMock } from '../../utils/Mocks';
-import { Col, Row } from 'react-bootstrap';
+import { Button, Col, Row } from 'react-bootstrap';
 import Edit from '../../images/edit.png'
 import Delete from '../../images/delete.png'
-import { PostAsync } from '../../utils/Api';
+import { PostAsync, PostAsyncFile } from '../../utils/Api';
+import axios from 'axios';
 import { BASE_URL, POST_ITEM_URL } from '../../utils/Path';
 import Multiselect from 'multiselect-react-dropdown';
+import {Buffer} from 'buffer'
 
 export default function CreateAuction() {
 
@@ -28,8 +30,8 @@ export default function CreateAuction() {
     const [minBid, setMinBid] = useState();
     const [city, setCity] = useState();
     const [country, setCountry] = useState();
+    const [imageData, setImageData] = useState([]);
     const options = categoriesMock
-
 
     function onSelect(selectedList, selectedItem) {
       let list = []
@@ -78,7 +80,7 @@ export default function CreateAuction() {
       const res = await PostAsync(BASE_URL + POST_ITEM_URL.Submit, body)
 
       if(res.status === 201){
-        window.location.href = '/item'
+        ImageUpload()
       }
 
     }
@@ -92,17 +94,40 @@ export default function CreateAuction() {
 
     const onChange = (imageList, addUpdateIndex) => {
       const imageArray = []     
+      const imageData = []
+      console.log(imageList)
       imageList.map((data)=>{
         imageArray.push(data.file.name)
+        imageData.push(data)
       })
       setImages(imageList);
       setImagesNames(imageArray)
+      setImageData(imageData)
+
+      
+
+    }
+    async function ImageUpload (){
+      
+      const formData = new FormData()
+      for (const data of imageData) {
+        formData.append('name', data.file.name)
+        formData.append('image', data.file)
+        await axios.post(BASE_URL + 'images/api/image/upload', formData, {
+        }).then(res => {
+            if(res.status === 201){
+              window.location.href = '/item'
+            }
+        })
+        formData.delete('name')
+        formData.delete('image')
+      }
     }
 
     useEffect(()=> {
       setCategories(Object.keys(categoryType))
       
-      if(getToken()===null){
+      if(getToken()===null || decodeToken().userStatus !== userStatus.Accept){
         window.location.href = '/'
       }
       const token = decodeToken()

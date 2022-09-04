@@ -1,0 +1,21 @@
+
+.pagination{
+    justify-content: center !important;    
+}
+#pagenation-item-id{
+    
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+    list-style: none;
+    display: inline-block;
+    line-height: 50px;
+}
+.page-link{
+    border-radius: 8px !important;
+    background-color: rgb(253, 253, 253) !important;
+    color: rgb(41, 41, 41) !important;
+}

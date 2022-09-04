@@ -7,10 +7,14 @@ import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
-import { GetItemDetails, GetUserData, PostAsync } from '../../utils/Api';
-import { BASE_URL, IMAGE_URL, POST_ITEM_URL } from '../../utils/Path';
+import { GetItemDetails, GetUserData, PatchAsync, PostAsync } from '../../utils/Api';
+import { BASE_URL, IMAGE_URL, PATCH_USER_URL, POST_ITEM_URL } from '../../utils/Path';
 import { decodeToken, getToken } from '../../utils/Common';
-import { userStatus, userType } from '../../utils/Const';
+import { userStatus } from '../../utils/Const';
+import heart from '../../images/heart.png';
+import heart_fill from '../../images/heart_fill.png';
+
+
 
 export default function ItemDetailedView() {
 
@@ -27,6 +31,8 @@ export default function ItemDetailedView() {
   const [lat, setLat] = useState()
   const [seller, getSeller] = useState([])
   const [user, getUser] = useState([])
+  const [savedItem, setSaved] = useState(false)
+
   
   var submitBid= () => {
     confirmAlert({
@@ -130,37 +136,64 @@ export default function ItemDetailedView() {
     }
   }
   async function GetAllDetails(){
-    GetItemDetails(id)
-      .then((res) => {
-        getData(res)
-        getImages(res.images)
-        setLon(res.longitude)
-        setLat(res.latitude)
-        setLocalDateStarts(new Date(res.started).toLocaleDateString("el-GR") + " " + new Date(res.started).toLocaleTimeString("el-GR"))
-        setLocalDateEnds(new Date(res.ends).toLocaleDateString("el-GR") + " " + new Date(res.ends).toLocaleTimeString("el-GR"))
-        getBidsNum(res.bids.bid.length - 1)
-        getLastBid(res.bids.bid[res.bids.bid.length-1].amount)
-        GetSellerDetails(res.sellerId)
-        GetUserDetails(decodeToken().userId)
-      })
+  GetItemDetails(id)
+    .then((res) => {
+      getData(res)
+      getImages(res.images)
+      setLon(res.longitude)
+      setLat(res.latitude)
+      setLocalDateStarts(new Date(res.started).toLocaleDateString("el-GR") + " " + new Date(res.started).toLocaleTimeString("el-GR"))
+      setLocalDateEnds(new Date(res.ends).toLocaleDateString("el-GR") + " " + new Date(res.ends).toLocaleTimeString("el-GR"))
+      getBidsNum(res.bids.bid.length - 1)
+      getLastBid(res.bids.bid[res.bids.bid.length-1].amount)
+      GetSellerDetails(res.sellerId)
+      GetUserDetails(decodeToken().userId)
+      MonitorItem(res.itemId)
+    })
+  }
+  async function GetSellerDetails(id){
+    GetUserData(parseInt(id))
+    .then((res) => {
+      getSeller(res)
+    })
+  }
+  async function GetUserDetails(id){
+    GetUserData(parseInt(id))
+    .then((res) => {
+      getUser(res)
+      const itemId = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
+      if (res.saved.includes(parseInt(itemId))) {
+        setSaved(true)
+      }
+      else{
+        setSaved(false)
+      }
+    })
+  }
+  async function MonitorItem(id){
+    const body = {
+      itemId: id
     }
-    async function GetSellerDetails(id){
-      GetUserData(parseInt(id))
-      .then((res) => {
-        getSeller(res)
-      })
-    }
-    async function GetUserDetails(id){
-      GetUserData(parseInt(id))
-      .then((res) => {
-        getUser(res)
-      })
-    }
+    await PatchAsync(BASE_URL + PATCH_USER_URL.MonitorItem + decodeToken().userId, body)
+  }
 
+  async function LikeItem(id){
+    const body = {
+      itemId: itemData.itemId
+    }
+    if(!savedItem){
+      await PatchAsync(BASE_URL + PATCH_USER_URL.LikeItem + decodeToken().userId, body)
+      .then(window.location.reload())
+    }
+    else{
+      await PatchAsync(BASE_URL + PATCH_USER_URL.UnlikeItem + decodeToken().userId, body)
+      .then(window.location.reload())
+    }
+  }
 
     useEffect(()=> {
       GetAllDetails()
-
+      console.log(user.saved)
     }, [])
     return (
         <div className='item-detailed'>
@@ -193,9 +226,19 @@ export default function ItemDetailedView() {
                 </Col>
               </Col>
               <Col className='item-info' sm={7}>
-                <h4 className='item-title'>
-                  {itemData.name}
-                </h4>
+                <Row xs>
+                  <Col xs={6}>
+                    <h4 className='item-title'>
+                      {itemData.name}
+                    </h4>
+                  </Col>
+                  <Col xs={1}>
+                    <Button onClick={LikeItem} className='like-btn'>
+                      {savedItem ? <img src={heart_fill} height={22} width={24}/> :<img src={heart} height={22} width={24}/>}
+                    </Button>
+                  </Col>
+                </Row>
+
                 <Container className='item-main'>
                   <Row xs={true} className='item-main-row'>
                     <Col xs={2} className='item-price-col'>
