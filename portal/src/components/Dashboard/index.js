@@ -5,11 +5,13 @@ import UserInfo from '../UserInfo';
 import CardListing from '../CardListing';
 import { Col, Container, Row } from 'react-bootstrap';
 import { decodeToken } from '../../utils/Common';
-import { userType } from '../../utils/Const';
+import { userType, userStatus} from '../../utils/Const';
 
 
 export default function Dashboard() {
 
+  const [page, setPage] = useState('Info')
+  const [status] = useState(decodeToken().userStatus)
   const pageType = {
     Info: "Info",
     Bids: "Bids",
@@ -26,7 +28,7 @@ export default function Dashboard() {
     return window.location.href = '/sellitem'
   }
 
-  const [page, setPage] = useState('Info')
+
 
   return (
     <div className='dashboard'>
@@ -62,7 +64,9 @@ export default function Dashboard() {
                 <li id='underline'/>
                 <br/>
                 <li className='account-options-item'>
-                  <button className='button-text-create' onClick={()=>goToSellItem()}>Create New Auction</button>
+                  { status === userStatus.Accept &&
+                    <button className='button-text-create' onClick={()=>goToSellItem()}>Create New Auction</button>
+                  }
                 </li>
               </ul>
             </Col>

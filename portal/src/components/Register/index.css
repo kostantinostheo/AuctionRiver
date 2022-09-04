@@ -1,7 +1,7 @@
 .myForm{
     margin-left: auto;
     margin-right: auto;
-    width: 400px;
+    width: 600px;
     top: 0em;
     position: relative;
     text-align: left;
@@ -25,6 +25,7 @@
 }
 
 #register-submit-btn{
+    margin-top: 1em;
     background-color: #00A399;
     border: none;
 }

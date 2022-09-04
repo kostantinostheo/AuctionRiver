@@ -26,8 +26,10 @@ app.use(express.json())
 //Get access to users route.
 const usersRouter = require('./routes/users')
 const itemsRouter = require('./routes/items')
+const imageRouter = require('./routes/images')
 
 app.use('/users', usersRouter)
 app.use('/items', itemsRouter)
+app.use('/images', imageRouter)
 
 app.listen(3000, ()=> console.log('Api started with no errors..'))

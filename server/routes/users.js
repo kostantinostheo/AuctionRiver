@@ -205,7 +205,7 @@ router.patch('/api/update/rating/:userId', getUserById, async (req,res) => {
     }
 })
 //Save user's favorite items. Saving item ids
-//route url http://localhost:3000/users/api/monitor/7
+//route url http://localhost:3000/users/api/save/2
 router.patch('/api/save/:userId', getUserById, async (req, res) => {
     try {
         const saved = res.user.saved
@@ -213,6 +213,21 @@ router.patch('/api/save/:userId', getUserById, async (req, res) => {
             return
         }
         saved.unshift(req.body.itemId)
+        const savedItemsUpdate = await res.user.save()
+        res.json(savedItemsUpdate)
+    } catch (error) {
+        res.status(400).json({message: error.message})
+    }
+    
+})
+//Save user's favorite items. Saving item ids
+//route url http://localhost:3000/users/api/save/2
+router.patch('/api/unsave/:userId', getUserById, async (req, res) => {
+    try {
+        const index = res.user.saved.indexOf(req.body.itemId);
+        if (index > -1) { // only splice array when item is found
+            res.user.saved.splice(index, 1); // 2nd parameter means remove one item only
+        }
         const savedItemsUpdate = await res.user.save()
         res.json(savedItemsUpdate)
     } catch (error) {

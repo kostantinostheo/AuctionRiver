@@ -8,6 +8,7 @@ import { GetAllItems } from '../../utils/Api';
 import { Card, Navbar, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { IMAGE_URL } from '../../utils/Path';
+import Pagenation from '../Pagination';
 
 
 
@@ -18,7 +19,10 @@ export default function ItemsListing() {
     const [orders] = useState(["Best Match", "Time - Low to High", "Time - High to Low"])
     const [selected, setSelected] = useState(); 
 
+    const [currentPage, setCurrentPage] = useState(1)
+    const [itemsPerPage] = useState(8)
 
+    
     const handleFilter=(e)=>{
         setSelected(e.target.value)
         console.log(e.target.value)
@@ -34,7 +38,14 @@ export default function ItemsListing() {
     useEffect(()=> {
         GetAllListing()
     }, [])
+
+    const indexOfLastItem = currentPage * itemsPerPage
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage
+    const currentItems = item.slice(indexOfFirstItem, indexOfLastItem)
     
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber)
+    }
     return (
         <div>
             <Navigate/>
@@ -62,13 +73,20 @@ export default function ItemsListing() {
                 <Box sx={{ flexGrow: 1 }}>
                     <Grid container spacing={1}>
                         <Grid container item spacing={1}>
-                             { ok === true && item.map((data)=>{
+                             { ok === true && currentItems.map((data)=>{
                                 return <ItemComponenet itemId={data.itemId} name={data.name} images={data.images} price={data.buyPrice} category={data.category} bid={data.firstBid}/>
                             })}
                         </Grid>
                     </Grid>
                 </Box>
             </div>
+            
+                <Pagenation 
+                    itemsPerPage={itemsPerPage} 
+                    totalItems={item.length} 
+                    paginate={paginate}
+                />
+    
         </div>
     );
 }

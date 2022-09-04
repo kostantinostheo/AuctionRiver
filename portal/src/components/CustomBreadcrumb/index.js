@@ -5,7 +5,7 @@ export default function CustomBreadcrumb(props) {
     const [path] = useState(props.pathValues)
 
     useEffect(()=> {
-        console.log(path)
+       
   
       }, [])
     return (
@@ -19,9 +19,4 @@ export default function CustomBreadcrumb(props) {
         <Breadcrumb.Item active>{props.value}</Breadcrumb.Item>
         </Breadcrumb>
     );
-}
-
-function BreadcrumbItem(props){
-
-    return (<Breadcrumb.Item href="/"></Breadcrumb.Item>);
 }

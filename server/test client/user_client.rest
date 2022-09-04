@@ -38,13 +38,20 @@ Content-Type: application/json
     "itemId": 1
 }
 ###
+PATCH http://localhost:3000/users/api/unsave/1
+Content-Type: application/json
+
+{
+    "itemId": 1
+}
+###
 //Register a new admin
 POST  http://localhost:3000/users/api/register
 Content-Type: application/json
 
 {
-    "firstname":"Konstantinos",
-    "lastname":"Theofilis",
+    "firstname":"admin",
+    "lastname":"admin",
     "email":"admin@admin.com",
     "password":"1234"
 }

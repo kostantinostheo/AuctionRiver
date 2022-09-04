@@ -200,3 +200,8 @@
     object-fit: contain;
     background-color: #e7e7e7;
 }
+
+.like-btn{
+    background-color: white !important;
+    border: none !important;
+}

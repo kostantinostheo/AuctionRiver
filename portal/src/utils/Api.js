@@ -46,12 +46,27 @@ export async function PostAsync(url, body){
     const res = await fetch(url, options)
     return res
 }
-
+export async function PostAsyncFile(url, body){
+    const options = {
+        method: 'POST',
+        body: JSON.stringify( body )
+    };
+    const res = await fetch(url, options)
+    return res
+}
 export async function PatchAsync(url, body){
     const options = {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify( body )
+    };
+
+    const res = await fetch(url, options)
+    return res
+}
+export async function DeleteAsync(url){
+    const options = {
+        method: 'DELETE',
     };
 
     const res = await fetch(url, options)

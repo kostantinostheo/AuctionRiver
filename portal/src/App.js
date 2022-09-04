@@ -33,7 +33,7 @@ function App() {
           <Route exact path='/sellitem' element={<CreateAuction/>}/>
           <Route path='/item/found/search-for=:searchValue' element={<ItemListingSearch/>}/>
           <Route path='/category' element={<CardCategory/>}/>
-          <Route exact path='/edititem' element={<EditAuction/>}/>
+          <Route exact path='/dashboard/auction/:id' element={<EditAuction/>}/>
 
         </Routes>
       </div>

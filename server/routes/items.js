@@ -3,8 +3,6 @@ const fetch = require('node-fetch');
 const express = require('express')
 const router = express.Router()
 const Item = require('../models/item')
-const Image = require('../models/image')
-const multer = require('multer')
 const Utils = require('../utils/const')
 const { NominatimJS } = require('nominatim-js');
 
@@ -25,26 +23,6 @@ async function GetHighestId(){
     return 0
 }
 
-const Storage = multer.diskStorage({
-    destination:'uploads',
-    filename: (req, file, callback)=>{
-        callback(null, file.originalname)
-    },
-})
-
-
-const upload = multer({
-    storage:Storage,
-    limits: {
-        fileSize: 1000000
-    },
-    fileFilter(req, file, cb) {
-        if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
-            return cb(new Error('Please upload a valid image file'))
-        }
-        cb(undefined, true)
-    }
-}).single('testImage')
 
 
 //Get all items from the db
@@ -202,25 +180,53 @@ router.delete('/api/delete/:itemId', getItemById, async(req, res)=>{
 //Update the data of an item
 //route url http://localhost:3000/items/api/update_item/1'
 router.patch('/api/update_item/:itemId', getItemById, async (req,res)=>{
-    if (req.body.title != null)
-        res.user.title = req.body.title
-    if(req.body.categories != null)
-        res.user.categories = req.body.categories
-    if(req.body.description != null)
-        res.user.description = req.body.description
-    if(req.body.buyPrice != null)
-        res.user.buyPrice = req.body.buyPrice
-    if(req.body.firstBid != null)
-        res.user.firstBid = req.body.firstBid
-    if(req.body.city != null)
-        res.user.city = req.body.city
-    if(req.body.country != null)
-        res.user.country = req.body.country
-    if(req.body.started != null)
-        res.user.started = req.body.started
-    if(req.body.ends != null)
-        res.user.ends = req.body.ends
+    console.log(req.body)
     
+    if (req.body.name != null)
+        res.item.name = req.body.name
+    if(req.body.category.length !== 0)
+        res.item.category = req.body.category
+    if(req.body.description != null)
+        res.item.description = req.body.description
+    if(req.body.buyPrice != null)
+        res.item.buyPrice = req.body.buyPrice
+    if(req.body.firstBid != null)
+        res.item.firstBid = req.body.firstBid
+    if(req.body.location != null)
+        res.item.location = req.body.location
+    if(req.body.started != null)
+        res.item.started = req.body.started
+    if(req.body.ends != null)
+        res.item.ends = req.body.ends
+    
+    if(req.body.location != null && req.body.country != null){
+        const location = req.body.location + " " + req.body.country
+        //wating for the result
+        const val = await NominatimJS.search({q: location})
+        const lat = val[0].lat // save latitude from the response
+        const lon = val[0].lon // save longtitude from the response
+        res.item.latitude = lat
+        res.item.longitude = lon
+    }
+    else if(req.body.location != null){
+        const location = req.body.location + " " + res.item.country
+        //wating for the result
+        const val = await NominatimJS.search({q: location})
+        const lat = val[0].lat // save latitude from the response
+        const lon = val[0].lon // save longtitude from the response
+        res.item.latitude = lat
+        res.item.longitude = lon
+    }
+    else if(req.body.country != null){
+        const location = res.item.location + " " + req.body.country
+        //wating for the result
+        const val = await NominatimJS.search({q: location})
+        const lat = val[0].lat // save latitude from the response
+        const lon = val[0].lon // save longtitude from the response
+        res.item.latitude = lat
+        res.item.longitude = lon
+    }
+    //creating the location string we want
     try {
         const updatedItem = await res.item.save()
         res.json(updatedItem)
@@ -230,59 +236,6 @@ router.patch('/api/update_item/:itemId', getItemById, async (req,res)=>{
 })
 
 
-//#region images api
-
-//Get all images from the db
-//route url http://localhost:3000/items/api/images
-router.get('/api/images', async(req,res) => {
-    Image.find({}, (err, items) => { 
-        if (err) { 
-            console.log(err); 
-            res.status(500).send('An error occurred', err);
-        } 
-        else { 
-            res.json({ items: items }); 
-        } 
-    }); 
-});
-//Get image by itemId from the db
-//route url http://localhost:3000/items/api/images
-router.get('/api/images/:itemId',  getImageById, async (req,res) => {
-    try{
-        res.send(res.image)
-    }catch (error) {
-        res.status(400).json({message: error.message})
-    }
-})
-//Uploads a new image
-//route url http://localhost:3000/items/api/image/upload'
-router.post('/api/image/upload', (req, res, next) => {
-
-    upload(req, res, (err) => {
-        if(err){
-            //res.status(400).json({message : err.message})
-            console.log("error")
-        }
-        else{
-            const image = new Image({
-                name: req.body.name,
-                path: '/server/uploads/',
-                image: {
-                    data: req.file.filename,
-                    contentType: 'image/jpg'
-                }
-            })
-
-            image
-                .save()
-                .then(()=>res.send("Uploaded"))
-                .catch(()=> console.log("error 2"))
-            
-        }
-    })
-})
-
-//#endregion
 
 async function getItemById(req, res, next){
     const item = await Item.findOne( { itemId: req.params.itemId} )
@@ -310,17 +263,5 @@ async function getItemBySellerId(req, res, next){
     res.item = item
     next()
 }
-async function getImageById(req, res, next){
-    const image = await Image.find( { itemId: req.params.itemId} )
-    try {
-        if(image == null){
-            return res.status(404).json({ message: "Can't Find Images" })
-        }
-    } catch (error) {
-        return res.status(500).json({ message: err.message })
-    }
 
-    res.image = image
-    next()
-}
 module.exports = router
