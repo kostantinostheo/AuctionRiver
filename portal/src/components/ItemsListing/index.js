@@ -74,7 +74,7 @@ export default function ItemsListing() {
                     <Grid container spacing={1}>
                         <Grid container item spacing={1}>
                              { ok === true && currentItems.map((data)=>{
-                                return <ItemComponenet itemId={data.itemId} name={data.name} images={data.images} price={data.buyPrice} category={data.category} bid={data.firstBid}/>
+                                return <ItemComponenet isAvailable={data.isAvailable} itemId={data.itemId} name={data.name} images={data.images} price={data.buyPrice} category={data.category} bid={data.firstBid}/>
                             })}
                         </Grid>
                     </Grid>
@@ -107,7 +107,7 @@ function ItemComponenet(props){
             <div className='card-item'>
                 <Card id='product'>
                 <a onClick={routeChange} style={{"textDecoration": "none"}}>
-                    <img id='product-img' variant="top" src={image} alt='product-image'/>
+                    {props.isAvailable ? <img id='product-img' variant="top" src={image} alt='product-image'/> : <img style={{"opacity" : "60%"}} id='product-img' variant="top" src={image} alt='product-image'/>}
                 </a>
                 <Card.Body id='product-body'>
                     <a onClick={routeChange} style={{"textDecoration": "none", color : "black"}}>

@@ -22,7 +22,8 @@
     "node-fetch": "^2.6.7",
     "node-geocoder": "^4.2.0",
     "node-open-geocoder": "^4.0.1",
-    "nominatim-js": "^1.0.10"
+    "nominatim-js": "^1.0.10",
+    "request": "^2.88.2"
   },
   "devDependencies": {
     "dotenv": "^10.0.0",

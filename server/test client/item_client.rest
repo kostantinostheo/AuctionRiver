@@ -67,3 +67,11 @@ Content-Type: application/json
 {   
     "category": ["Electronics"]
 }
+###
+
+PATCH http://localhost:3000/items/api/buy/5
+Content-Type: application/json
+
+{   
+    "buyerId": 1
+}

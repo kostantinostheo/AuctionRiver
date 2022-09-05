@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import { GetItemDetails, GetUserData, PatchAsync, PostAsync } from '../../utils/Api';
-import { BASE_URL, IMAGE_URL, PATCH_USER_URL, POST_ITEM_URL } from '../../utils/Path';
+import { BASE_URL, IMAGE_URL, PATCH_ITEM_URL, PATCH_USER_URL, POST_ITEM_URL } from '../../utils/Path';
 import { decodeToken, getToken } from '../../utils/Common';
 import { userStatus } from '../../utils/Const';
 import heart from '../../images/heart.png';
@@ -68,6 +68,7 @@ export default function ItemDetailedView() {
             &emsp;
             <Button id='confirm-btn'
               onClick={() => {
+                handleBuyState();
                 this.handleClickDelete();
                 onClose();
               }}
@@ -101,14 +102,7 @@ export default function ItemDetailedView() {
       UpdateBid()
     }
   }
-  const handleBuyState = () => {
-    if(getToken() === null){
-      window.location.href='/login'
-    }
-    else{
-      //remove it from sale
-    }
-  }
+ 
   async function UpdateBid(){
     if(placeBid > lastBid){
       const body = {
@@ -134,6 +128,32 @@ export default function ItemDetailedView() {
     else{
       popUp("Error", "The bid you gave is lower than current bid.")
     }
+  }
+  const handleBuyState = () => {
+    if(getToken() === null){
+      window.location.href='/login'
+    }
+    else{
+      UpdatePurchase()
+    }
+  }
+  async function UpdatePurchase(){
+    const item_id = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
+    const itemid_body = {
+      itemId: item_id
+    }
+    const userid_body = {
+      buyerId: decodeToken().userId
+    }
+    const id_user = decodeToken().userId
+
+    PatchAsync(BASE_URL+PATCH_ITEM_URL.BuyUpdateItem + item_id, userid_body)
+    .then((res) => {
+      if(res.status === 204){
+        PatchAsync(BASE_URL+PATCH_USER_URL.BuyUpdateItem + id_user, itemid_body)
+        .then( ()=> window.location.href='/item')
+      }
+    })
   }
   async function GetAllDetails(){
   GetItemDetails(id)
@@ -193,7 +213,7 @@ export default function ItemDetailedView() {
 
     useEffect(()=> {
       GetAllDetails()
-      console.log(user.saved)
+      console.log(itemData.buyPrice)
     }, [])
     return (
         <div className='item-detailed'>
@@ -204,7 +224,7 @@ export default function ItemDetailedView() {
               <Col md="auto">
                 <Carousel>
                 {images.map((image)=>{
-                    return <DynamicCarousel url={image}/>
+                    return <DynamicCarousel isAvailable={itemData.isAvailable} url={image}/>
                 })}
                 </Carousel>
                 <br/>
@@ -246,22 +266,21 @@ export default function ItemDetailedView() {
                         Price:
                       </h6>
                     </Col>
-                        { itemData.buyPrice != null &&
+                        { itemData.buyPrice != null ?
                         <Col xs={3}>
                           <h4 className='price-tag'>
                             ${itemData.buyPrice}
                           </h4>
                         </Col>
-                        }
-                        {itemData.buyPrice === null &&
-                          <Col xs={3}>
-                            <h4 className='price-tag'>
-                              $-
-                            </h4>
+                        :
+                        <Col xs={3}>
+                          <h4 className='price-tag'>
+                            $-
+                          </h4>
                         </Col>
                         }
                     <Col xs={3}>
-                    { itemData.buyPrice === null || new Date() < new Date(itemData.started) || user.userStatus !== userStatus.Accept
+                    { typeof itemData.buyPrice === 'undefined' || itemData.isAvailable === false || new Date() < new Date(itemData.started) || user.userStatus !== userStatus.Accept || decodeToken().userId === itemData.sellerId 
                       ? <Button className="buy-now-button" disabled>Buy It Now</Button> : <Button onClick={submitBuy} className="buy-now-button">Buy It Now</Button>
                     }
                     </Col>
@@ -288,7 +307,7 @@ export default function ItemDetailedView() {
                         )
                       }
                     </Col>
-                    { itemData.buyPrice === null || new Date() < new Date(itemData.started) || user.userStatus !== userStatus.Accept
+                    { new Date() < new Date(itemData.started) || user.userStatus !== userStatus.Accept || decodeToken().userId === itemData.sellerId  || itemData.isAvailable === false
                       ? 
                       <Row>
                         <Col xs={5}>
@@ -373,7 +392,7 @@ function DynamicCarousel(props){
   const [image] = useState(IMAGE_URL+props.url)
   return(
     <div>
-        <img src={image} alt='product'/>
+        {props.isAvailable ? <img src={image} alt='product'/> : <img style={{"opacity": "60%"}} src={image} alt='product'/>}
     </div>
   );
 }
