@@ -12,6 +12,7 @@ const itemSchemma = new mongoose.Schema({
     started: {type:Date},
     ends: {type:Date},
     images: {type:Array},
+    buyerId: {type: Number},
     sellerId: {type:Number},
     location: {type:String},
     country: {type:String},
