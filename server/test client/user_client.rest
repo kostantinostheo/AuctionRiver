@@ -68,7 +68,7 @@ GET http://localhost:3000/users/api/2
 ###
 GET http://localhost:3000/users/api/
 ###
-PATCH  http://localhost:3000/users/api/update/status/2
+PATCH  http://localhost:3000/users/api/update/status/3
 Content-Type: application/json
 
 {
