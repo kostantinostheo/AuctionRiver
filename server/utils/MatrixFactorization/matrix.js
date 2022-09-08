@@ -53,8 +53,6 @@ function matrixFactorization(arrayX){
                 }
             }
         }
-    
-        console.log(RMSE(userArray, itemArray, arrayX))
         count += 1
     }
     

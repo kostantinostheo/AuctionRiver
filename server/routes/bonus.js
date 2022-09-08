@@ -1,28 +1,37 @@
 const express = require('express')
 const router = express.Router()
 const User = require('../models/user')
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
 const Utils = require('../utils/const')
+const Matrix = require('../models/matrix')
 const matrix = require('../utils/MatrixFactorization/matrix')
 const fetch = require('node-fetch');
-var request = require('request');
-
-const {MongoClient}  = require('mongodb')
 
 require('dotenv').config()
 
 const uri = process.env.CLIENT_DB_URL
 
 async function getUsers(){
-    const res = await fetch('http://localhost:3000/users/api')
+    const res = await fetch(process.env.GET_USERS)
     const data = res.json()
     return data
 }
 
-router.get('/api/recommend/:userId', getUserById, async(req,res) => {
+router.patch('/api/recommend/:userId', getUserById, async(req,res) => {
     try{
         const userid = res.user.userId
+        const dbmatrix = await Matrix.findOne()
+        const timestampNow = new Date()
+        const timestamp = dbmatrix.timestamp
+        const msBetweenDates = Math.abs(timestamp.getTime() - timestampNow.getTime());
+        const hoursBetweenDates = msBetweenDates / (60 * 60 * 1000);
+
+        //Checks if 24 hours has passed
+        if (hoursBetweenDates < 24) {
+            // console.log("24hr hasn't pass yet")
+            // console.log(dbmatrix.matrix[userid-1])
+            return dbmatrix.matrix[userid-1]
+        }
+        
         const users = await getUsers()
         users.sort((a,b)=>(a.userId > b.userId) ? 1 : -1)
 
@@ -55,14 +64,30 @@ router.get('/api/recommend/:userId', getUserById, async(req,res) => {
         }
 
         ratings = matrix.matrixFactorization(array)
-
+        dbmatrix.matrix = ratings
+        dbmatrix.timestamp = timestampNow
+        const updatedMatrix = await dbmatrix.save()
         return ratings[userid-1]
     }
     catch(err){
         res.status(500).json({message : err.message})
     }
 })
-
+router.post('/api/submit-matrix', async(req,res) => {
+    const now = new Date()
+    const matrix = new Matrix({
+        timestamp: now,
+        matrix: []
+    })
+    
+    try{
+        const newMatrix = await matrix.save()
+        res.status(201).json(newMatrix)
+    }
+    catch(err){
+        res.status(400).json({message : err.message})
+    }
+})
 async function getUserById(req, res, next){
     const user = await User.findOne( { userId: req.params.userId, userType: Utils.userType.User} )
     try {

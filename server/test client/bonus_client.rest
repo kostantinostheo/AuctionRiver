@@ -1,1 +1,8 @@
-GET http://localhost:3000/bonus/api/recommend/1
+PATCH  http://localhost:3000/bonus/api/recommend/1
+Content-Type: application/json
+
+###
+
+// this should be called just once in our system to create a new matrix schema.
+POST http://localhost:3000/bonus/api/submit-matrix
+Content-Type: application/json
