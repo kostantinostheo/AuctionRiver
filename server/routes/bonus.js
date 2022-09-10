@@ -11,7 +11,7 @@ require('dotenv').config()
 const uri = process.env.CLIENT_DB_URL
 
 async function getUsers(){
-    const res = await fetch(process.env.GET_USERS)
+    const res = await fetch('http://localhost:3000/users/api')
     const data = res.json()
     return data
 }
@@ -65,12 +65,34 @@ router.patch('/api/recommend/:userId', getUserById, async(req,res) => {
             const updatedMatrix = await dbmatrix.save()
 
             //Translate the array of ratings to array of ids and return it here
-            return ratings[userid-1]
+            let temp = []
+            for (var i = 1; i < 21; ++i){
+                temp.push({id: i, rating: ratings[i-1]})
+            }
+            temp.sort((a,b)=>(a.rating < b.rating) ? 1 : -1)
+
+            let idArray = []
+            for (var i = 0; i < 20; ++i){
+                idArray.push(temp[i].id)
+            }
+
+            return idArray
         }
         else{
             //else return the saved row that is for the spesific user
             //Translate the array of ratings to array of ids and return it here
-            return dbmatrix.matrix[userid-1]
+            let temp = []
+            for (var i = 1; i < 21; ++i){
+                temp.push({id: i, rating: dbmatrix.matrix[i-1]})
+            }
+            temp.sort((a,b)=>(a.rating < b.rating) ? 1 : -1)
+
+            let idArray = []
+            for (var i = 0; i < 20; ++i){
+                idArray.push(temp[i].id)
+            }
+
+            return idArray
         }
     }
     catch(err){
