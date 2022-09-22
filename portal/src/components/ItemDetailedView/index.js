@@ -3,16 +3,18 @@ import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import Navigate from '../Navigate';
 import Breadcrumb from '../CustomBreadcrumb';
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
-import { GetItemDetails, GetUserData, PatchAsync, PostAsync } from '../../utils/Api';
-import { BASE_URL, IMAGE_URL, PATCH_ITEM_URL, PATCH_USER_URL, POST_ITEM_URL } from '../../utils/Path';
+import { GetItemDetails, GetUserData, ItemIsAvailable, ItemSeller, PatchAsync, PostAsync } from '../../utils/Api';
+import { BASE_URL, GET_ITEM_URL, IMAGE_URL, PATCH_ITEM_URL, PATCH_USER_URL, POST_ITEM_URL } from '../../utils/Path';
 import { decodeToken, getToken } from '../../utils/Common';
 import { userStatus } from '../../utils/Const';
 import heart from '../../images/heart.png';
 import heart_fill from '../../images/heart_fill.png';
+import { Grid } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -32,6 +34,9 @@ export default function ItemDetailedView() {
   const [seller, getSeller] = useState([])
   const [user, getUser] = useState([])
   const [savedItem, setSaved] = useState(false)
+  const [bonus, getBonus] = useState([])
+  const [recommend, getRecommended] = useState([])
+
 
   
   var submitBid= () => {
@@ -210,10 +215,47 @@ export default function ItemDetailedView() {
       .then(window.location.reload())
     }
   }
+  async function GetRecommentations(){
+    const options = {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+    };
+    await fetch(BASE_URL + PATCH_ITEM_URL.Bonus + decodeToken().userId, options)
+      .then(async res => {
+        res.json().then(data =>{
+          //If the bonus returns 10+ items then save them in an array
+          let bestItems = []
+          if(data.length >= 10){
+            for (let i = 0; i < 10; i++) {
+              bestItems.unshift(data[i])
+            }
+          
+            let temp = []
+            //We want 3 items. 
+            while(temp.length < 3) {
+              let rand = Math.floor(Math.random() * 10) //Get a random index from 0-9
+              //If the item id in the list is the current item we watch then skip it
+              if(bestItems[rand]===itemData.itemId)
+                continue
+              //If items are not available then skip them
+              if(!ItemIsAvailable(bestItems[rand]))
+                continue
+              //If current item is mine then exlude it
+              if(ItemSeller(bestItems[rand], decodeToken().userId))
+                continue
+              temp.unshift(bestItems[rand])
+            }
+            getBonus(temp)
+            console.log(temp)
+          }
 
+        })
+    })
+  }
     useEffect(()=> {
       GetAllDetails()
-      console.log(itemData.buyPrice)
+      GetRecommentations()
+      console.log("bonus" + bonus)
     }, [])
     return (
         <div className='item-detailed'>
@@ -384,6 +426,16 @@ export default function ItemDetailedView() {
             <br/>
             <br/>
           </Container>
+          { bonus.length >=3 && <>
+            <h4 style={{"textAlign": "left", "marginLeft" : "13em"}}>Similar items</h4>
+            <br/>
+            <Row style={{"width" : "60%", "margin": "auto", "marginBottom" : "10em"}}> 
+            {bonus.map((id)=>{
+              return <Col style={{"marginBottom" : "2em"}}><ItemComponenet id='recommend-card' itemId={id}/></Col>
+            })}
+            </Row>
+            </>
+          }
         </div>
     );
 }
@@ -395,4 +447,61 @@ function DynamicCarousel(props){
         {props.isAvailable ? <img src={image} alt='product'/> : <img style={{"opacity": "60%"}} src={image} alt='product'/>}
     </div>
   );
+}
+
+function ItemComponenet(props){
+
+  //const [image] = useState(IMAGE_URL+props.images[0])
+  let navigate = useNavigate();
+  const [item, getItem] = useState()
+  const [state, setState] = useState(false)
+
+
+  const routeChange = () =>{ 
+      let path = `${props.itemId}`;
+      navigate(path);
+  }
+  async function GetItemRecommend(){
+    GetItemDetails(props.itemId)
+      .then(res => {
+        getItem(res)
+        setState(true)
+      })
+      .catch(err => { return false})
+  }
+  useEffect(async () => {            
+    GetItemRecommend()
+    console.log(state)
+  }, [state]);
+
+  return(
+      <Grid item xs={3}>
+          <div className='card-item'>
+              <Card id='product2'>
+              <a onClick={routeChange} style={{"textDecoration": "none"}}>
+              { state === true && 
+                <img id='product-img' variant="top" src={IMAGE_URL+item.images[0]} alt='product-image'/> 
+              }
+              </a>
+              <Card.Body id='product-body'>
+                  <a onClick={routeChange} style={{"textDecoration": "none", color : "black"}}>
+                     { state === true &&
+                        <Card.Text id='product-title'>{item.name}</Card.Text> 
+                     }
+                  </a>
+                  { state === true &&
+                    <Card.Text id='product-sub-text'>{item.category}</Card.Text>
+                  }
+                  {   
+                      props.price !== null ? <Row><h6 id='product-price'>Buy now:</h6> <h4 id='product-price'>${props.price}</h4>
+                      <h6 id='product-price'>Bid starts at:</h6> <h4 id='product-price'>${props.bid}</h4></Row> 
+                      : 
+                      <Row><h6 id='product-price'>Bid starts at:</h6> <h3 id='product-price'>${props.bid}</h3></Row>
+                  }
+              </Card.Body>
+              </Card>
+          </div>
+      </Grid>
+  );
+
 }

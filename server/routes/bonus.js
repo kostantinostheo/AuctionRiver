@@ -16,12 +16,12 @@ async function getUsers(){
     return data
 }
 async function getItems(){
-    const res = await fetch(process.env.GET_ITEMS)
+    const res = await fetch('http://localhost:3000/items/api')
     const data = res.json()
     return data
 }
 async function GetHighestId(){
-    const res = await fetch(process.env.GET_ITEMS)
+    const res = await fetch('http://localhost:3000/items/api')
     const items = await res.json()
     if(items.length !== 0){
         let maxItem = items.reduce((max, item) => max.itemId > item.itemId ? max : item);
@@ -42,8 +42,13 @@ router.patch('/api/recommend/:userId', getUserById, async(req,res) => {
         //If the 24hrs hasn't pass or the matrix is null then run the algorithm.
         if (hoursBetweenDates >= 24 || dbmatrix.matrix.length === 0){
 
-            const users = await getUsers()
             const items = await getItems()
+            const itemIds = []
+            for(const item of items)
+            {
+                itemIds.push(item.itemId)
+            }
+            const users = await getUsers()
 
             users.sort((a,b)=>(a.userId > b.userId) ? 1 : -1)
 
@@ -82,6 +87,7 @@ router.patch('/api/recommend/:userId', getUserById, async(req,res) => {
 
             ratings = matrix.matrixFactorization(array)
             dbmatrix.users = userIds
+            dbmatrix.items = itemIds
             dbmatrix.matrix = ratings
             dbmatrix.timestamp = timestampNow
             const updatedMatrix = await dbmatrix.save()
@@ -93,9 +99,9 @@ router.patch('/api/recommend/:userId', getUserById, async(req,res) => {
             const userRatings = ratings[index]
             //create the array of objects
             let temp = []
-            let count = 1
+            let count = 0
             for(const rating of userRatings){
-                temp.push({itemId: count, rating: rating})
+                temp.push({itemId: itemIds[count], rating: rating})
                 count++
             }
             //sort the array of objects based of the biggest rating 
@@ -106,8 +112,12 @@ router.patch('/api/recommend/:userId', getUserById, async(req,res) => {
             for (let i = 0; i < temp.length; i++) {
                 idArray.push(temp[i].itemId)
             }
-            console.log(idArray)
-            return idArray
+
+            try {
+                res.json(idArray)
+            } catch (error) {
+                res.status(401).json({message : err.message})
+            }
         }
         else{
             //get index of user from the saved array of user ids.......example of userIds array: [1,2,4,6,7,8] and we get the index
@@ -117,9 +127,9 @@ router.patch('/api/recommend/:userId', getUserById, async(req,res) => {
             const userRatings = dbmatrix.matrix[index]
             //create the array of objects
             let temp = []
-            let count = 1
+            let count = 0
             for(const rating of userRatings){
-                temp.push({itemId: count, rating: rating})
+                temp.push({itemId: dbmatrix.items[count], rating: rating})
                 count++
             }
             //sort the array of objects based of the biggest rating 
@@ -130,8 +140,13 @@ router.patch('/api/recommend/:userId', getUserById, async(req,res) => {
             for (let i = 0; i < temp.length; i++) {
                 idArray.push(temp[i].itemId)
             }
-            console.log(idArray)
-            return idArray
+
+            try {
+                res.json(idArray)
+            } catch (error) {
+                res.status(401).json({message : err.message})
+            }
+                
         }
     }
     catch(err){
