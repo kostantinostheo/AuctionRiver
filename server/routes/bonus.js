@@ -94,7 +94,7 @@ router.patch('/api/recommend/:userId', getUserById, async(req,res) => {
 
             //get index of user from the saved array of user ids.......example of userIds array: [1,2,4,6,7,8] and we get the index
             var index = userIds.indexOf(res.user.userId)
-            console.log("user with id: " + res.user.userId + " is at position: " + index)
+            //console.log("user with id: " + res.user.userId + " is at position: " + index)
             //get the row with the ratings of the specific user
             const userRatings = ratings[index]
             //create the array of objects
@@ -106,7 +106,7 @@ router.patch('/api/recommend/:userId', getUserById, async(req,res) => {
             }
             //sort the array of objects based of the biggest rating 
             temp.sort((a,b)=>(a.rating < b.rating) ? 1 : -1)
-            console.log(temp)
+            //console.log(temp)
             //create the array of item ids
             let idArray = []
             for (let i = 0; i < temp.length; i++) {
@@ -114,6 +114,7 @@ router.patch('/api/recommend/:userId', getUserById, async(req,res) => {
             }
 
             try {
+                console.log(idArray)
                 res.json(idArray)
             } catch (error) {
                 res.status(401).json({message : err.message})
@@ -122,7 +123,7 @@ router.patch('/api/recommend/:userId', getUserById, async(req,res) => {
         else{
             //get index of user from the saved array of user ids.......example of userIds array: [1,2,4,6,7,8] and we get the index
             var index = dbmatrix.users.indexOf(res.user.userId)
-            console.log("User with id: '" + res.user.userId + "' is at row position: '" + index + "' of the matrix")
+            //console.log("User with id: '" + res.user.userId + "' is at row position: '" + index + "' of the matrix")
             //get the row with the ratings of the specific user
             const userRatings = dbmatrix.matrix[index]
             //create the array of objects
@@ -134,7 +135,7 @@ router.patch('/api/recommend/:userId', getUserById, async(req,res) => {
             }
             //sort the array of objects based of the biggest rating 
             temp.sort((a,b)=>(a.rating < b.rating) ? 1 : -1)
-            console.log(temp)
+            //console.log(temp)
             //create the array of item ids
             let idArray = []
             for (let i = 0; i < temp.length; i++) {

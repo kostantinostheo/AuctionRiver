@@ -7,7 +7,7 @@ import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
-import { GetItemDetails, GetUserData, ItemIsAvailable, ItemSeller, PatchAsync, PostAsync } from '../../utils/Api';
+import { GetAllItems, GetItemDetails, GetUserData, ItemIsAvailable, ItemSeller, PatchAsync, PostAsync } from '../../utils/Api';
 import { BASE_URL, GET_ITEM_URL, IMAGE_URL, PATCH_ITEM_URL, PATCH_USER_URL, POST_ITEM_URL } from '../../utils/Path';
 import { decodeToken, getToken } from '../../utils/Common';
 import { userStatus } from '../../utils/Const';
@@ -35,7 +35,7 @@ export default function ItemDetailedView() {
   const [user, getUser] = useState([])
   const [savedItem, setSaved] = useState(false)
   const [bonus, getBonus] = useState([])
-  const [recommend, getRecommended] = useState([])
+  const [state, setState] = useState(false)
 
 
   
@@ -222,31 +222,32 @@ export default function ItemDetailedView() {
     };
     await fetch(BASE_URL + PATCH_ITEM_URL.Bonus + decodeToken().userId, options)
       .then(async res => {
-        res.json().then(data =>{
+        res.json().then(async data =>{
           //If the bonus returns 10+ items then save them in an array
+          let _THRESHOLD = 10
+
           let bestItems = []
-          if(data.length >= 10){
-            for (let i = 0; i < 10; i++) {
-              bestItems.unshift(data[i])
+          if(data.length >= _THRESHOLD){
+            for (let i = 0; i < _THRESHOLD; i++) {
+              bestItems.push(data[i])
             }
-          
-            let temp = []
+            
+            let include = []
+            let exclude = []
+
             //We want 3 items. 
-            while(temp.length < 3) {
-              let rand = Math.floor(Math.random() * 10) //Get a random index from 0-9
-              //If the item id in the list is the current item we watch then skip it
-              if(bestItems[rand]===itemData.itemId)
-                continue
-              //If items are not available then skip them
-              if(!ItemIsAvailable(bestItems[rand]))
-                continue
-              //If current item is mine then exlude it
-              if(ItemSeller(bestItems[rand], decodeToken().userId))
-                continue
-              temp.unshift(bestItems[rand])
+            for (let i = 0; i < 3; i++){
+              let rand = Math.floor(Math.random() * _THRESHOLD/2) //Get a random index from 0-9
+
+              if (include.includes(bestItems[rand]))
+                rand = Math.floor(Math.random() * _THRESHOLD/2) //Get a random index from 0-9
+
+              include.push(bestItems[rand])
             }
-            getBonus(temp)
-            console.log(temp)
+            console.log("best" + bestItems)
+            console.log("temp" + include)
+            getBonus(include)
+            setState(true)
           }
 
         })
@@ -255,7 +256,6 @@ export default function ItemDetailedView() {
     useEffect(()=> {
       GetAllDetails()
       GetRecommentations()
-      console.log("bonus" + bonus)
     }, [])
     return (
         <div className='item-detailed'>
@@ -458,7 +458,7 @@ function ItemComponenet(props){
 
 
   const routeChange = () =>{ 
-      let path = `${props.itemId}`;
+      let path = `/item/${props.itemId}`; // fix that change path
       navigate(path);
   }
   async function GetItemRecommend(){
@@ -471,24 +471,24 @@ function ItemComponenet(props){
   }
   useEffect(async () => {            
     GetItemRecommend()
-    console.log(state)
+    console.log(item)
   }, [state]);
 
   return(
       <Grid item xs={3}>
           <div className='card-item'>
               <Card id='product2'>
-              <a onClick={routeChange} style={{"textDecoration": "none"}}>
+              <a href={`/item/${props.itemId}`} style={{"textDecoration": "none"}}>
               { state === true && 
                 <img id='product-img' variant="top" src={IMAGE_URL+item.images[0]} alt='product-image'/> 
               }
               </a>
               <Card.Body id='product-body'>
-                  <a onClick={routeChange} style={{"textDecoration": "none", color : "black"}}>
                      { state === true &&
+                      <a href={`/item/${props.itemId}`} style={{"textDecoration": "none", color : "black"}}>
                         <Card.Text id='product-title'>{item.name}</Card.Text> 
+                      </a>
                      }
-                  </a>
                   { state === true &&
                     <Card.Text id='product-sub-text'>{item.category}</Card.Text>
                   }
