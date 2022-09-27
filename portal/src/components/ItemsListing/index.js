@@ -1,15 +1,15 @@
+import React, { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import Navigate from '../Navigate';
-import './index.css'
-import React, { useEffect, useState } from 'react';
-import CustomBreadcrumb from '../CustomBreadcrumb';
-import { GetAllItems, GetItemDetails } from '../../utils/Api';
+import { GetAllItems } from '../../utils/Api';
 import { Card, Navbar, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { IMAGE_URL } from '../../utils/Path';
+import Navigate from '../Navigate';
+import CustomBreadcrumb from '../CustomBreadcrumb';
 import Pagenation from '../Pagination';
-
+import Footer from '../Footer';
+import './index.css'
 
 
 export default function ItemsListing() {
@@ -30,7 +30,10 @@ export default function ItemsListing() {
 
     async function GetAllListing(){
         GetAllItems()
-            .then( (res) => setItem(res) )
+            .then( (res) => {
+                setItem(res)
+                console.log(res)
+            } )
             .then(setOk(true))
     }
     
@@ -74,7 +77,7 @@ export default function ItemsListing() {
                     <Grid container spacing={1}>
                         <Grid container item spacing={1}>
                              { ok === true && currentItems.map((data)=>{
-                                return <ItemComponenet itemId={data.itemId} isAvailable={data.isAvailable} name={data.name} images={data.images} price={data.buyPrice} category={data.category} bid={data.firstBid}/>
+                                return <ItemComponenet itemId={data.itemId} isAvailable={data.isAvailable} name={data.name} images={data.images} price={data.buyPrice} category={data.category} firstBid={data.firstBid}/>
                             })}
                         </Grid>
                     </Grid>
@@ -86,7 +89,7 @@ export default function ItemsListing() {
                     totalItems={item.length} 
                     paginate={paginate}
                 />
-    
+            <Footer/>
         </div>
     );
 }
@@ -123,9 +126,9 @@ function ItemComponenet(props){
 
                     {   
                         props.price !== null ? <Row><h6 id='product-price'>Buy now:</h6> <h4 id='product-price'>${props.price}</h4>
-                        <h6 id='product-price'>Bid starts at:</h6> <h4 id='product-price'>$122</h4></Row> 
+                        <h6 id='product-price'>Bid starts at:</h6> <h4 id='product-price'>${props.firstBid}</h4></Row> 
                         : 
-                        <Row><h6 id='product-price'>Bid starts at:</h6> <h3 id='product-price'>$122</h3></Row>
+                        <Row><h6 id='product-price'>Bid starts at:</h6> <h3 id='product-price'>${props.firstBid}</h3></Row>
                     }
                 </Card.Body>
                 </Card>

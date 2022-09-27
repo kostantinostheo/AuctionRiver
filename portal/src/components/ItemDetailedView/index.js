@@ -7,15 +7,15 @@ import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
-import { GetAllItems, GetItemDetails, GetUserData, ItemIsAvailable, ItemSeller, PatchAsync, PostAsync } from '../../utils/Api';
-import { BASE_URL, GET_ITEM_URL, IMAGE_URL, PATCH_ITEM_URL, PATCH_USER_URL, POST_ITEM_URL } from '../../utils/Path';
-import { decodeToken, getToken } from '../../utils/Common';
+import { GetItemDetails, GetUserData, ItemIsAvailable, ItemSeller, PatchAsync, PostAsync } from '../../utils/Api';
+import { BASE_URL, IMAGE_URL, PATCH_ITEM_URL, PATCH_USER_URL, POST_ITEM_URL } from '../../utils/Path';
+import { decodeToken, getToken, get_rand } from '../../utils/Common';
 import { userStatus } from '../../utils/Const';
 import heart from '../../images/heart.png';
 import heart_fill from '../../images/heart_fill.png';
 import { Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-
+import Footer from '../Footer';
 
 
 export default function ItemDetailedView() {
@@ -224,28 +224,24 @@ export default function ItemDetailedView() {
       .then(async res => {
         res.json().then(async data =>{
           //If the bonus returns 10+ items then save them in an array
+          let available = []
+          for (let i = 0; i < data.length; i++) {
+            const isAvailable = await ItemIsAvailable(data[i])
+            const isMine = await ItemSeller(data[i], decodeToken().userId)
+            if (isAvailable && !isMine) {
+              available.push(data[i])
+            }
+          }
+          //console.log(available)
           let _THRESHOLD = 10
 
-          let bestItems = []
           if(data.length >= _THRESHOLD){
-            for (let i = 0; i < _THRESHOLD; i++) {
-              bestItems.push(data[i])
-            }
-            
             let include = []
-            let exclude = []
-
-            //We want 3 items. 
+            //Display 4 Recommended Items
             for (let i = 0; i < 3; i++){
-              let rand = Math.floor(Math.random() * _THRESHOLD/2) //Get a random index from 0-9
-
-              if (include.includes(bestItems[rand]))
-                rand = Math.floor(Math.random() * _THRESHOLD/2) //Get a random index from 0-9
-
-              include.push(bestItems[rand])
+              let rand = get_rand(available) //Get a random index from 0-9
+              include.push(rand)
             }
-            console.log("best" + bestItems)
-            console.log("temp" + include)
             getBonus(include)
             setState(true)
           }
@@ -253,6 +249,8 @@ export default function ItemDetailedView() {
         })
     })
   }
+
+
     useEffect(()=> {
       GetAllDetails()
       GetRecommentations()
@@ -436,6 +434,7 @@ export default function ItemDetailedView() {
             </Row>
             </>
           }
+          <Footer/>
         </div>
     );
 }
@@ -455,7 +454,7 @@ function ItemComponenet(props){
   let navigate = useNavigate();
   const [item, getItem] = useState()
   const [state, setState] = useState(false)
-
+  const [lastBid, getLastBid] = useState()
 
   const routeChange = () =>{ 
       let path = `/item/${props.itemId}`; // fix that change path
@@ -465,13 +464,14 @@ function ItemComponenet(props){
     GetItemDetails(props.itemId)
       .then(res => {
         getItem(res)
+        getLastBid(res.bids.bid[0].amount)
         setState(true)
       })
       .catch(err => { return false})
   }
   useEffect(async () => {            
     GetItemRecommend()
-    console.log(item)
+    //console.log(item)
   }, [state]);
 
   return(
@@ -492,11 +492,16 @@ function ItemComponenet(props){
                   { state === true &&
                     <Card.Text id='product-sub-text'>{item.category}</Card.Text>
                   }
-                  {   
-                      props.price !== null ? <Row><h6 id='product-price'>Buy now:</h6> <h4 id='product-price'>${props.price}</h4>
-                      <h6 id='product-price'>Bid starts at:</h6> <h4 id='product-price'>${props.bid}</h4></Row> 
-                      : 
-                      <Row><h6 id='product-price'>Bid starts at:</h6> <h3 id='product-price'>${props.bid}</h3></Row>
+                  {   state === true &&
+                    <Row>
+                      {
+                       typeof item.buyPrice === "undefined" ? 
+                       <><h6 id='product-price'>Buy now:</h6> <h4 id='product-price'>${item.buyPrice}</h4> </>
+                       : 
+                       <><h6 id='product-price'>Buy now:</h6> <h4 id='product-price'>${item.buyPrice}</h4></>
+                      }
+                      <h6 id='product-price'>Bid starts at:</h6> <h4 id='product-price'>${lastBid}</h4>
+                    </Row>  
                   }
               </Card.Body>
               </Card>

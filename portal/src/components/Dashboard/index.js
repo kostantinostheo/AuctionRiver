@@ -56,13 +56,13 @@ export default function Dashboard() {
           <Row>
             <Col  sm={2} >
               <ul className='account-options-list'>
-                <li className='account-options-item-list'>
+                <li >
                   <button className='button-text' onClick={()=>{setPage(pageType.Info)}}>Personal Information</button>
                 </li>
-                <li className='account-options-item-list'>
+                <li >
                   <button className='button-text' onClick={()=>{setPage(pageType.Auctions)}}>Selling</button>
                 </li>
-                <li className='account-options-item-list'>
+                <li>
                   <button className='button-text' onClick={()=>{setPage(pageType.Purchase)}}>Purchase History</button>
                 </li>
                 <li id='underline'/>
