@@ -90,6 +90,10 @@
 }
 #product-title:hover{
     color: rgb(40, 136, 143);
+<<<<<<< HEAD
+=======
+    cursor: pointer;
+>>>>>>> develop
 }
 #product-sub-text{
     font-size: 13px;

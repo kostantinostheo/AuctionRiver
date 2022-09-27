@@ -4,6 +4,11 @@ const User = require('../models/user')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const Utils = require('../utils/const')
+<<<<<<< HEAD
+=======
+const fetch = require('node-fetch');
+var request = require('request');
+>>>>>>> develop
 
 const {MongoClient}  = require('mongodb')
 
@@ -112,7 +117,12 @@ router.post('/api/register', async (req,res) => {
             userStatus: Utils.userStatus.Pending,
             rating: 0,
             saved: [],
+<<<<<<< HEAD
             recent: []
+=======
+            recent: [],
+            shoppingList: []
+>>>>>>> develop
         })
     }
     console.log(user)
@@ -249,6 +259,28 @@ router.patch('/api/monitor/:userId', getUserById, async (req, res) => {
     } catch (error) {
         res.status(400).json({message: error.message})
     }
+<<<<<<< HEAD
+=======
+    
+})
+router.patch('/api/buy/:userId', getUserById, async (req, res) => {
+    try {
+        const shoppingList = res.user.shoppingList
+        
+        if (shoppingList.includes(req.body.itemId)){
+            res.status(400).json({message: "Item already purchased"})
+            return
+        }
+        
+        shoppingList.unshift(req.body.itemId)
+        res.user.shoppingList = shoppingList
+
+        const shoppingListUpdate = await res.user.save()
+        res.status(204).json(shoppingListUpdate)
+    } catch (error) {
+        res.status(400).json({message: error.message})
+    }
+>>>>>>> develop
     
 })
 

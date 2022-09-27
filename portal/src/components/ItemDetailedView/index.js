@@ -3,6 +3,7 @@ import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import Navigate from '../Navigate';
 import Breadcrumb from '../CustomBreadcrumb';
+<<<<<<< HEAD
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
@@ -14,6 +15,21 @@ import { userStatus } from '../../utils/Const';
 import heart from '../../images/heart.png';
 import heart_fill from '../../images/heart_fill.png';
 
+=======
+import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from 'react-responsive-carousel';
+import { GetItemDetails, GetUserData, ItemIsAvailable, ItemSeller, PatchAsync, PostAsync } from '../../utils/Api';
+import { BASE_URL, IMAGE_URL, PATCH_ITEM_URL, PATCH_USER_URL, POST_ITEM_URL } from '../../utils/Path';
+import { decodeToken, getToken, get_rand } from '../../utils/Common';
+import { userStatus } from '../../utils/Const';
+import heart from '../../images/heart.png';
+import heart_fill from '../../images/heart_fill.png';
+import { Grid } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import Footer from '../Footer';
+>>>>>>> develop
 
 
 export default function ItemDetailedView() {
@@ -32,6 +48,12 @@ export default function ItemDetailedView() {
   const [seller, getSeller] = useState([])
   const [user, getUser] = useState([])
   const [savedItem, setSaved] = useState(false)
+<<<<<<< HEAD
+=======
+  const [bonus, getBonus] = useState([])
+  const [state, setState] = useState(false)
+
+>>>>>>> develop
 
   
   var submitBid= () => {
@@ -68,6 +90,10 @@ export default function ItemDetailedView() {
             &emsp;
             <Button id='confirm-btn'
               onClick={() => {
+<<<<<<< HEAD
+=======
+                handleBuyState();
+>>>>>>> develop
                 this.handleClickDelete();
                 onClose();
               }}
@@ -101,6 +127,7 @@ export default function ItemDetailedView() {
       UpdateBid()
     }
   }
+<<<<<<< HEAD
   const handleBuyState = () => {
     if(getToken() === null){
       window.location.href='/login'
@@ -109,6 +136,9 @@ export default function ItemDetailedView() {
       //remove it from sale
     }
   }
+=======
+ 
+>>>>>>> develop
   async function UpdateBid(){
     if(placeBid > lastBid){
       const body = {
@@ -135,6 +165,35 @@ export default function ItemDetailedView() {
       popUp("Error", "The bid you gave is lower than current bid.")
     }
   }
+<<<<<<< HEAD
+=======
+  const handleBuyState = () => {
+    if(getToken() === null){
+      window.location.href='/login'
+    }
+    else{
+      UpdatePurchase()
+    }
+  }
+  async function UpdatePurchase(){
+    const item_id = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
+    const itemid_body = {
+      itemId: item_id
+    }
+    const userid_body = {
+      buyerId: decodeToken().userId
+    }
+    const id_user = decodeToken().userId
+
+    PatchAsync(BASE_URL+PATCH_ITEM_URL.BuyUpdateItem + item_id, userid_body)
+    .then((res) => {
+      if(res.status === 204){
+        PatchAsync(BASE_URL+PATCH_USER_URL.BuyUpdateItem + id_user, itemid_body)
+        .then( ()=> window.location.href='/item')
+      }
+    })
+  }
+>>>>>>> develop
   async function GetAllDetails(){
   GetItemDetails(id)
     .then((res) => {
@@ -190,10 +249,52 @@ export default function ItemDetailedView() {
       .then(window.location.reload())
     }
   }
+<<<<<<< HEAD
 
     useEffect(()=> {
       GetAllDetails()
       console.log(user.saved)
+=======
+  async function GetRecommentations(){
+    const options = {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+    };
+    await fetch(BASE_URL + PATCH_ITEM_URL.Bonus + decodeToken().userId, options)
+      .then(async res => {
+        res.json().then(async data =>{
+          //If the bonus returns 10+ items then save them in an array
+          let available = []
+          for (let i = 0; i < data.length; i++) {
+            const isAvailable = await ItemIsAvailable(data[i])
+            const isMine = await ItemSeller(data[i], decodeToken().userId)
+            if (isAvailable && !isMine) {
+              available.push(data[i])
+            }
+          }
+          //console.log(available)
+          let _THRESHOLD = 10
+
+          if(data.length >= _THRESHOLD){
+            let include = []
+            //Display 4 Recommended Items
+            for (let i = 0; i < 3; i++){
+              let rand = get_rand(available) //Get a random index from 0-9
+              include.push(rand)
+            }
+            getBonus(include)
+            setState(true)
+          }
+
+        })
+    })
+  }
+
+
+    useEffect(()=> {
+      GetAllDetails()
+      GetRecommentations()
+>>>>>>> develop
     }, [])
     return (
         <div className='item-detailed'>
@@ -204,7 +305,11 @@ export default function ItemDetailedView() {
               <Col md="auto">
                 <Carousel>
                 {images.map((image)=>{
+<<<<<<< HEAD
                     return <DynamicCarousel url={image}/>
+=======
+                    return <DynamicCarousel isAvailable={itemData.isAvailable} url={image}/>
+>>>>>>> develop
                 })}
                 </Carousel>
                 <br/>
@@ -246,12 +351,17 @@ export default function ItemDetailedView() {
                         Price:
                       </h6>
                     </Col>
+<<<<<<< HEAD
                         { itemData.buyPrice != null &&
+=======
+                        { itemData.buyPrice != null ?
+>>>>>>> develop
                         <Col xs={3}>
                           <h4 className='price-tag'>
                             ${itemData.buyPrice}
                           </h4>
                         </Col>
+<<<<<<< HEAD
                         }
                         {itemData.buyPrice === null &&
                           <Col xs={3}>
@@ -262,6 +372,17 @@ export default function ItemDetailedView() {
                         }
                     <Col xs={3}>
                     { itemData.buyPrice === null || new Date() < new Date(itemData.started) || user.userStatus !== userStatus.Accept
+=======
+                        :
+                        <Col xs={3}>
+                          <h4 className='price-tag'>
+                            $-
+                          </h4>
+                        </Col>
+                        }
+                    <Col xs={3}>
+                    { typeof itemData.buyPrice === 'undefined' || itemData.isAvailable === false || new Date() < new Date(itemData.started) || user.userStatus !== userStatus.Accept || decodeToken().userId === itemData.sellerId 
+>>>>>>> develop
                       ? <Button className="buy-now-button" disabled>Buy It Now</Button> : <Button onClick={submitBuy} className="buy-now-button">Buy It Now</Button>
                     }
                     </Col>
@@ -288,7 +409,11 @@ export default function ItemDetailedView() {
                         )
                       }
                     </Col>
+<<<<<<< HEAD
                     { itemData.buyPrice === null || new Date() < new Date(itemData.started) || user.userStatus !== userStatus.Accept
+=======
+                    { new Date() < new Date(itemData.started) || user.userStatus !== userStatus.Accept || decodeToken().userId === itemData.sellerId  || itemData.isAvailable === false
+>>>>>>> develop
                       ? 
                       <Row>
                         <Col xs={5}>
@@ -365,6 +490,20 @@ export default function ItemDetailedView() {
             <br/>
             <br/>
           </Container>
+<<<<<<< HEAD
+=======
+          { bonus.length >=3 && <>
+            <h4 style={{"textAlign": "left", "marginLeft" : "13em"}}>Similar items</h4>
+            <br/>
+            <Row style={{"width" : "60%", "margin": "auto", "marginBottom" : "10em"}}> 
+            {bonus.map((id)=>{
+              return <Col style={{"marginBottom" : "2em"}}><ItemComponenet id='recommend-card' itemId={id}/></Col>
+            })}
+            </Row>
+            </>
+          }
+          <Footer/>
+>>>>>>> develop
         </div>
     );
 }
@@ -373,7 +512,76 @@ function DynamicCarousel(props){
   const [image] = useState(IMAGE_URL+props.url)
   return(
     <div>
+<<<<<<< HEAD
         <img src={image} alt='product'/>
     </div>
   );
+=======
+        {props.isAvailable ? <img src={image} alt='product'/> : <img style={{"opacity": "60%"}} src={image} alt='product'/>}
+    </div>
+  );
+}
+
+function ItemComponenet(props){
+
+  //const [image] = useState(IMAGE_URL+props.images[0])
+  let navigate = useNavigate();
+  const [item, getItem] = useState()
+  const [state, setState] = useState(false)
+  const [lastBid, getLastBid] = useState()
+
+  const routeChange = () =>{ 
+      let path = `/item/${props.itemId}`; // fix that change path
+      navigate(path);
+  }
+  async function GetItemRecommend(){
+    GetItemDetails(props.itemId)
+      .then(res => {
+        getItem(res)
+        getLastBid(res.bids.bid[0].amount)
+        setState(true)
+      })
+      .catch(err => { return false})
+  }
+  useEffect(async () => {            
+    GetItemRecommend()
+    //console.log(item)
+  }, [state]);
+
+  return(
+      <Grid item xs={3}>
+          <div className='card-item'>
+              <Card id='product2'>
+              <a href={`/item/${props.itemId}`} style={{"textDecoration": "none"}}>
+              { state === true && 
+                <img id='product-img' variant="top" src={IMAGE_URL+item.images[0]} alt='product-image'/> 
+              }
+              </a>
+              <Card.Body id='product-body'>
+                     { state === true &&
+                      <a href={`/item/${props.itemId}`} style={{"textDecoration": "none", color : "black"}}>
+                        <Card.Text id='product-title'>{item.name}</Card.Text> 
+                      </a>
+                     }
+                  { state === true &&
+                    <Card.Text id='product-sub-text'>{item.category}</Card.Text>
+                  }
+                  {   state === true &&
+                    <Row>
+                      {
+                       typeof item.buyPrice === "undefined" ? 
+                       <><h6 id='product-price'>Buy now:</h6> <h4 id='product-price'>${item.buyPrice}</h4> </>
+                       : 
+                       <><h6 id='product-price'>Buy now:</h6> <h4 id='product-price'>${item.buyPrice}</h4></>
+                      }
+                      <h6 id='product-price'>Bid starts at:</h6> <h4 id='product-price'>${lastBid}</h4>
+                    </Row>  
+                  }
+              </Card.Body>
+              </Card>
+          </div>
+      </Grid>
+  );
+
+>>>>>>> develop
 }

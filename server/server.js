@@ -27,9 +27,17 @@ app.use(express.json())
 const usersRouter = require('./routes/users')
 const itemsRouter = require('./routes/items')
 const imageRouter = require('./routes/images')
+<<<<<<< HEAD
+=======
+const bonusRouter = require('./routes/bonus')
+>>>>>>> develop
 
 app.use('/users', usersRouter)
 app.use('/items', itemsRouter)
 app.use('/images', imageRouter)
+<<<<<<< HEAD
+=======
+app.use('/bonus', bonusRouter)
+>>>>>>> develop
 
 app.listen(3000, ()=> console.log('Api started with no errors..'))

@@ -50,6 +50,7 @@ export function LocalDate() {
   if (mm < 10) mm = '0' + mm;
   const date = dd + '/' + mm + '/' + yyyy
   return date
+<<<<<<< HEAD
 }
 
 export function jsonToXml(data, exportType){
@@ -57,4 +58,29 @@ export function jsonToXml(data, exportType){
   const fileName = 'auctions'
 
   exportFromJSON({ data, fileName, exportType })
+=======
+}
+
+export function jsonToXml(data, exportType){
+
+  const fileName = 'auctions'
+
+  exportFromJSON({ data, fileName, exportType })
+}
+
+var gen_nums = [];
+export function in_array(array, el) {
+    for(var i = 0 ; i < array.length; i++) 
+        if(array[i] === el) return true;
+    return false;
+}
+
+export function get_rand(array) {
+    var rand = array[Math.floor(Math.random()*array.length)];
+    if(!in_array(gen_nums, rand)) {
+        gen_nums.push(rand); 
+        return rand;
+    }
+    return get_rand(array);
+>>>>>>> develop
 }

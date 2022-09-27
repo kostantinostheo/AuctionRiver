@@ -65,6 +65,18 @@ router.get('/api/seller/:sellerId',  getItemBySellerId, async (req,res) => {
         res.status(400).json({message: error.message})
     }
 })
+<<<<<<< HEAD
+=======
+//Get item from the db based on buyer id
+//route url http://localhost:3000/items/api/buyer/1
+router.get('/api/buyer/:buyerId',  getItemByBuyerId, async (req,res) => {
+    try{
+        res.send(res.item)
+    }catch (error) {
+        res.status(400).json({message: error.message})
+    }
+})
+>>>>>>> develop
 //Get all items ascending ordered from the db
 //route url http://localhost:3000/items/api/sorted
 router.post('/api/sorted', async(req,res) => {
@@ -125,6 +137,10 @@ router.post('/api/submit', async (req,res) => {
         buyPrice: req.body.buyPrice,
         firstBid: req.body.firstBid,
         numberOfBids: 0,
+<<<<<<< HEAD
+=======
+        buyerId: -1,
+>>>>>>> develop
         sellerId: req.body.sellerId,
         started: req.body.started,
         ends: req.body.ends,
@@ -234,6 +250,31 @@ router.patch('/api/update_item/:itemId', getItemById, async (req,res)=>{
         res.status(400).json({message: error.message})
     }
 })
+<<<<<<< HEAD
+=======
+//Update item availability
+//route url http://localhost:3000/items/api/buy/5'
+router.patch('/api/buy/:itemId', getItemById, async (req, res) => {
+    try {
+        if(req.body.buyerId === res.item.sellerId){
+            res.status(400).json({message: "Can't be bought. You own this item."})
+            return
+        }
+        try {
+            console.log(req.body.buyerId)
+            res.item.isAvailable = false
+            res.item.buyerId = req.body.buyerId
+            const updatedItem = await res.item.save()
+            res.status(204).json(updatedItem)
+        } catch (error) {
+            res.status(400).json({message: error.message})
+        }
+    } catch (error) {
+        res.status(400).json({message: error.message})
+    }
+    
+})
+>>>>>>> develop
 
 
 
@@ -263,5 +304,21 @@ async function getItemBySellerId(req, res, next){
     res.item = item
     next()
 }
+<<<<<<< HEAD
+=======
+async function getItemByBuyerId(req, res, next){
+    const item = await Item.find( { buyerId: req.params.buyerId} )
+    try {
+        if(item == null){
+            return res.status(404).json({ message: "Can't Find Item" })
+        }
+    } catch (error) {
+        return res.status(500).json({ message: err.message })
+    }
+
+    res.item = item
+    next()
+}
+>>>>>>> develop
 
 module.exports = router

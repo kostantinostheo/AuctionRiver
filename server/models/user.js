@@ -18,7 +18,12 @@ const userSchemma = new mongoose.Schema({
     saved: {type: Array},
     recent: {type: Array},
     rating:{type: Number},
+<<<<<<< HEAD
     ratings:{type: Array}
+=======
+    ratings:{type: Array},
+    shoppingList:{type: Array}
+>>>>>>> develop
 })
 
 module.exports = mongoose.model('User', userSchemma)
