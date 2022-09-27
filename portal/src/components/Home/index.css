@@ -42,20 +42,30 @@
 }
 
 #cat-header{
-  margin: auto;
-  padding-bottom: 1em;
-  padding-right: 49em;
-  font-family: 'Source Sans Pro', sans-serif !important;
-  color: rgb(44, 175, 175);
-  width: fit-content;
-  height: fit-content;
-  margin-top: 80px;
   text-align: left;
+  padding-left: 8em;
+  padding-top: 2em;
+  font-family: 'Source Sans Pro', sans-serif !important;
+  color: rgb(129, 129, 129);
   font-weight: bold;
+}
+#cat-hover:hover{
+  color: #00A399;
+}
+#cat-header-2{
+  font-family: 'Source Sans Pro', sans-serif ;
+  color: rgb(82, 82, 82);
+  font-weight: bold;
+  text-align: left;
+  padding-left: 8em;
+  padding-top: 4em;
 }
 
 #categories-row{
+  border-radius: 10px;
   margin: auto;
+  padding-top: 22px;
   width: 80%;
   margin-top: 20px;
+  background-color: #f3f3f3;
 }

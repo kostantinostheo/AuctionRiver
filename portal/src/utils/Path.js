@@ -35,7 +35,8 @@ export const POST_ITEM_URL = {
 }
 export const PATCH_ITEM_URL = {
 	UpdateItem: "items/api/update_item/",
-	BuyUpdateItem: "items/api/buy/"
+	BuyUpdateItem: "items/api/buy/",
+	Bonus: "bonus/api/recommend/"
 }
 export const DELETE_ITEM_URL = {
 	DeleteItem: "items/api/delete/",

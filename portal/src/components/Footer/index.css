@@ -1,0 +1,31 @@
+.footer{
+    margin-top: 10em !important;
+    height: 15em;
+    background-color: rgb(66, 114, 114);
+}
+
+.footer-col{
+    margin-top: 2em !important;
+}
+#footer-list{
+    padding-top: 4px;
+    margin-left: 23.2em;
+    text-align: left;
+    list-style-type: none;
+    font-family: 'Source Sans Pro', sans-serif ;
+    color: white;
+}
+#footer-list-2{
+    padding-top: 4px;
+    margin-left: 18.5em;
+    text-align: left;
+    list-style-type: none;
+    font-family: 'Source Sans Pro', sans-serif ;
+    color: white;
+}
+#footer-title{
+    font-family: 'Source Sans Pro', sans-serif ;
+    text-decoration: underline !important;
+    font-weight: bold;
+    color: rgb(243, 183, 17);
+}

@@ -1,15 +1,15 @@
+import React, { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import Navigate from '../Navigate';
-import './index.css'
-import React, { useEffect, useState } from 'react';
-import CustomBreadcrumb from '../CustomBreadcrumb';
 import { GetAllItems } from '../../utils/Api';
 import { Card, Navbar, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { IMAGE_URL } from '../../utils/Path';
+import Navigate from '../Navigate';
+import CustomBreadcrumb from '../CustomBreadcrumb';
 import Pagenation from '../Pagination';
-
+import Footer from '../Footer';
+import './index.css'
 
 
 export default function ItemsListing() {
@@ -30,7 +30,10 @@ export default function ItemsListing() {
 
     async function GetAllListing(){
         GetAllItems()
-            .then( (res) => setItem(res) )
+            .then( (res) => {
+                setItem(res)
+                console.log(res)
+            } )
             .then(setOk(true))
     }
     
@@ -74,7 +77,7 @@ export default function ItemsListing() {
                     <Grid container spacing={1}>
                         <Grid container item spacing={1}>
                              { ok === true && currentItems.map((data)=>{
-                                return <ItemComponenet isAvailable={data.isAvailable} itemId={data.itemId} name={data.name} images={data.images} price={data.buyPrice} category={data.category} bid={data.firstBid}/>
+                                return <ItemComponenet itemId={data.itemId} isAvailable={data.isAvailable} name={data.name} images={data.images} price={data.buyPrice} category={data.category} firstBid={data.firstBid}/>
                             })}
                         </Grid>
                     </Grid>
@@ -86,39 +89,46 @@ export default function ItemsListing() {
                     totalItems={item.length} 
                     paginate={paginate}
                 />
-    
+            <Footer/>
         </div>
     );
 }
 
 function ItemComponenet(props){
 
-    const [image] = useState(IMAGE_URL+props.images[0])
-    let navigate = useNavigate();
-    
+    let navigate = useNavigate();  
+  
     const routeChange = () =>{ 
-        let path = `${props.itemId}`;
+        let path = `${props.itemId}`; // fix that change path
         navigate(path);
     }
 
+  
 
     return(
         <Grid item xs={3}>
             <div className='card-item'>
                 <Card id='product'>
                 <a onClick={routeChange} style={{"textDecoration": "none"}}>
-                    {props.isAvailable ? <img id='product-img' variant="top" src={image} alt='product-image'/> : <img style={{"opacity" : "60%"}} id='product-img' variant="top" src={image} alt='product-image'/>}
+                    { props.isAvailable === true ?
+                        <img id='product-img' variant="top" src={IMAGE_URL+props.images[0]} alt='product-image'/> 
+                        :
+                        <img style={{"opacity" : "50%"}} id='product-img' variant="top" src={IMAGE_URL+props.images[0]} alt='product-image'/> 
+                    }
                 </a>
                 <Card.Body id='product-body'>
                     <a onClick={routeChange} style={{"textDecoration": "none", color : "black"}}>
-                        <Card.Text id='product-title'>{props.name}</Card.Text>
+
+                        <Card.Text id='product-title'>{props.name}</Card.Text> 
                     </a>
-                    <Card.Text id='product-sub-text'>{props.category}</Card.Text>
+
+                        <Card.Text id='product-sub-text'>{props.category}</Card.Text>
+
                     {   
                         props.price !== null ? <Row><h6 id='product-price'>Buy now:</h6> <h4 id='product-price'>${props.price}</h4>
-                        <h6 id='product-price'>Bid starts at:</h6> <h4 id='product-price'>${props.bid}</h4></Row> 
+                        <h6 id='product-price'>Bid starts at:</h6> <h4 id='product-price'>${props.firstBid}</h4></Row> 
                         : 
-                        <Row><h6 id='product-price'>Bid starts at:</h6> <h3 id='product-price'>${props.bid}</h3></Row>
+                        <Row><h6 id='product-price'>Bid starts at:</h6> <h3 id='product-price'>${props.firstBid}</h3></Row>
                     }
                 </Card.Body>
                 </Card>
