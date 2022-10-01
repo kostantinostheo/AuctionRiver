@@ -3,19 +3,21 @@ import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import Navigate from '../Navigate';
 import Breadcrumb from '../CustomBreadcrumb';
-import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
+import { Button, Card, Col, Container, Form, Modal, Row } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import { GetItemDetails, GetUserData, ItemIsAvailable, ItemSeller, PatchAsync, PostAsync } from '../../utils/Api';
 import { BASE_URL, IMAGE_URL, PATCH_ITEM_URL, PATCH_USER_URL, POST_ITEM_URL } from '../../utils/Path';
-import { decodeToken, getToken, get_rand } from '../../utils/Common';
+import { decodeToken, getToken, get_rand, tryGetToken } from '../../utils/Common';
 import { userStatus } from '../../utils/Const';
 import heart from '../../images/heart.png';
 import heart_fill from '../../images/heart_fill.png';
 import { Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../Footer';
+import PopUp from '../PopUp';
+import PopUpMessage from '../PopUpMessage';
 
 
 export default function ItemDetailedView() {
@@ -38,6 +40,9 @@ export default function ItemDetailedView() {
   const [state, setState] = useState(false)
 
 
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   
   var submitBid= () => {
     confirmAlert({
@@ -180,6 +185,7 @@ export default function ItemDetailedView() {
     GetUserData(parseInt(id))
     .then((res) => {
       getSeller(res)
+      console.log(res)
     })
   }
   async function GetUserDetails(id){
@@ -203,6 +209,10 @@ export default function ItemDetailedView() {
   }
 
   async function LikeItem(id){
+    if(tryGetToken() === false){
+      window.location.href = '/login'
+      return
+    }
     const body = {
       itemId: itemData.itemId
     }
@@ -282,12 +292,12 @@ export default function ItemDetailedView() {
                       <div>{seller.rating}⭐ </div>
                     </Col>
                   </Row>
-                  <div id='seller-contact' ><a href='/'>Contact seller</a> </div>
+                  <Button variant='link' onClick={handleShow} id='seller-contact' >Contact seller</Button>
                 </Col>
               </Col>
               <Col className='item-info' sm={7}>
                 <Row xs>
-                  <Col xs={6}>
+                  <Col xs={9}>
                     <h4 className='item-title'>
                       {itemData.name}
                     </h4>
@@ -425,7 +435,7 @@ export default function ItemDetailedView() {
             <br/>
           </Container>
           { bonus.length >=3 && <>
-            <h4 style={{"textAlign": "left", "marginLeft" : "13em"}}>Similar items</h4>
+            <h4 style={{"textAlign": "left", "marginLeft" : "13em", "fontWeight" : "bold"}}>Just for you</h4>
             <br/>
             <Row style={{"width" : "60%", "margin": "auto", "marginBottom" : "10em"}}> 
             {bonus.map((id)=>{
@@ -435,6 +445,7 @@ export default function ItemDetailedView() {
             </>
           }
           <Footer/>
+          <PopUpMessage show={show} receiver={seller.username} rId={seller.userId} onHide={handleClose}/>
         </div>
     );
 }
@@ -510,3 +521,4 @@ function ItemComponenet(props){
   );
 
 }
+

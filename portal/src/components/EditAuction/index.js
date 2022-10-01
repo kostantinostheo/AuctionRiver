@@ -94,6 +94,11 @@ export default function CreateAuction() {
       const res = await GetItemDetails(id)
       setItemData(res)
 
+      let date1 = res.started
+      let result1 = date1.replace('T',' ').replace('Z','')
+      let datetime1 = new Date(result1)
+      onChange1(datetime1)
+
       let date2 = res.ends
       let result2 = date2.replace('T',' ').replace('Z','')
       let datetime2 = new Date(result2)
@@ -102,7 +107,9 @@ export default function CreateAuction() {
 
     const minDate = new Date()
     const maxDate = new Date(minDate)
+    const maxDate2 = new Date(minDate)
     maxDate.setDate(maxDate.getDate() + 15)
+    maxDate2.setDate(maxDate.getDate() + 30)
 
     //console.log(typeof new Date(value1))
     //console.log(typeof value1)
@@ -213,7 +220,7 @@ export default function CreateAuction() {
                     <h6 id='current-start-date'>New:</h6>
                     <div className='name-input-div'>
                       <DateTimePicker disabled={isDisabled} format="dd/MM/y h:mm a" clearIcon={null} disableClock="true" minDate={minDate}
-                      maxDate={maxDate} onChange={onChange4} value={value4} />
+                      maxDate={maxDate2} onChange={onChange4} value={value4} />
                     </div>
                   </div>
                 </Col>
@@ -223,7 +230,7 @@ export default function CreateAuction() {
                 <Col Col xs="auto">
                   { ButtonName === 'Edit' &&
                       (
-                        <button className="edit-button" onClick={handleEditClick}>Edit <img id='trash-icon' src={edit} width={15} height={15} /> </button>
+                        new Date() < value1 && <button className="edit-button" onClick={handleEditClick}>Edit <img id='trash-icon' src={edit} width={15} height={15} /> </button>
                       )
                   }
                   { ButtonName === 'Save' &&
@@ -240,7 +247,9 @@ export default function CreateAuction() {
                   }
                 </Col>
                 <Col Col xs="auto">
-                  <button className='delete-button' onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) handleDeleteClick() } } > Delete <img id='trash-icon' src={trash} width={15} height={15} /></button>
+                    {
+                      new Date() < value1 &&  <button className='delete-button' onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) handleDeleteClick() } } > Delete <img id='trash-icon' src={trash} width={15} height={15} /></button>
+                    }
                 </Col>
               </Row>
             </div>

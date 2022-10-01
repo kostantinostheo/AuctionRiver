@@ -1,4 +1,4 @@
-import { BASE_URL, GET_ITEM_URL, GET_USER_URL } from "./Path";
+import { BASE_URL, GET_ITEM_URL, GET_MESSAGE_URL, GET_USER_URL } from "./Path";
 
 export async function GetUserData(id){
     const res = await fetch(BASE_URL + GET_USER_URL.UserDetails + id)
@@ -49,6 +49,10 @@ export async function GetAllItemsSorted(url, body){
 }
 //#endregion
 
+export async function GetAllMessages(id){
+    const res = await fetch(BASE_URL + GET_MESSAGE_URL.AllMessages + id)
+    return await res.json()
+}
 
 export async function PostAsync(url, body){
     const options = {

@@ -2,6 +2,13 @@ const express = require('express')
 const router = express.Router()
 const Chat = require('../models/chat')
 const Utils = require('../utils/const')
+const fetch = require('node-fetch');
+
+async function getUserName(id){
+    const res = await fetch(`http://localhost:3000/users/api/${id}`)
+    const data = res.json()
+    return data
+}
 
 router.get('/api/find-all/:userId', async (req,res) => {
     try{
@@ -26,6 +33,9 @@ router.post('/api/message/:chatId', async(req,res) => {
     //We check both for charId and the inverted of it
     const chatId = req.params.chatId
     let chatIdInv = chatId.split("-")
+    const u1 = await getUserName(chatIdInv[0])
+    const u2 = await getUserName(chatIdInv[1])
+
     chatIdInv = String(chatIdInv[1] + "-" + chatIdInv[0])
 
     const chat1 = await Chat.findOne( { chatId: chatId} )
@@ -63,9 +73,10 @@ router.post('/api/message/:chatId', async(req,res) => {
         const user2 = String(req.body.members[1])
         const chatId = user1+"-"+user2
         let now = new Date()
-        console.log(req.body.message)
         const chat = new Chat({
             chatId: chatId,
+            username1: u1.firstname + " " + u1.lastname,
+            username2: u2.firstname + " " + u2.lastname,
             membersIds: req.body.members,
             messages: [{
                 sender: req.body.sender, 

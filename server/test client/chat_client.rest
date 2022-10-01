@@ -1,10 +1,10 @@
 GET http://localhost:3000/chats/api/find-all/2 
 ###
-POST http://localhost:3000/chats/api/message/2-5
+POST http://localhost:3000/chats/api/message/2-6
 Content-Type: application/json
 
 {
-    "members" : [2,5],
-    "sender" : 2,
-    "message" : "My friend hello" 
+    "members" : [2,6],
+    "sender" : 6,
+    "message" : "great" 
 }

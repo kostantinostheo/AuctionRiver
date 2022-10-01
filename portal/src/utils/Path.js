@@ -41,4 +41,10 @@ export const PATCH_ITEM_URL = {
 export const DELETE_ITEM_URL = {
 	DeleteItem: "items/api/delete/",
 }
-//http://localhost:3000/items/api/seller/1
+
+export const GET_MESSAGE_URL = {
+	AllMessages: "chats/api/find-all/",
+}
+export const POST_MESSAGE_URL = {
+	SendMessage: "chats/api/message/",
+}

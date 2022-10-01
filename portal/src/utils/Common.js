@@ -22,6 +22,8 @@ export const tryGetToken = () => {
  */
 export const logout = () => {
   localStorage.removeItem('token')
+  localStorage.removeItem('lastChat')
+  localStorage.removeItem('lastIndex')
   window.location.reload()
 };
 

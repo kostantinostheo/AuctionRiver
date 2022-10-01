@@ -16,6 +16,7 @@ import EditAuction from './components/EditAuction';
 import ItemListingCategory from './components/ItemListingCategory';
 import ItemListingSearch from './components/ItemListingSearch';
 import CardCategory from './components/CardCategory';
+import Chat from './components/Chat';
 
 function App() {
   return (
@@ -34,7 +35,7 @@ function App() {
           <Route path='/item/found/search-for=:searchValue' element={<ItemListingSearch/>}/>
           <Route path='/category' element={<CardCategory/>}/>
           <Route exact path='/dashboard/auction/:id' element={<EditAuction/>}/>
-
+          <Route path='/messages' element={<Chat/>}/>
         </Routes>
       </div>
   );
