@@ -56,7 +56,11 @@ export default function CardListing() {
               <td>{data.category}</td>
               <td>{data.started}</td>
               <td>{data.ends}</td>              
-              <td><button onClick={()=>{routeChange(data.itemId)}} id='edit-button'><img src={edit} /></button></td>
+              <td>
+                {
+                  <button onClick={()=>{routeChange(data.itemId)}} id='edit-button'><img src={edit} /></button>
+                }
+              </td>
               </tr>
             </>
           })
