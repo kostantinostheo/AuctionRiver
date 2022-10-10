@@ -12,8 +12,17 @@ export default function Navigate(){
 
   const [username, setUsername] = useState('');
   const [usertype, setType] = useState('');
+  const [searchValue, setSearchValue] = useState('')
 
-
+  async function HandleSearch(e){
+      e.preventDefault()
+      
+      if(searchValue === '')
+        window.location.href = '/item'
+      else
+        window.location.href = '/item/found/search-for=' + searchValue
+  
+    }
   async function HandleUser(){
     if(getToken())
     {
@@ -37,14 +46,15 @@ export default function Navigate(){
           <a href='/'><img id='nav-logo' src={logo} width="135" height="45" alt="Amazon"/></a>
           <Navbar.Toggle  aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
-            <Form id='search-form' className="d-flex">
+            <Form onSubmit={HandleSearch} id='search-form' className="d-flex">
               <Form.Control
                 type="search"
                 placeholder="Search"
                 className="me-2"
                 aria-label="Search"
+                onChange={(e)=>setSearchValue(e.target.value)}
               />
-              <Button id='search-button' variant="light">
+              <Button onClick={HandleSearch} id='search-button' variant="light">
                 <img src={search} alt="search-icon" width="15" height="15"/>
               </Button>
             </Form>
