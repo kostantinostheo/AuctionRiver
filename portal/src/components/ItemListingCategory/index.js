@@ -94,6 +94,16 @@ function ItemComponenet(props){
         navigate(path);
     }
 
+    const [categories, setCategories] = useState()
+
+    useEffect(()=>{
+        let temp = ""
+        console.log(props.category)
+        for (const category of props.category){
+            temp += category + " "
+        }
+        setCategories(temp)
+    },[])
 
     return(
         <Grid item xs={3}>
@@ -106,7 +116,7 @@ function ItemComponenet(props){
                     <a onClick={routeChange} style={{"textDecoration": "none", color : "black"}}>
                         <Card.Text id='product-title'>{props.name}</Card.Text>
                     </a>
-                    <Card.Text id='product-sub-text'>{props.category}</Card.Text>
+                    <Card.Text id='product-sub-text'>{categories}</Card.Text>
                     {   
                         props.price !== null ? <Row><h6 id='product-price'>Buy now:</h6> <h4 id='product-price'>${props.price}</h4>
                         <h6 id='product-price'>Bid starts at:</h6> <h4 id='product-price'>${props.bid}</h4></Row> 

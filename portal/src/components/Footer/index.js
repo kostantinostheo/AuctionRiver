@@ -11,7 +11,6 @@ export default function Footer() {
                 <ol>
                     <li id='footer-list'>Careers </li>
                     <li id='footer-list'>About Us </li>
-                    <li id='footer-list'>UK Modern Slavery Statement</li>
                     <li id='footer-list'>Auction River Science</li>            
                 </ol>
             </Col>

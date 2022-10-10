@@ -34,7 +34,7 @@ export default function ItemsListing() {
     const [selected, setSelected] = useState(); 
 
     const [currentPage, setCurrentPage] = useState(1)
-    const [itemsPerPage] = useState(8)
+    const [itemsPerPage] = useState(12)
 
     
     const handleFilter=(e)=>{
@@ -49,7 +49,6 @@ export default function ItemsListing() {
 =======
             .then( (res) => {
                 setItem(res)
-                console.log(res)
             } )
 >>>>>>> develop
             .then(setOk(true))
@@ -133,12 +132,21 @@ function ItemComponenet(props){
 
 =======
     let navigate = useNavigate();  
-  
+    const [categories, setCategories] = useState()
+
     const routeChange = () =>{ 
         let path = `${props.itemId}`; // fix that change path
         navigate(path);
     }
 
+    useEffect(()=>{
+        let temp = ""
+        console.log(props.category)
+        for (const category of props.category){
+            temp += category + " "
+        }
+        setCategories(temp)
+    },[])
   
 >>>>>>> develop
 
@@ -173,7 +181,7 @@ function ItemComponenet(props){
                         <Card.Text id='product-title'>{props.name}</Card.Text> 
                     </a>
 
-                        <Card.Text id='product-sub-text'>{props.category}</Card.Text>
+                        <Card.Text id='product-sub-text'>{categories}</Card.Text>
 
                     {   
                         props.price !== null ? <Row><h6 id='product-price'>Buy now:</h6> <h4 id='product-price'>${props.price}</h4>

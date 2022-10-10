@@ -1,8 +1,11 @@
 .grid-box{
+    margin-top: 2em !important;
+    margin: auto;
+    border-radius: 10px;
+    background-color: #f3f3f3;
     padding-top: 20px;
     padding-bottom: 30px;
     width: 100%;
-    margin: 0 auto;
     left: auto;
     right: auto;
     width: 80%;
@@ -53,6 +56,7 @@
 
 .card-item{
     margin: auto;
+    margin-bottom: 3em;
     font-family: 'Source Sans Pro', sans-serif;
     width: 90%;
 }

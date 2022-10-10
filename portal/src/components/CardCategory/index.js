@@ -19,7 +19,7 @@ export default function CardCategory() {
             <Row id='category-list' className="justify-content-md-center">
             {
                 categories.map((category)=>{
-                    return <Col md="3"> <CateCard title={category[0]} img={category[1]} subs={category[2]} /> <br/> </Col>                        
+                    return <Col md="3"> <CateCard title={category[0]} img={category[1]} /> <br/> </Col>                        
                 })
             }
             </Row>
@@ -34,10 +34,6 @@ function CateCard(props){
           <Card.Body>
             <Card.Title ><a className='cat-title' href={`/item/category/${props.title}`} > {props.title}</a></Card.Title>
           </Card.Body>
-          <ListGroup variant="flush">
-            <ListGroup.Item><a className='cat-comp' href={`/item/category/${props.title}`} >{props.subs[0]}</a></ListGroup.Item>
-            <ListGroup.Item><a className='cat-comp' href={`/item/category/${props.title}`} >{props.subs[1]}</a></ListGroup.Item>
-        </ListGroup>
         </Card>
       );
 }

@@ -20,16 +20,7 @@ async function getItems(){
     const data = res.json()
     return data
 }
-async function GetHighestId(){
-    const res = await fetch('http://localhost:3000/items/api')
-    const items = await res.json()
-    if(items.length !== 0){
-        let maxItem = items.reduce((max, item) => max.itemId > item.itemId ? max : item);
-        const maxId = maxItem.itemId
-        return maxId
-    }
-    return 0
-}
+
 
 router.patch('/api/recommend/:userId', getUserById, async(req,res) => {
     try{
