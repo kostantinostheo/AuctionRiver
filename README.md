@@ -55,6 +55,7 @@ matrix 'X'. Then we update the elements of the matrices 'V','F' by doing the
 following calculations:</p>
 
 $$ v_{ik'} = v_{ik} + η*2e_{ij}*f_{kj} $$
+<br/>
 $$ f_{kj'} = f_{kj} + η*2e_{ij}*v_{ik} $$
 
 `η is the learning rate.` 
