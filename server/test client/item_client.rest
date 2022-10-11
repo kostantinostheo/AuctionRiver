@@ -66,8 +66,6 @@ Content-Type: application/json
 
 {   
     "category": ["Electronics"]
-<<<<<<< HEAD
-=======
 }
 ###
 
@@ -76,5 +74,4 @@ Content-Type: application/json
 
 {   
     "buyerId": 1
->>>>>>> develop
 }

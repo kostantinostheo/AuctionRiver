@@ -8,10 +8,7 @@ import { PostAsync } from '../../utils/Api';
 import { Card, Navbar, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { BASE_URL, IMAGE_URL, POST_ITEM_URL } from '../../utils/Path';
-<<<<<<< HEAD
-=======
 import Footer from '../Footer';
->>>>>>> develop
 import './index.css'
 
 export default function ItemListingSearch() {
@@ -76,10 +73,7 @@ export default function ItemListingSearch() {
                     </Grid>
                 </Box>
             </div>
-<<<<<<< HEAD
-=======
             <Footer/>
->>>>>>> develop
         </div>
     );
 }

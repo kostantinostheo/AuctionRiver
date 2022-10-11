@@ -52,15 +52,6 @@ export function LocalDate() {
   if (mm < 10) mm = '0' + mm;
   const date = dd + '/' + mm + '/' + yyyy
   return date
-<<<<<<< HEAD
-}
-
-export function jsonToXml(data, exportType){
-
-  const fileName = 'auctions'
-
-  exportFromJSON({ data, fileName, exportType })
-=======
 }
 
 export function jsonToXml(data, exportType){
@@ -84,5 +75,4 @@ export function get_rand(array) {
         return rand;
     }
     return get_rand(array);
->>>>>>> develop
 }

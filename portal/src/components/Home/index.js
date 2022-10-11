@@ -1,23 +1,5 @@
 import './index.css'
 import React, { useEffect, useState } from "react";
-<<<<<<< HEAD
-import { Form, Button, Row, Col} from 'react-bootstrap'
-import logo from '../../images/logo_dark.png'
-import search from '../../images/search.png'
-import { GetUserData } from '../../utils/Api';
-import { decodeToken, getToken } from '../../utils/Common';
-import Category from '../Category';
-import { categoryType } from '../../utils/Const';
-import { userType } from '../../utils/Const';
-
-
-export default function Home() {
-  const [username, setUsername] = useState('');
-  const [setType] = useState('');
-  const [categories] = useState(Object.values(categoryType))
-  const [lessCategories, setLessCateg] = useState([])
-
-=======
 import { Form, Button, Row, Col, Card} from 'react-bootstrap'
 import logo from '../../images/logo_dark.png'
 import search from '../../images/search.png'
@@ -37,7 +19,6 @@ export default function Home() {
   const [lessCategories, setLessCateg] = useState([])
   const [bonus, getBonus] = useState([])
   const [state, setState] = useState(false)
->>>>>>> develop
   const [searchValue, setSearchValue] = useState('')
 
 
@@ -63,8 +44,6 @@ export default function Home() {
   }
 
 
-<<<<<<< HEAD
-=======
   async function GetRecommentations(){
     const options = {
       method: 'PATCH',
@@ -100,7 +79,6 @@ export default function Home() {
     })
   }
 
->>>>>>> develop
   useEffect(() => {
     const temp = []
     for (let i = 0; i < 4; i++) {
@@ -108,10 +86,7 @@ export default function Home() {
     }
     setLessCateg(temp)
     HandleUser()
-<<<<<<< HEAD
-=======
     GetRecommentations()
->>>>>>> develop
   },[categories]);
 
   return (
@@ -147,13 +122,7 @@ export default function Home() {
           </Button>
         </Form>
       <Row>
-<<<<<<< HEAD
-        <Row>
-          <h3 id='cat-header'><a style={{"textDecoration": "none", "color" : "#32a89b"}} href='/category'>Categories</a></h3>
-        </Row>
-=======
         <h4 id='cat-header'><a id='cat-hover' style={{"textDecoration": "none", "color" : "rgb(82, 82, 82)"}} href='/category'>Categories</a></h4>
->>>>>>> develop
         <Row className="justify-content-md-center" id='categories-row'>
             {lessCategories.map((data)=>{ 
               return(
@@ -163,10 +132,6 @@ export default function Home() {
               </Col>
               )
             })}
-<<<<<<< HEAD
-        </Row>
-      </Row>
-=======
         </Row>
         { bonus.length >=3 && <>
         <h4 id='cat-header-2'>Just for you</h4>
@@ -179,7 +144,6 @@ export default function Home() {
         }
       </Row>
       <Footer/>
->>>>>>> develop
     </div>
   );
 }

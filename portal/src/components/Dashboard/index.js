@@ -6,10 +6,7 @@ import CardListing from '../CardListing';
 import { Col, Container, Row } from 'react-bootstrap';
 import { decodeToken } from '../../utils/Common';
 import { userType, userStatus} from '../../utils/Const';
-<<<<<<< HEAD
-=======
 import { PurchaseHistory } from '../PurchaseHistory';
->>>>>>> develop
 
 
 export default function Dashboard() {
@@ -18,11 +15,7 @@ export default function Dashboard() {
   const [status] = useState(decodeToken().userStatus)
   const pageType = {
     Info: "Info",
-<<<<<<< HEAD
-    Bids: "Bids",
-=======
     Purchase: "Purchase",
->>>>>>> develop
     Auctions: "Auctions"
   }
 
@@ -63,17 +56,6 @@ export default function Dashboard() {
           <Row>
             <Col  sm={2} >
               <ul className='account-options-list'>
-<<<<<<< HEAD
-                <li className='account-options-item'>
-                  <button className='button-text' onClick={()=>{setPage(pageType.Info)}}>Personal Information</button>
-                </li>
-                <li className='account-options-item'>
-                  <button className='button-text' onClick={()=>{setPage(pageType.Auctions)}}>My Auctions</button>
-                </li>
-                <li id='underline'/>
-                <br/>
-                <li className='account-options-item'>
-=======
                 <li >
                   <button className='button-text' onClick={()=>{setPage(pageType.Info)}}>Personal Information</button>
                 </li>
@@ -86,7 +68,6 @@ export default function Dashboard() {
                 <li id='underline'/>
                 <br/>
                 <li >
->>>>>>> develop
                   { status === userStatus.Accept &&
                     <button className='button-text-create' onClick={()=>goToSellItem()}>Create New Auction</button>
                   }
@@ -100,12 +81,9 @@ export default function Dashboard() {
                 {
                   page === pageType.Auctions && (<CardListing/>) 
                 }
-<<<<<<< HEAD
-=======
                 {
                   page === pageType.Purchase && (<PurchaseHistory/>)
                 }
->>>>>>> develop
             </Col>
           </Row>
         </Container >

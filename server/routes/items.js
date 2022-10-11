@@ -65,8 +65,6 @@ router.get('/api/seller/:sellerId',  getItemBySellerId, async (req,res) => {
         res.status(400).json({message: error.message})
     }
 })
-<<<<<<< HEAD
-=======
 //Get item from the db based on buyer id
 //route url http://localhost:3000/items/api/buyer/1
 router.get('/api/buyer/:buyerId',  getItemByBuyerId, async (req,res) => {
@@ -76,7 +74,6 @@ router.get('/api/buyer/:buyerId',  getItemByBuyerId, async (req,res) => {
         res.status(400).json({message: error.message})
     }
 })
->>>>>>> develop
 //Get all items ascending ordered from the db
 //route url http://localhost:3000/items/api/sorted
 router.post('/api/sorted', async(req,res) => {
@@ -137,10 +134,7 @@ router.post('/api/submit', async (req,res) => {
         buyPrice: req.body.buyPrice,
         firstBid: req.body.firstBid,
         numberOfBids: 0,
-<<<<<<< HEAD
-=======
         buyerId: -1,
->>>>>>> develop
         sellerId: req.body.sellerId,
         started: req.body.started,
         ends: req.body.ends,
@@ -250,8 +244,6 @@ router.patch('/api/update_item/:itemId', getItemById, async (req,res)=>{
         res.status(400).json({message: error.message})
     }
 })
-<<<<<<< HEAD
-=======
 //Update item availability
 //route url http://localhost:3000/items/api/buy/5'
 router.patch('/api/buy/:itemId', getItemById, async (req, res) => {
@@ -274,7 +266,6 @@ router.patch('/api/buy/:itemId', getItemById, async (req, res) => {
     }
     
 })
->>>>>>> develop
 
 
 
@@ -304,8 +295,6 @@ async function getItemBySellerId(req, res, next){
     res.item = item
     next()
 }
-<<<<<<< HEAD
-=======
 async function getItemByBuyerId(req, res, next){
     const item = await Item.find( { buyerId: req.params.buyerId} )
     try {
@@ -319,6 +308,5 @@ async function getItemByBuyerId(req, res, next){
     res.item = item
     next()
 }
->>>>>>> develop
 
 module.exports = router

@@ -36,12 +36,9 @@ export default function ItemDetailedView() {
   const [seller, getSeller] = useState([])
   const [user, getUser] = useState([])
   const [savedItem, setSaved] = useState(false)
-<<<<<<< HEAD
-=======
   const [bonus, getBonus] = useState([])
   const [state, setState] = useState(false)
 
->>>>>>> develop
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -81,10 +78,7 @@ export default function ItemDetailedView() {
             &emsp;
             <Button id='confirm-btn'
               onClick={() => {
-<<<<<<< HEAD
-=======
                 handleBuyState();
->>>>>>> develop
                 this.handleClickDelete();
                 onClose();
               }}
@@ -118,18 +112,7 @@ export default function ItemDetailedView() {
       UpdateBid()
     }
   }
-<<<<<<< HEAD
-  const handleBuyState = () => {
-    if(getToken() === null){
-      window.location.href='/login'
-    }
-    else{
-      //remove it from sale
-    }
-  }
-=======
  
->>>>>>> develop
   async function UpdateBid(){
     if(placeBid > lastBid){
       const body = {
@@ -156,8 +139,6 @@ export default function ItemDetailedView() {
       popUp("Error", "The bid you gave is lower than current bid.")
     }
   }
-<<<<<<< HEAD
-=======
   const handleBuyState = () => {
     if(getToken() === null){
       window.location.href='/login'
@@ -184,7 +165,6 @@ export default function ItemDetailedView() {
       }
     })
   }
->>>>>>> develop
   async function GetAllDetails(){
   GetItemDetails(id)
     .then((res) => {
@@ -245,12 +225,6 @@ export default function ItemDetailedView() {
       .then(window.location.reload())
     }
   }
-<<<<<<< HEAD
-
-    useEffect(()=> {
-      GetAllDetails()
-      console.log(user.saved)
-=======
   async function GetRecommentations(){
     const options = {
       method: 'PATCH',
@@ -290,7 +264,6 @@ export default function ItemDetailedView() {
     useEffect(()=> {
       GetAllDetails()
       GetRecommentations()
->>>>>>> develop
     }, [])
     return (
         <div className='item-detailed'>
@@ -301,11 +274,7 @@ export default function ItemDetailedView() {
               <Col md="auto">
                 <Carousel>
                 {images.map((image)=>{
-<<<<<<< HEAD
-                    return <DynamicCarousel url={image}/>
-=======
                     return <DynamicCarousel isAvailable={itemData.isAvailable} url={image}/>
->>>>>>> develop
                 })}
                 </Carousel>
                 <br/>
@@ -347,28 +316,12 @@ export default function ItemDetailedView() {
                         Price:
                       </h6>
                     </Col>
-<<<<<<< HEAD
-                        { itemData.buyPrice != null &&
-=======
                         { itemData.buyPrice != null ?
->>>>>>> develop
                         <Col xs={3}>
                           <h4 className='price-tag'>
                             ${itemData.buyPrice}
                           </h4>
                         </Col>
-<<<<<<< HEAD
-                        }
-                        {itemData.buyPrice === null &&
-                          <Col xs={3}>
-                            <h4 className='price-tag'>
-                              $-
-                            </h4>
-                        </Col>
-                        }
-                    <Col xs={3}>
-                    { itemData.buyPrice === null || new Date() < new Date(itemData.started) || user.userStatus !== userStatus.Accept
-=======
                         :
                         <Col xs={3}>
                           <h4 className='price-tag'>
@@ -378,7 +331,6 @@ export default function ItemDetailedView() {
                         }
                     <Col xs={3}>
                     { typeof itemData.buyPrice === 'undefined' || itemData.isAvailable === false || new Date() < new Date(itemData.started) || user.userStatus !== userStatus.Accept || decodeToken().userId === itemData.sellerId 
->>>>>>> develop
                       ? <Button className="buy-now-button" disabled>Buy It Now</Button> : <Button onClick={submitBuy} className="buy-now-button">Buy It Now</Button>
                     }
                     </Col>
@@ -405,11 +357,7 @@ export default function ItemDetailedView() {
                         )
                       }
                     </Col>
-<<<<<<< HEAD
-                    { itemData.buyPrice === null || new Date() < new Date(itemData.started) || user.userStatus !== userStatus.Accept
-=======
                     { new Date() < new Date(itemData.started) || user.userStatus !== userStatus.Accept || decodeToken().userId === itemData.sellerId  || itemData.isAvailable === false
->>>>>>> develop
                       ? 
                       <Row>
                         <Col xs={5}>
@@ -486,8 +434,6 @@ export default function ItemDetailedView() {
             <br/>
             <br/>
           </Container>
-<<<<<<< HEAD
-=======
           { bonus.length >=3 && <>
             <h4 style={{"textAlign": "left", "marginLeft" : "13em", "fontWeight" : "bold"}}>Just for you</h4>
             <br/>
@@ -499,6 +445,7 @@ export default function ItemDetailedView() {
             </>
           }
           <Footer/>
+          <PopUpMessage show={show} receiver={seller.username} rId={seller.userId} onHide={handleClose}/>
         </div>
     );
 }
@@ -507,11 +454,6 @@ function DynamicCarousel(props){
   const [image] = useState(IMAGE_URL+props.url)
   return(
     <div>
-<<<<<<< HEAD
-        <img src={image} alt='product'/>
-    </div>
-  );
-=======
         {props.isAvailable ? <img src={image} alt='product'/> : <img style={{"opacity": "60%"}} src={image} alt='product'/>}
     </div>
   );
@@ -578,6 +520,5 @@ function ItemComponenet(props){
       </Grid>
   );
 
->>>>>>> develop
 }
 

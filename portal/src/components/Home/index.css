@@ -42,24 +42,6 @@
 }
 
 #cat-header{
-<<<<<<< HEAD
-  margin: auto;
-  padding-bottom: 1em;
-  padding-right: 49em;
-  font-family: 'Source Sans Pro', sans-serif !important;
-  color: rgb(44, 175, 175);
-  width: fit-content;
-  height: fit-content;
-  margin-top: 80px;
-  text-align: left;
-  font-weight: bold;
-}
-
-#categories-row{
-  margin: auto;
-  width: 80%;
-  margin-top: 20px;
-=======
   text-align: left;
   padding-left: 8em;
   padding-top: 2em;
@@ -86,5 +68,4 @@
   width: 80%;
   margin-top: 20px;
   background-color: #f3f3f3;
->>>>>>> develop
 }

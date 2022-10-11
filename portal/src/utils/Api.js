@@ -26,19 +26,14 @@ export async function GetSellerItems(id){
     const res = await fetch(BASE_URL + GET_ITEM_URL.GetSellerItems + id)
     return await res.json()
 }
-<<<<<<< HEAD
-=======
 export async function GetBoughtItems(id){
     const res = await fetch(BASE_URL + GET_ITEM_URL.GetBoughtItems + id)
     return await res.json()
 }
->>>>>>> develop
 export async function GetItemDetails(id){
     const res = await fetch(BASE_URL + GET_ITEM_URL.AllItems + id)
     return await res.json()
 }
-<<<<<<< HEAD
-=======
 export async function ItemIsAvailable(id){
     const res = await fetch(BASE_URL + GET_ITEM_URL.AllItems + id)
     const data =  await res.json()
@@ -49,7 +44,6 @@ export async function ItemSeller(id, seller){
     const data =  await res.json()
     return data.sellerId === seller
 }
->>>>>>> develop
 export async function GetAllItemsSorted(url, body){
     return PostAsync(url, body)
 }
